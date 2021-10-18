@@ -28,7 +28,7 @@ function ManagerStudents(props) {
     if (getToken() == null) {
         props.history.push("/login");
     }
-    const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-2021.appspot.com/o/images%2Favatar-1.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
+    const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-2021.appspot.com/o/images%2Favatar.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
 
     const [object, setObject] = useState({
         items: [],
