@@ -1,17 +1,19 @@
 import React from "react";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Login from "./Login";
 import Admin from "./Admin";
-import {ToastContainer} from "react-toastify";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 export default function MainRoute() {
     return (
-        <Router>
-            <ToastContainer closeButton={true} position="bottom-right"/>
+        <BrowserRouter>
             <Switch>
-                <Route path="/login" component={Login}/>
-                <Route path="/admin" component={Admin}/>
+                <Route path="/login">
+                    <Login/>
+                </Route>
+                <Route path="/admin">
+                    <Admin/>
+                </Route>
             </Switch>
-        </Router>
+        </BrowserRouter>
     );
 }

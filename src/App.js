@@ -1,12 +1,13 @@
-import "./App.css";
-import MainRoute from "./screens/MainRoute";
+import './App.css';
 import React from "react";
-import "react-toastify/dist/ReactToastify.css";
+import MainRoute from "./screens/MainRoute";
+import {ToastContainer} from "react-toastify";
 
 function App() {
   return (
       <div className="container">
-        <MainRoute />
+          <ToastContainer closeButton={true} position="bottom-right"/>
+          <MainRoute/>
       </div>
   );
 }

@@ -112,7 +112,7 @@ function Navbar() {
                                 className="rounded-circle mr-1"
                             />
                             <div className="d-sm-none d-lg-inline-block">
-                                Hi, Ujang Maman
+                                Admin
                             </div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
