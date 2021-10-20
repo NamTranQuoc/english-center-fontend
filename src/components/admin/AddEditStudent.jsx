@@ -13,7 +13,6 @@ const dateFormatList = "DD/MM/YYYY";
 function AddEditStudent(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [gender, setGender] = useState("male");
     const [address, setAddress] = useState("");
     const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
@@ -23,7 +22,7 @@ function AddEditStudent(props) {
 
     function onSubmit(e) {
         if (props.student._id === -1) {
-            addMember(name, email, password, address, gender, getTimestamp(dob), phone_number).then((Response) => {
+            addMember(name, email, address, gender, getTimestamp(dob), phone_number).then((Response) => {
                 if (Response.data.code !== -9999) {
                     handleUpload("avatar-" + Response.data.payload._id);
                     showNotification("success_add");
@@ -75,7 +74,7 @@ function AddEditStudent(props) {
         console.log(date);
         setDob(date);
     }
-console.log(timeNow());
+
     return (
         <div hidden={!props.show_add} className="custom-css-001">
             <div
@@ -163,7 +162,7 @@ console.log(timeNow());
                         </div>
                     </div>
                     <div className="row">
-                        <div className="form-group col-6">
+                        <div className="form-group col-12">
                             <label>Email</label>
                             <input
                                 id="email"
@@ -180,23 +179,6 @@ console.log(timeNow());
                                 }
                             />
                             <div className="invalid-feedback">Oh no! Email is invalid.</div>
-                        </div>
-                        <div
-                            className="form-group  col-6"
-                            hidden={props.student._id !== -1}
-                        >
-                            <label>Mật khẩu</label>
-                            <input
-                                id="password"
-                                type="password"
-                                className="form-control"
-                                onChange={(event) => {
-                                    setPassword(event.target.value)
-                                }}
-                                required
-                                value={password}
-                            />
-                            <div className="valid-feedback">Good job!</div>
                         </div>
                     </div>
                     <div className="form-group">

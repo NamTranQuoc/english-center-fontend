@@ -4,25 +4,24 @@ import {showNotification} from "../common/NotifyCation";
 import AddEditStudent from "./AddEditStudent";
 import UpDownButton from "../common/UpDownButton";
 import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../common/Utils";
-import Select from "react-select";
 import {Image, InputGroup} from "react-bootstrap";
 import DateRange from "../common/DateRange";
 import CustomInput from "../common/CustomInput";
 
 const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo"};
 
-const colourOptions = [
-    {value: "admin", label: "Admin"},
-    {value: "student", label: "Học viên"},
-];
-
-const style = {
-    control: base => ({
-        ...base,
-        border: 0,
-        boxShadow: "none"
-    })
-};
+// const colourOptions = [
+//     {value: "admin", label: "Admin"},
+//     {value: "student", label: "Học viên"},
+// ];
+//
+// const style = {
+//     control: base => ({
+//         ...base,
+//         border: 0,
+//         boxShadow: "none"
+//     })
+// };
 
 function ManagerStudents(props) {
     if (getToken() == null) {
@@ -45,7 +44,7 @@ function ManagerStudents(props) {
     const [size, setSize] = useState(5);
     const [page, setPage] = useState(1);
     const [item, setItem] = useState(null);
-    const [types, setTypes] = useState([]);
+    const [types] = useState(["student"]);
     const [keyword, setKeyword] = useState(null);
     const [sort, setSort] = useState({is_asc: false, field: "ID"})
     const [create_date, setCreate_date] = useState({from: null, to: null});
@@ -71,9 +70,9 @@ function ManagerStudents(props) {
         });
     }, [types, keyword, sort, create_date, size, page, is_update])
 
-    function handleSelect(e) {
-        setTypes(Array.isArray(e) ? e.map((x) => x.value) : []);
-    }
+    // function handleSelect(e) {
+    //     setTypes(Array.isArray(e) ? e.map((x) => x.value) : []);
+    // }
 
     function onSort(event) {
         setSort({
@@ -190,22 +189,22 @@ function ManagerStudents(props) {
                                     <div
                                         className="custom-css-006"
                                     >
-                                        <InputGroup className="custom-css-007">
-                                            <InputGroup.Text className="custom-css-008">
-                                                Loại:
-                                            </InputGroup.Text>
-                                            <Select
-                                                placeholder={"Chọn"}
-                                                closeMenuOnSelect={false}
-                                                isMulti
-                                                options={colourOptions}
-                                                value={colourOptions.filter((obj) =>
-                                                    types.includes(obj.value)
-                                                )}
-                                                onChange={handleSelect}
-                                                styles={style}
-                                            />
-                                        </InputGroup>
+                                        {/*<InputGroup className="custom-css-007">*/}
+                                        {/*    <InputGroup.Text className="custom-css-008">*/}
+                                        {/*        Loại:*/}
+                                        {/*    </InputGroup.Text>*/}
+                                        {/*    <Select*/}
+                                        {/*        placeholder={"Chọn"}*/}
+                                        {/*        closeMenuOnSelect={false}*/}
+                                        {/*        isMulti*/}
+                                        {/*        options={colourOptions}*/}
+                                        {/*        value={colourOptions.filter((obj) =>*/}
+                                        {/*            types.includes(obj.value)*/}
+                                        {/*        )}*/}
+                                        {/*        onChange={handleSelect}*/}
+                                        {/*        styles={style}*/}
+                                        {/*    />*/}
+                                        {/*</InputGroup>*/}
                                         <InputGroup className="custom-css-007">
                                             <InputGroup.Text className="custom-css-008">
                                                 Ngày tạo:
