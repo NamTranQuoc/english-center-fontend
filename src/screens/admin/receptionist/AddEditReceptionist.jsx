@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import {addMember, updateMember} from "../../service/MemberService";
-import {showNotification} from "../common/NotifyCation";
-import ImageUpload from "../common/ImageUpload";
-import {storage} from "../common/firebase/Config";
+import {addMember, updateMember} from "../../../service/MemberService";
+import {showNotification} from "../../../components/common/NotifyCation";
+import ImageUpload from "../../../components/common/ImageUpload";
+import {storage} from "../../../components/common/firebase/Config";
 import {DatePicker} from 'antd';
 import 'antd/dist/antd.css';
-import {getTimestamp, timeNow} from "../common/Utils";
+import {getTimestamp, timeNow} from "../../../components/common/Utils";
 import moment from "moment";
 
 const dateFormatList = "DD/MM/YYYY";
@@ -22,7 +22,7 @@ function AddEditStudent(props) {
 
     function onSubmit(e) {
         if (props.student._id === -1) {
-            addMember(name, email, address, gender, getTimestamp(dob), phone_number).then((Response) => {
+            addMember(name, email, address, gender, getTimestamp(dob), phone_number, "student", null).then((Response) => {
                 if (Response.data.code !== -9999) {
                     handleUpload("avatar-" + Response.data.payload._id);
                     showNotification("success_add");
