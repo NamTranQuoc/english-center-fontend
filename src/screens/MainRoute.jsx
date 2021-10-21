@@ -1,7 +1,7 @@
 import React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import Login from "./Login";
-import Admin from "./Admin";
+import Login from "./login/Login";
+import Admin from "./admin/Admin";
 
 export default function MainRoute() {
     return (

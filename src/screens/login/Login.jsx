@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Redirect} from "react-router-dom";
-import {login} from "../service/AuthService";
-import {showNotification} from "../components/common/NotifyCation";
-import {getToken, setToken} from "../components/common/Utils";
+import {login} from "../../service/AuthService";
+import {showNotification} from "../../components/common/NotifyCation";
+import {getToken, setToken} from "../../components/common/Utils";
 
 function Login (){
     const [username, setUsername] = useState("");
