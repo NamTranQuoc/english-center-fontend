@@ -1,12 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {getMembers} from "../../service/MemberService";
-import {showNotification} from "../common/NotifyCation";
+import {getMembers} from "../../../service/MemberService";
+import {showNotification} from "../../../components/common/NotifyCation";
 import AddEditStudent from "./AddEditStudent";
-import UpDownButton from "../common/UpDownButton";
-import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../common/Utils";
+import UpDownButton from "../../../components/common/UpDownButton";
+import {
+    getImageURL,
+    getKeyByValue,
+    getTimestamp,
+    getToken,
+    parseDate,
+    range
+} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
-import DateRange from "../common/DateRange";
-import CustomInput from "../common/CustomInput";
+import DateRange from "../../../components/common/DateRange";
+import CustomInput from "../../../components/common/CustomInput";
+import {Redirect} from "react-router-dom";
 
 const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo"};
 
@@ -24,9 +32,6 @@ const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo"};
 // };
 
 function ManagerStudents(props) {
-    if (getToken() == null) {
-        props.history.push("/login");
-    }
     const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Favatar-1.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
 
     const [object, setObject] = useState({
@@ -165,232 +170,236 @@ function ManagerStudents(props) {
         setIs_update(!is_update);
     }
 
-    return (
-        <React.Fragment>
-            <div className="main-content">
-                <section className="section">
-                    <div className="section-header">
-                        <h1>Học viên</h1>
-                        <div className="section-header-breadcrumb">
-                            <div className="breadcrumb-item">
-                                <button
-                                    onClick={onShowAdd}
-                                    className="btn btn-icon btn-primary"
-                                >
-                                    <i className="fas fa-plus"/>
-                                </button>
+    if (getToken() == null) {
+        return <Redirect to="/login"/>;
+    } else {
+        return (
+            <React.Fragment>
+                <div className="main-content">
+                    <section className="section">
+                        <div className="section-header">
+                            <h1>Học viên</h1>
+                            <div className="section-header-breadcrumb">
+                                <div className="breadcrumb-item">
+                                    <button
+                                        onClick={onShowAdd}
+                                        className="btn btn-icon btn-primary"
+                                    >
+                                        <i className="fas fa-plus"/>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="section-body">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card">
-                                    <div
-                                        className="custom-css-006"
-                                    >
-                                        {/*<InputGroup className="custom-css-007">*/}
-                                        {/*    <InputGroup.Text className="custom-css-008">*/}
-                                        {/*        Loại:*/}
-                                        {/*    </InputGroup.Text>*/}
-                                        {/*    <Select*/}
-                                        {/*        placeholder={"Chọn"}*/}
-                                        {/*        closeMenuOnSelect={false}*/}
-                                        {/*        isMulti*/}
-                                        {/*        options={colourOptions}*/}
-                                        {/*        value={colourOptions.filter((obj) =>*/}
-                                        {/*            types.includes(obj.value)*/}
-                                        {/*        )}*/}
-                                        {/*        onChange={handleSelect}*/}
-                                        {/*        styles={style}*/}
-                                        {/*    />*/}
-                                        {/*</InputGroup>*/}
-                                        <InputGroup className="custom-css-007">
-                                            <InputGroup.Text className="custom-css-008">
-                                                Ngày tạo:
-                                            </InputGroup.Text>
-                                            <DateRange setDates={setDates}/>
-                                        </InputGroup>
-                                    </div>
-                                    <div className="card-body p-0">
-                                        <InputGroup>
-                                            <InputGroup.Text>
-                                                <Image className="custom-css-009"
-                                                       src="https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Fsearch.png?alt=media&token=FGHT2AXQBr0xWNS6d7mALw=="/>
-                                            </InputGroup.Text>
-                                            <CustomInput
-                                                onSubmit={onChangeKeyword}
-                                            />
-                                        </InputGroup>
-                                        <div className="table-responsive">
-                                            <table className="table table-hover table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th onClick={onSort}>
-                                                        <UpDownButton
-                                                            asc={sort.is_asc}
-                                                            col_name={key._id}
-                                                            select_field={sort.field}
-                                                        />
-                                                    </th>
-                                                    <th onClick={onSort}>
-                                                        <UpDownButton
-                                                            asc={sort.is_asc}
-                                                            col_name={key.name}
-                                                            select_field={sort.field}
-                                                        />
-                                                    </th>
-                                                    <th>Email</th>
-                                                    <th onClick={onSort}>
-                                                        <UpDownButton
-                                                            asc={sort.is_asc}
-                                                            col_name={key.create_date}
-                                                            select_field={sort.field}
-                                                        />
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {object.items.map((student, index) => {
-                                                    return (
-                                                        <tr
-                                                            key={index + 1}
-                                                            data-item={JSON.stringify(student)}
-                                                            onClick={onShowEdit}
-                                                        >
-                                                            <th>{index + 1}</th>
-                                                            <td>{student._id}</td>
-                                                            <td>{student.name}</td>
-                                                            <td>{student.email}</td>
-                                                            <td>{parseDate(student.create_date)}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                                </tbody>
-                                            </table>
+                        <div className="section-body">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card">
+                                        <div
+                                            className="custom-css-006"
+                                        >
+                                            {/*<InputGroup className="custom-css-007">*/}
+                                            {/*    <InputGroup.Text className="custom-css-008">*/}
+                                            {/*        Loại:*/}
+                                            {/*    </InputGroup.Text>*/}
+                                            {/*    <Select*/}
+                                            {/*        placeholder={"Chọn"}*/}
+                                            {/*        closeMenuOnSelect={false}*/}
+                                            {/*        isMulti*/}
+                                            {/*        options={colourOptions}*/}
+                                            {/*        value={colourOptions.filter((obj) =>*/}
+                                            {/*            types.includes(obj.value)*/}
+                                            {/*        )}*/}
+                                            {/*        onChange={handleSelect}*/}
+                                            {/*        styles={style}*/}
+                                            {/*    />*/}
+                                            {/*</InputGroup>*/}
+                                            <InputGroup className="custom-css-007">
+                                                <InputGroup.Text className="custom-css-008">
+                                                    Ngày tạo:
+                                                </InputGroup.Text>
+                                                <DateRange setDates={setDates}/>
+                                            </InputGroup>
                                         </div>
-                                    </div>
-                                    <div className="card-footer">
-                                        <nav className="d-inline-block">
-                                            <ul className="pagination mb-0">
-                                                <li
-                                                    key="previous"
-                                                    className={
-                                                        object.has_previous
-                                                            ? "page-item"
-                                                            : "page-item disabled"
-                                                    }
-                                                    onClick={
-                                                        object.has_previous ? onPreviousPage : null
-                                                    }
-                                                >
-                                                    <button className="page-link" tabIndex="-1">
-                                                        <i className="fas fa-chevron-left"/>
-                                                    </button>
-                                                </li>
-                                                {Array.from(getPageShow(), (e, i) => {
-                                                    return (
-                                                        <li
-                                                            key={e}
-                                                            className={
-                                                                object.current_page === e
-                                                                    ? "page-item active"
-                                                                    : "page-item"
-                                                            }
-                                                        >
-                                                            <button
-                                                                className="page-link"
-                                                                onClick={onChangePage}
-                                                                value={e}
+                                        <div className="card-body p-0">
+                                            <InputGroup>
+                                                <InputGroup.Text>
+                                                    <Image className="custom-css-009"
+                                                           src="https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Fsearch.png?alt=media&token=FGHT2AXQBr0xWNS6d7mALw=="/>
+                                                </InputGroup.Text>
+                                                <CustomInput
+                                                    onSubmit={onChangeKeyword}
+                                                />
+                                            </InputGroup>
+                                            <div className="table-responsive">
+                                                <table className="table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th onClick={onSort}>
+                                                            <UpDownButton
+                                                                asc={sort.is_asc}
+                                                                col_name={key._id}
+                                                                select_field={sort.field}
+                                                            />
+                                                        </th>
+                                                        <th onClick={onSort}>
+                                                            <UpDownButton
+                                                                asc={sort.is_asc}
+                                                                col_name={key.name}
+                                                                select_field={sort.field}
+                                                            />
+                                                        </th>
+                                                        <th>Email</th>
+                                                        <th onClick={onSort}>
+                                                            <UpDownButton
+                                                                asc={sort.is_asc}
+                                                                col_name={key.create_date}
+                                                                select_field={sort.field}
+                                                            />
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {object.items.map((student, index) => {
+                                                        return (
+                                                            <tr
+                                                                key={index + 1}
+                                                                data-item={JSON.stringify(student)}
+                                                                onClick={onShowEdit}
                                                             >
-                                                                {e}
-                                                                <span className="sr-only">(current)</span>
-                                                            </button>
-                                                        </li>
-                                                    );
-                                                })}
-                                                <li
-                                                    key="next"
-                                                    className={
-                                                        object.has_next
-                                                            ? "page-item"
-                                                            : "page-item disabled"
-                                                    }
-                                                    onClick={object.has_next ? onNextPage : null}
-                                                >
-                                                    <button className="page-link">
-                                                        <i className="fas fa-chevron-right"/>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                        <div className="float-right">
-                                            <button
-                                                type="button"
-                                                className="btn btn-light dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                            >
-                                                {size + " dòng mỗi trang"}
-                                            </button>
-                                            <div
-                                                className="dropdown-menu"
-                                                style={{width: "auto"}}
-                                            >
-                                                <button
-                                                    className="btn btn-outline-secondary dropdown-item"
-                                                    type="button"
-                                                    value="5"
-                                                    onClick={changeSize}
-                                                >
-                                                    5 dòng mỗi trang
-                                                </button>
-                                                <button
-                                                    className="btn btn-outline-secondary dropdown-item"
-                                                    type="button"
-                                                    value="10"
-                                                    onClick={changeSize}
-                                                >
-                                                    10 dòng mỗi trang
-                                                </button>
-                                                <button
-                                                    className="btn btn-outline-secondary dropdown-item"
-                                                    type="button"
-                                                    value="20"
-                                                    onClick={changeSize}
-                                                >
-                                                    20 dòng mỗi trang
-                                                </button>
+                                                                <th>{index + 1}</th>
+                                                                <td>{student._id}</td>
+                                                                <td>{student.name}</td>
+                                                                <td>{student.email}</td>
+                                                                <td>{parseDate(student.create_date)}</td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                        <div
-                                            className="float-right"
-                                            style={{marginRight: "5px"}}
-                                        >
-                                            <button type="button" className="btn btn-light">
-                                                {"Tổng học viên: " + object.total_items}
-                                            </button>
+                                        <div className="card-footer">
+                                            <nav className="d-inline-block">
+                                                <ul className="pagination mb-0">
+                                                    <li
+                                                        key="previous"
+                                                        className={
+                                                            object.has_previous
+                                                                ? "page-item"
+                                                                : "page-item disabled"
+                                                        }
+                                                        onClick={
+                                                            object.has_previous ? onPreviousPage : null
+                                                        }
+                                                    >
+                                                        <button className="page-link" tabIndex="-1">
+                                                            <i className="fas fa-chevron-left"/>
+                                                        </button>
+                                                    </li>
+                                                    {Array.from(getPageShow(), (e, i) => {
+                                                        return (
+                                                            <li
+                                                                key={e}
+                                                                className={
+                                                                    object.current_page === e
+                                                                        ? "page-item active"
+                                                                        : "page-item"
+                                                                }
+                                                            >
+                                                                <button
+                                                                    className="page-link"
+                                                                    onClick={onChangePage}
+                                                                    value={e}
+                                                                >
+                                                                    {e}
+                                                                    <span className="sr-only">(current)</span>
+                                                                </button>
+                                                            </li>
+                                                        );
+                                                    })}
+                                                    <li
+                                                        key="next"
+                                                        className={
+                                                            object.has_next
+                                                                ? "page-item"
+                                                                : "page-item disabled"
+                                                        }
+                                                        onClick={object.has_next ? onNextPage : null}
+                                                    >
+                                                        <button className="page-link">
+                                                            <i className="fas fa-chevron-right"/>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                            <div className="float-right">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-light dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"
+                                                >
+                                                    {size + " dòng mỗi trang"}
+                                                </button>
+                                                <div
+                                                    className="dropdown-menu"
+                                                    style={{width: "auto"}}
+                                                >
+                                                    <button
+                                                        className="btn btn-outline-secondary dropdown-item"
+                                                        type="button"
+                                                        value="5"
+                                                        onClick={changeSize}
+                                                    >
+                                                        5 dòng mỗi trang
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-outline-secondary dropdown-item"
+                                                        type="button"
+                                                        value="10"
+                                                        onClick={changeSize}
+                                                    >
+                                                        10 dòng mỗi trang
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-outline-secondary dropdown-item"
+                                                        type="button"
+                                                        value="20"
+                                                        onClick={changeSize}
+                                                    >
+                                                        20 dòng mỗi trang
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="float-right"
+                                                style={{marginRight: "5px"}}
+                                            >
+                                                <button type="button" className="btn btn-light">
+                                                    {"Tổng học viên: " + object.total_items}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-            {showAdd && url_avatar && (
-                <AddEditStudent
-                    show_add={showAdd}
-                    close_modal={closeModal}
-                    student={item}
-                    url_avatar={url_avatar}
-                    reload={onSetIsUpdate}
-                />
-            )}
-        </React.Fragment>
-    );
+                    </section>
+                </div>
+                {showAdd && url_avatar && (
+                    <AddEditStudent
+                        show_add={showAdd}
+                        close_modal={closeModal}
+                        student={item}
+                        url_avatar={url_avatar}
+                        reload={onSetIsUpdate}
+                    />
+                )}
+            </React.Fragment>
+        );
+    }
 }
 
 ManagerStudents.defaultProps = {

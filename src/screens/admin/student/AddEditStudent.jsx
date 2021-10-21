@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import {addMember, updateMember} from "../../service/MemberService";
-import {showNotification} from "../common/NotifyCation";
-import ImageUpload from "../common/ImageUpload";
-import {storage} from "../common/firebase/Config";
+import {addMember, updateMember} from "../../../service/MemberService";
+import {showNotification} from "../../../components/common/NotifyCation";
+import ImageUpload from "../../../components/common/ImageUpload";
+import {storage} from "../../../components/common/firebase/Config";
 import {DatePicker} from 'antd';
 import 'antd/dist/antd.css';
-import {getTimestamp, timeNow} from "../common/Utils";
+import {getTimestamp, timeNow} from "../../../components/common/Utils";
 import moment from "moment";
 
 const dateFormatList = "DD/MM/YYYY";
@@ -13,7 +13,7 @@ const dateFormatList = "DD/MM/YYYY";
 function AddEditStudent(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState("male");
+    const [gender, setGender] = useState(props.student.gender !== "" ? props.student.gender : "male");
     const [address, setAddress] = useState("");
     const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
     const [phone_number, setPhone_number] = useState("");
@@ -33,7 +33,7 @@ function AddEditStudent(props) {
                 }
             });
         } else {
-            updateMember(props.student._id, name).then(
+            updateMember(props.student._id, name, gender, phone_number, address, getTimestamp(dob), null).then(
                 (Response) => {
                     if (Response.data.code !== -9999) {
                         handleUpload("avatar-" + props.student._id);

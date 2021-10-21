@@ -10,19 +10,20 @@ import moment from "moment";
 
 const dateFormatList = "DD/MM/YYYY";
 
-function AddEditStudent(props) {
+function AddEditReceptionist(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState("male");
+    const [gender, setGender] = useState(props.student.gender !== "" ? props.student.gender : "male");
     const [address, setAddress] = useState("");
     const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
     const [phone_number, setPhone_number] = useState("");
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState(props.url_avatar);
+    const [salary, setSalary] = useState(props.student.salary);
 
     function onSubmit(e) {
         if (props.student._id === -1) {
-            addMember(name, email, address, gender, getTimestamp(dob), phone_number, "student", null).then((Response) => {
+            addMember(name, email, address, gender, getTimestamp(dob), phone_number, "receptionist", Number(salary)).then((Response) => {
                 if (Response.data.code !== -9999) {
                     handleUpload("avatar-" + Response.data.payload._id);
                     showNotification("success_add");
@@ -33,7 +34,7 @@ function AddEditStudent(props) {
                 }
             });
         } else {
-            updateMember(props.student._id, name).then(
+            updateMember(props.student._id, name, gender, phone_number, address, getTimestamp(dob), salary).then(
                 (Response) => {
                     if (Response.data.code !== -9999) {
                         handleUpload("avatar-" + props.student._id);
@@ -162,7 +163,7 @@ function AddEditStudent(props) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="form-group col-12">
+                        <div className="form-group col-6">
                             <label>Email</label>
                             <input
                                 id="email"
@@ -176,6 +177,24 @@ function AddEditStudent(props) {
                                     email === ""
                                         ? props.student.email
                                         : email
+                                }
+                            />
+                            <div className="invalid-feedback">Oh no! Email is invalid.</div>
+                        </div>
+                        <div className="form-group col-6">
+                            <label>Lương</label>
+                            <input
+                                id="salary"
+                                type="number"
+                                className="form-control"
+                                onChange={(event) => {
+                                    setSalary(event.target.value)
+                                }}
+                                required
+                                value={
+                                    salary === ""
+                                        ? props.student.salary
+                                        : salary
                                 }
                             />
                             <div className="invalid-feedback">Oh no! Email is invalid.</div>
@@ -209,7 +228,7 @@ function AddEditStudent(props) {
     );
 }
 
-AddEditStudent.defaultProps = {
+AddEditReceptionist.defaultProps = {
     show_add: false,
     student: {
         name: "",
@@ -219,7 +238,8 @@ AddEditStudent.defaultProps = {
         gender: "male",
         address: "",
         phone_number: "",
+        salary: 0,
     },
 };
 
-export default AddEditStudent;
+export default AddEditReceptionist;
