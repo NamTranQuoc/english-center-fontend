@@ -1,6 +1,6 @@
 import axios from "axios";
 import {getToken} from "../components/common/Utils";
-import {host} from "../components/common/Utils";
+import {host} from "../components/common/Host";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
 export function getMembers(page, size, field, is_asc, types, keyword, from_date, to_date) {
