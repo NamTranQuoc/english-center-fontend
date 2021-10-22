@@ -1,5 +1,5 @@
 import axios from "axios";
-import {host} from "../components/common/Utils";
+import {host} from "../components/common/Host";
 
 const INSTRUCTOR_API_URL = `${host}/auth`;
 export function login(username, password) {

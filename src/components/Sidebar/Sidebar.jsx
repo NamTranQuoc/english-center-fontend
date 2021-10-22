@@ -34,14 +34,20 @@ function Sidebar() {
                             <span>Học viên</span>
                         </a>
                     </li>
-                    <li>
-                        <a className="nav-link" href="forms-editor.html">
-                            <i className="far fa-square"/> <span>Giảng viên</span>
+                    <li
+                        className={pathName === "/admin/teacher" ? "active" : ""}
+                    >
+                        <a href="/admin/teacher" className="nav-link no-dropdown">
+                            <i className="fas fa-fire"/>
+                            <span>Giảng viên</span>
                         </a>
                     </li>
-                    <li>
-                        <a className="nav-link" href="forms-validation.html">
-                            <i className="far fa-square"/> <span>Nhân viên</span>
+                    <li
+                        className={pathName === "/admin/receptionist" ? "active" : ""}
+                    >
+                        <a href="/admin/receptionist" className="nav-link no-dropdown">
+                            <i className="fas fa-fire"/>
+                            <span>Nhân viên</span>
                         </a>
                     </li>
                 </ul>
