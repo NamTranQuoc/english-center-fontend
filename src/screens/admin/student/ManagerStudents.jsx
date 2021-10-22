@@ -409,6 +409,7 @@ ManagerStudents.defaultProps = {
         email: "",
         password: "",
         avatar: null,
+        gender: "male",
     },
 };
 

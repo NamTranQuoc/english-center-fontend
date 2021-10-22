@@ -13,7 +13,7 @@ const dateFormatList = "DD/MM/YYYY";
 function AddEditReceptionist(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState(props.student.gender !== "" ? props.student.gender : "male");
+    const [gender, setGender] = useState(props.student.gender);
     const [address, setAddress] = useState("");
     const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
     const [phone_number, setPhone_number] = useState("");
@@ -85,7 +85,7 @@ function AddEditReceptionist(props) {
             <div className="modal-content custom-css-003">
                 {/*<form className="needs-validation" noValidate>*/}
                 <div className="modal-header">
-                    <h4>Thông tin học viên</h4>
+                    <h4>Thông tin nhân viên</h4>
                     <button
                         className="btn btn-link"
                         onClick={() => props.close_modal()}

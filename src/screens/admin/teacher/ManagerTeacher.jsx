@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {getMembers} from "../../../service/MemberService";
 import {showNotification} from "../../../components/common/NotifyCation";
-import AddEditReceptionist from "./AddEditReceptionist";
+import AddEditTeacher from "./AddEditTeacher";
 import UpDownButton from "../../../components/common/UpDownButton";
 import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
@@ -11,7 +11,7 @@ import {Redirect} from "react-router-dom";
 
 const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo", salary: "Lương"};
 
-function ManagerReceptionist(props) {
+function ManagerTeacher(props) {
     const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Favatar-1.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
 
     const [object, setObject] = useState({
@@ -29,7 +29,7 @@ function ManagerReceptionist(props) {
     const [size, setSize] = useState(5);
     const [page, setPage] = useState(1);
     const [item, setItem] = useState(null);
-    const [types] = useState(["receptionist"]);
+    const [types] = useState(["teacher"]);
     const [keyword, setKeyword] = useState(null);
     const [sort, setSort] = useState({is_asc: false, field: "ID"})
     const [create_date, setCreate_date] = useState({from: null, to: null});
@@ -154,7 +154,7 @@ function ManagerReceptionist(props) {
                 <div className="main-content">
                     <section className="section">
                         <div className="section-header">
-                            <h1>Nhân viên</h1>
+                            <h1>Giảng viên</h1>
                             <div className="section-header-breadcrumb">
                                 <div className="breadcrumb-item">
                                     <button
@@ -357,10 +357,10 @@ function ManagerReceptionist(props) {
                     </section>
                 </div>
                 {showAdd && url_avatar && (
-                    <AddEditReceptionist
+                    <AddEditTeacher
                         show_add={showAdd}
                         close_modal={closeModal}
-                        student={item}
+                        teacher={item}
                         url_avatar={url_avatar}
                         reload={onSetIsUpdate}
                     />
@@ -370,7 +370,7 @@ function ManagerReceptionist(props) {
     }
 }
 
-ManagerReceptionist.defaultProps = {
+ManagerTeacher.defaultProps = {
     item: {
         _id: -1,
         name: "",
@@ -378,7 +378,14 @@ ManagerReceptionist.defaultProps = {
         password: "",
         avatar: null,
         salary: 0,
+        score: 0,
+        certificate:{
+            type: "toeic",
+            score: 0,
+            code: "",
+        },
+        gender: "male",
     },
 };
 
-export default ManagerReceptionist;
+export default ManagerTeacher;

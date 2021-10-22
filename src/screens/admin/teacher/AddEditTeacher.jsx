@@ -10,20 +10,22 @@ import moment from "moment";
 
 const dateFormatList = "DD/MM/YYYY";
 
-function AddEditReceptionist(props) {
+function AddEditTeacher(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState(props.student.gender !== "" ? props.student.gender : "male");
+    const [gender, setGender] = useState(props.teacher.gender);
     const [address, setAddress] = useState("");
-    const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
+    const [dob, setDob] = useState(moment(props.teacher.dob != null ? props.teacher.dob : timeNow()));
     const [phone_number, setPhone_number] = useState("");
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState(props.url_avatar);
-    const [salary, setSalary] = useState(props.student.salary);
+    const [salary, setSalary] = useState(props.teacher.salary);
+    const [certificate, setCertificate] = useState(props.teacher.certificate);
 
     function onSubmit(e) {
-        if (props.student._id === -1) {
-            addMember(name, email, address, gender, getTimestamp(dob), phone_number, "receptionist", Number(salary)).then((Response) => {
+        if (props.teacher._id === -1) {
+            addMember(name, email, address, gender, getTimestamp(dob), phone_number, "teacher", Number(salary),
+                            certificate).then((Response) => {
                 if (Response.data.code !== -9999) {
                     handleUpload("avatar-" + Response.data.payload._id);
                     showNotification("success_add");
@@ -34,10 +36,10 @@ function AddEditReceptionist(props) {
                 }
             });
         } else {
-            updateMember(props.student._id, name, gender, phone_number, address, getTimestamp(dob), salary).then(
+            updateMember(props.teacher._id, name, gender, phone_number, address, getTimestamp(dob), salary, certificate).then(
                 (Response) => {
                     if (Response.data.code !== -9999) {
-                        handleUpload("avatar-" + props.student._id);
+                        handleUpload("avatar-" + props.teacher._id);
                         showNotification("success_update");
                         props.close_modal();
                         props.reload();
@@ -71,11 +73,18 @@ function AddEditReceptionist(props) {
         setGender(e.target.value);
     }
 
+    function onChangeCertificateCode(e) {
+        setCertificate({
+            type: e.target.value,
+            score: certificate.score,
+            code: certificate.code,
+        });
+    }
+
     function onChangeDob(date) {
         console.log(date);
         setDob(date);
     }
-
     return (
         <div hidden={!props.show_add} className="custom-css-001">
             <div
@@ -85,7 +94,7 @@ function AddEditReceptionist(props) {
             <div className="modal-content custom-css-003">
                 {/*<form className="needs-validation" noValidate>*/}
                 <div className="modal-header">
-                    <h4>Thông tin học viên</h4>
+                    <h4>Thông tin giảng viên</h4>
                     <button
                         className="btn btn-link"
                         onClick={() => props.close_modal()}
@@ -111,7 +120,7 @@ function AddEditReceptionist(props) {
                                 required
                                 value={
                                     name === ""
-                                        ? props.student.name
+                                        ? props.teacher.name
                                         : name
                                 }
                             />
@@ -141,7 +150,7 @@ function AddEditReceptionist(props) {
                                 required
                                 value={
                                     phone_number === ""
-                                        ? props.student.phone_number
+                                        ? props.teacher.phone_number
                                         : phone_number
                                 }
                             />
@@ -175,7 +184,7 @@ function AddEditReceptionist(props) {
                                 required
                                 value={
                                     email === ""
-                                        ? props.student.email
+                                        ? props.teacher.email
                                         : email
                                 }
                             />
@@ -193,8 +202,63 @@ function AddEditReceptionist(props) {
                                 required
                                 value={
                                     salary === ""
-                                        ? props.student.salary
+                                        ? props.teacher.salary
                                         : salary
+                                }
+                            />
+                            <div className="invalid-feedback">Oh no! Email is invalid.</div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="form-group col-4">
+                            <label>Chứng chỉ</label>
+                            <select className="custom-select" onChange={onChangeCertificateCode} defaultValue={certificate}>
+                                <option value="toeic">Toeic</option>
+                                <option value="ielts">Ielts</option>
+                            </select>
+
+                            <div className="invalid-feedback">What's your name?</div>
+                        </div>
+                        <div className="form-group col-4">
+                            <label>Điểm số</label>
+                            <input
+                                id="score"
+                                type="number"
+                                className="form-control"
+                                onChange={(event) => {
+                                    setCertificate({
+                                        type: certificate.type,
+                                        score: event.target.value,
+                                        code: certificate.code,
+                                    })
+                                }}
+                                required
+                                value={
+                                    certificate.score === ""
+                                        ? props.teacher.certificate.score
+                                        : certificate.score
+                                }
+                            />
+                            <div className="invalid-feedback">Oh no! Email is invalid.</div>
+                        </div>
+                        <div className="form-group col-4">
+                            <label>Mã số chứng chỉ</label>
+                            <input
+                                id="certificateCode"
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => {
+                                    setCertificate({
+                                        type: certificate.type,
+                                        score: certificate.score,
+                                        code: event.target.value,
+                                    })
+                                }}
+                                required
+                                value={
+                                    certificate.code === ""
+                                        ? props.teacher.certificate.code
+                                        : certificate.code
                                 }
                             />
                             <div className="invalid-feedback">Oh no! Email is invalid.</div>
@@ -211,7 +275,7 @@ function AddEditReceptionist(props) {
                             required
                             value={
                                 address === ""
-                                    ? props.student.address
+                                    ? props.teacher.address
                                     : address
                             }
                         />
@@ -228,9 +292,9 @@ function AddEditReceptionist(props) {
     );
 }
 
-AddEditReceptionist.defaultProps = {
+AddEditTeacher.defaultProps = {
     show_add: false,
-    student: {
+    teacher: {
         name: "",
         email: "",
         avatar: null,
@@ -242,4 +306,4 @@ AddEditReceptionist.defaultProps = {
     },
 };
 
-export default AddEditReceptionist;
+export default AddEditTeacher;

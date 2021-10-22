@@ -5,6 +5,7 @@ import ManagerStudents from "./student/ManagerStudents";
 import ImageUpload from "../../components/common/ImageUpload";
 import {Route, Switch} from "react-router-dom";
 import ManagerReceptionist from "./receptionist/ManagerReceptionist";
+import ManagerTeacher from "./teacher/ManagerTeacher";
 
 function Admin() {
     return (
@@ -15,6 +16,7 @@ function Admin() {
                 <Route exact path="/admin/abc" component={ImageUpload} />
                 <Route exact path="/admin/student" component={ManagerStudents} />
                 <Route exact path="/admin/receptionist" component={ManagerReceptionist} />
+                <Route exact path="/admin/teacher" component={ManagerTeacher} />
             </Switch>
         </div>
     );
