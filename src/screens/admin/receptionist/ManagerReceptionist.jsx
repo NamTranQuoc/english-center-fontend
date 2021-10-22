@@ -378,6 +378,7 @@ ManagerReceptionist.defaultProps = {
         password: "",
         avatar: null,
         salary: 0,
+        gender: "male",
     },
 };
 

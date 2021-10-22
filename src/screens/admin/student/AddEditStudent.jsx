@@ -13,7 +13,7 @@ const dateFormatList = "DD/MM/YYYY";
 function AddEditStudent(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState(props.student.gender !== "" ? props.student.gender : "male");
+    const [gender, setGender] = useState(props.student.gender);
     const [address, setAddress] = useState("");
     const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
     const [phone_number, setPhone_number] = useState("");

@@ -1,37 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {getMembers} from "../../../service/MemberService";
 import {showNotification} from "../../../components/common/NotifyCation";
-import AddEditStudent from "./AddEditStudent";
+import AddEditTeacher from "./AddEditTeacher";
 import UpDownButton from "../../../components/common/UpDownButton";
-import {
-    getImageURL,
-    getKeyByValue,
-    getTimestamp,
-    getToken,
-    parseDate,
-    range
-} from "../../../components/common/Utils";
+import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
 import DateRange from "../../../components/common/DateRange";
 import CustomInput from "../../../components/common/CustomInput";
 import {Redirect} from "react-router-dom";
 
-const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo"};
+const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo", salary: "Lương"};
 
-// const colourOptions = [
-//     {value: "admin", label: "Admin"},
-//     {value: "student", label: "Học viên"},
-// ];
-//
-// const style = {
-//     control: base => ({
-//         ...base,
-//         border: 0,
-//         boxShadow: "none"
-//     })
-// };
-
-function ManagerStudents(props) {
+function ManagerTeacher(props) {
     const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Favatar-1.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
 
     const [object, setObject] = useState({
@@ -49,7 +29,7 @@ function ManagerStudents(props) {
     const [size, setSize] = useState(5);
     const [page, setPage] = useState(1);
     const [item, setItem] = useState(null);
-    const [types] = useState(["student"]);
+    const [types] = useState(["teacher"]);
     const [keyword, setKeyword] = useState(null);
     const [sort, setSort] = useState({is_asc: false, field: "ID"})
     const [create_date, setCreate_date] = useState({from: null, to: null});
@@ -74,10 +54,6 @@ function ManagerStudents(props) {
             }
         });
     }, [types, keyword, sort, create_date, size, page, is_update])
-
-    // function handleSelect(e) {
-    //     setTypes(Array.isArray(e) ? e.map((x) => x.value) : []);
-    // }
 
     function onSort(event) {
         setSort({
@@ -178,7 +154,7 @@ function ManagerStudents(props) {
                 <div className="main-content">
                     <section className="section">
                         <div className="section-header">
-                            <h1>Học viên</h1>
+                            <h1>Giảng viên</h1>
                             <div className="section-header-breadcrumb">
                                 <div className="breadcrumb-item">
                                     <button
@@ -197,22 +173,6 @@ function ManagerStudents(props) {
                                         <div
                                             className="custom-css-006"
                                         >
-                                            {/*<InputGroup className="custom-css-007">*/}
-                                            {/*    <InputGroup.Text className="custom-css-008">*/}
-                                            {/*        Loại:*/}
-                                            {/*    </InputGroup.Text>*/}
-                                            {/*    <Select*/}
-                                            {/*        placeholder={"Chọn"}*/}
-                                            {/*        closeMenuOnSelect={false}*/}
-                                            {/*        isMulti*/}
-                                            {/*        options={colourOptions}*/}
-                                            {/*        value={colourOptions.filter((obj) =>*/}
-                                            {/*            types.includes(obj.value)*/}
-                                            {/*        )}*/}
-                                            {/*        onChange={handleSelect}*/}
-                                            {/*        styles={style}*/}
-                                            {/*    />*/}
-                                            {/*</InputGroup>*/}
                                             <InputGroup className="custom-css-007">
                                                 <InputGroup.Text className="custom-css-008">
                                                     Ngày tạo:
@@ -257,6 +217,13 @@ function ManagerStudents(props) {
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
+                                                        <th onClick={onSort}>
+                                                            <UpDownButton
+                                                                asc={sort.is_asc}
+                                                                col_name={key.salary}
+                                                                select_field={sort.field}
+                                                            />
+                                                        </th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -272,6 +239,7 @@ function ManagerStudents(props) {
                                                                 <td>{student.name}</td>
                                                                 <td>{student.email}</td>
                                                                 <td>{parseDate(student.create_date)}</td>
+                                                                <td>{student.salary}</td>
                                                             </tr>
                                                         );
                                                     })}
@@ -389,10 +357,10 @@ function ManagerStudents(props) {
                     </section>
                 </div>
                 {showAdd && url_avatar && (
-                    <AddEditStudent
+                    <AddEditTeacher
                         show_add={showAdd}
                         close_modal={closeModal}
-                        student={item}
+                        teacher={item}
                         url_avatar={url_avatar}
                         reload={onSetIsUpdate}
                     />
@@ -402,15 +370,22 @@ function ManagerStudents(props) {
     }
 }
 
-ManagerStudents.defaultProps = {
+ManagerTeacher.defaultProps = {
     item: {
         _id: -1,
         name: "",
         email: "",
         password: "",
         avatar: null,
+        salary: 0,
+        score: 0,
+        certificate:{
+            type: "toeic",
+            score: 0,
+            code: "",
+        },
         gender: "male",
     },
 };
 
-export default ManagerStudents;
+export default ManagerTeacher;
