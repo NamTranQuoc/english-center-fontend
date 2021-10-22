@@ -23,7 +23,7 @@ export function getMembers(page, size, field, is_asc, types, keyword, from_date,
     });
 }
 
-export function addMember(name, email, address, gender, dob, phone_number, type, salary) {
+export function addMember(name, email, address, gender, dob, phone_number, type, salary, certificate) {
     return axios.post(`${INSTRUCTOR_API_URL}/add`, {
         name: name,
         email: email,
@@ -32,11 +32,12 @@ export function addMember(name, email, address, gender, dob, phone_number, type,
         dob: dob,
         phone_number: phone_number,
         type: type,
-        salary: salary
+        salary: salary,
+        certificate: certificate,
     });
 }
 
-export function updateMember(id, name, gender, phone_number, address, dob, salary) {
+export function updateMember(id, name, gender, phone_number, address, dob, salary, certificate) {
     return axios({
         method: "PUT",
         url: `${INSTRUCTOR_API_URL}/update/`,
@@ -47,7 +48,12 @@ export function updateMember(id, name, gender, phone_number, address, dob, salar
             phone_number: phone_number,
             address: address,
             dob: dob,
-            salary: salary
+            salary: salary,
+            certificate:{
+                type: certificate.type,
+                score: Number(certificate.score),
+                code: certificate.code,
+            },
         },
         headers: {
             Authorization: `Bearer ${getToken()}`,
