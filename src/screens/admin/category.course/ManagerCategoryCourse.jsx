@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {getMembers} from "../../../service/MemberService";
 import {showNotification} from "../../../components/common/NotifyCation";
-import AddEditTeacher from "./AddEditTeacher";
+import AddEditCategoryCourse from "./AddEditCategoryCourse";
 import UpDownButton from "../../../components/common/UpDownButton";
 import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
 import DateRange from "../../../components/common/DateRange";
 import CustomInput from "../../../components/common/CustomInput";
 import {Redirect} from "react-router-dom";
+import {getCategoryCourses} from "../../../service/CategoryCourseService";
 
-const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo", salary: "Lương"};
+const key = {_id: "ID", name: "Tên loại khóa học", create_date: "Ngày tạo", status: "Trạng thái"};
 
-function ManagerTeacher(props) {
-    const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Favatar-1.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
+function ManagerCategoryCourse(props) {
 
     const [object, setObject] = useState({
         items: [],
@@ -29,20 +28,18 @@ function ManagerTeacher(props) {
     const [size, setSize] = useState(5);
     const [page, setPage] = useState(1);
     const [item, setItem] = useState(null);
-    const [types] = useState(["teacher"]);
+    const [types] = useState(["receptionist"]);
     const [keyword, setKeyword] = useState(null);
     const [sort, setSort] = useState({is_asc: false, field: "ID"})
     const [create_date, setCreate_date] = useState({from: null, to: null});
-    const [url_avatar, setUrl_avatar] = useState(null);
     const [is_update, setIs_update] = useState(true);
 
     useEffect(() => {
-        getMembers(
+        getCategoryCourses(
             page,
             size,
             getKeyByValue(key, sort.field),
             sort.is_asc,
-            types,
             keyword,
             getTimestamp(create_date.from),
             getTimestamp(create_date.to)
@@ -53,7 +50,7 @@ function ManagerTeacher(props) {
                 showNotification(Response.data.message);
             }
         });
-    }, [types, keyword, sort, create_date, size, page, is_update])
+    }, [keyword, sort, create_date, size, page, is_update])
 
     function onSort(event) {
         setSort({
@@ -91,12 +88,10 @@ function ManagerTeacher(props) {
     function onShowAdd() {
         setShowAdd(!showAdd);
         setItem(props.item);
-        setUrl_avatar(image_default);
     }
 
     function closeModal() {
         setShowAdd(!showAdd);
-        setUrl_avatar(null);
         setItem(props.item);
     }
 
@@ -104,17 +99,6 @@ function ManagerTeacher(props) {
         setShowAdd(!showAdd);
         const ob = JSON.parse(event.currentTarget.getAttribute("data-item"))
         setItem(ob);
-        try {
-            if (ob.avatar == null) {
-                setUrl_avatar(image_default);
-            } else {
-                getImageURL(ob.avatar, image_default).then(value => {
-                    setUrl_avatar(value);
-                })
-            }
-        } catch (e) {
-            setUrl_avatar(image_default);
-        }
     }
 
     function getPageShow() {
@@ -154,7 +138,7 @@ function ManagerTeacher(props) {
                 <div className="main-content">
                     <section className="section">
                         <div className="section-header">
-                            <h1>Giảng viên</h1>
+                            <h1>Loại khóa học</h1>
                             <div className="section-header-breadcrumb">
                                 <div className="breadcrumb-item">
                                     <button
@@ -209,7 +193,13 @@ function ManagerTeacher(props) {
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
-                                                        <th>Email</th>
+                                                        <th onClick={onSort}>
+                                                            <UpDownButton
+                                                                asc={sort.is_asc}
+                                                                col_name={key.status}
+                                                                select_field={sort.field}
+                                                            />
+                                                        </th>
                                                         <th onClick={onSort}>
                                                             <UpDownButton
                                                                 asc={sort.is_asc}
@@ -217,29 +207,21 @@ function ManagerTeacher(props) {
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
-                                                        <th onClick={onSort}>
-                                                            <UpDownButton
-                                                                asc={sort.is_asc}
-                                                                col_name={key.salary}
-                                                                select_field={sort.field}
-                                                            />
-                                                        </th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {object.items.map((student, index) => {
+                                                    {object.items.map((category, index) => {
                                                         return (
                                                             <tr
                                                                 key={index + 1}
-                                                                data-item={JSON.stringify(student)}
+                                                                data-item={JSON.stringify(category)}
                                                                 onClick={onShowEdit}
                                                             >
                                                                 <th>{index + 1}</th>
-                                                                <td>{student._id}</td>
-                                                                <td>{student.name}</td>
-                                                                <td>{student.email}</td>
-                                                                <td>{parseDate(student.create_date)}</td>
-                                                                <td>{student.salary}</td>
+                                                                <td>{category._id}</td>
+                                                                <td>{category.name}</td>
+                                                                <td>{category.status}</td>
+                                                                <td>{parseDate(category.create_date)}</td>
                                                             </tr>
                                                         );
                                                     })}
@@ -346,7 +328,7 @@ function ManagerTeacher(props) {
                                                 style={{marginRight: "5px"}}
                                             >
                                                 <button type="button" className="btn btn-light">
-                                                    {"Tổng giảng viên: " + object.total_items}
+                                                    {"Tổng loại khóa học: " + object.total_items}
                                                 </button>
                                             </div>
                                         </div>
@@ -356,12 +338,11 @@ function ManagerTeacher(props) {
                         </div>
                     </section>
                 </div>
-                {showAdd && url_avatar && (
-                    <AddEditTeacher
+                {showAdd && (
+                    <AddEditCategoryCourse
                         show_add={showAdd}
                         close_modal={closeModal}
-                        teacher={item}
-                        url_avatar={url_avatar}
+                        category_course={item}
                         reload={onSetIsUpdate}
                     />
                 )}
@@ -370,22 +351,13 @@ function ManagerTeacher(props) {
     }
 }
 
-ManagerTeacher.defaultProps = {
+ManagerCategoryCourse.defaultProps = {
     item: {
         _id: -1,
         name: "",
-        email: "",
-        password: "",
-        avatar: null,
-        salary: 0,
-        score: 0,
-        certificate:{
-            type: "toeic",
-            score: 0,
-            code: "",
-        },
-        gender: "male",
+        status: "ACTIVE",
+        description: "",
     },
 };
 
-export default ManagerTeacher;
+export default ManagerCategoryCourse;
