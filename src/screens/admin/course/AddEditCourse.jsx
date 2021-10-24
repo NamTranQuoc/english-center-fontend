@@ -1,31 +1,18 @@
 import React, {useState} from "react";
-import {addMember, updateMember} from "../../../service/MemberService";
-import {showNotification} from "../../../components/common/NotifyCation";
-import ImageUpload from "../../../components/common/ImageUpload";
-import {storage} from "../../../components/common/firebase/Config";
-import {DatePicker} from 'antd';
 import 'antd/dist/antd.css';
-import {getTimestamp, timeNow} from "../../../components/common/Utils";
-import moment from "moment";
+import {showNotification} from "../../../components/common/NotifyCation";
+import {addCategoryCourse, updateCategoryCourse} from "../../../service/CategoryCourseService";
 
-const dateFormatList = "DD/MM/YYYY";
-
-function AddEditReceptionist(props) {
+function AddEditCourse(props) {
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [gender, setGender] = useState(props.student.gender);
-    const [address, setAddress] = useState("");
-    const [dob, setDob] = useState(moment(props.student.dob != null ? props.student.dob : timeNow()));
-    const [phone_number, setPhone_number] = useState("");
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState(props.url_avatar);
-    const [salary, setSalary] = useState(props.student.salary);
+    const [tuition, setTuition] = useState("");
+    const [number_of_shift, setNumber_of_shift] = useState("");
+    const [description, setDescription] = useState("");
 
     function onSubmit(e) {
-        if (props.student._id === -1) {
-            addMember(name, email, address, gender, getTimestamp(dob), phone_number, "receptionist", Number(salary)).then((Response) => {
+        if (props.category_course._id === -1) {
+            addCategoryCourse(name, tuition, number_of_shift, description).then((Response) => {
                 if (Response.data.code !== -9999) {
-                    handleUpload("avatar-" + Response.data.payload._id);
                     showNotification("success_add");
                     props.close_modal();
                     props.reload();
@@ -34,10 +21,9 @@ function AddEditReceptionist(props) {
                 }
             });
         } else {
-            updateMember(props.student._id, name, gender, phone_number, address, getTimestamp(dob), salary).then(
+            updateCategoryCourse(props.category_course._id, name, tuition, number_of_shift, description).then(
                 (Response) => {
                     if (Response.data.code !== -9999) {
-                        handleUpload("avatar-" + props.student._id);
                         showNotification("success_update");
                         props.close_modal();
                         props.reload();
@@ -49,33 +35,6 @@ function AddEditReceptionist(props) {
         }
     }
 
-    function handleUpload(name) {
-        console.log(image);
-        storage.ref(`images/${name}.png`).put(image);
-    }
-
-    function handleImageChange(e) {
-        if (e.target.files.length > 0) {
-            let reader = new FileReader();
-            let file = e.target.files[0];
-            setImage(file);
-            reader.onloadend = () => {
-                setUrl(reader.result.toString());
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function onChangeGender(e) {
-        setGender(e.target.value);
-    }
-
-    function onChangeDob(date) {
-        console.log(date);
-        setDob(date);
-    }
-
     return (
         <div hidden={!props.show_add} className="custom-css-001">
             <div
@@ -85,7 +44,7 @@ function AddEditReceptionist(props) {
             <div className="modal-content custom-css-003">
                 {/*<form className="needs-validation" noValidate>*/}
                 <div className="modal-header">
-                    <h4>Thông tin nhân viên</h4>
+                    <h4>Thông tin khóa học</h4>
                     <button
                         className="btn btn-link"
                         onClick={() => props.close_modal()}
@@ -95,12 +54,9 @@ function AddEditReceptionist(props) {
                 </div>
                 <div className="modal-body custom-css-004">
                     <div className="form-group"/>
-                    <div className="form-group">
-                        <ImageUpload url={url} handleImageChange={handleImageChange}/>
-                    </div>
                     <div className="row">
                         <div className="form-group col-6">
-                            <label>Họ và tên</label>
+                            <label>Tên khóa học</label>
                             <input
                                 id="name"
                                 type="text"
@@ -111,108 +67,62 @@ function AddEditReceptionist(props) {
                                 required
                                 value={
                                     name === ""
-                                        ? props.student.name
+                                        ? props.course.name
                                         : name
                                 }
                             />
                             <div className="invalid-feedback">What's your name?</div>
                         </div>
                         <div className="form-group col-6">
-                            <label>Giới tính</label>
-                            <select className="custom-select" onChange={onChangeGender} defaultValue={gender}>
-                                <option value="male">Nam</option>
-                                <option value="female">Nữ</option>
-                                <option value="different">Khác</option>
-                            </select>
-
+                            <label>Học phí</label>
+                            <input
+                                id="name"
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => {
+                                    setName(event.target.value)
+                                }}
+                                required
+                                value={
+                                    tuition === ""
+                                        ? props.course.tuition
+                                        : tuition
+                                }
+                            />
+                            <div className="invalid-feedback">What's your name?</div>
+                        </div>
+                        <div className="form-group col-6">
+                            <label>Số buổi học</label>
+                            <input
+                                id="name"
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => {
+                                    setName(event.target.value)
+                                }}
+                                required
+                                value={
+                                    number_of_shift === ""
+                                        ? props.course.number_of_shift
+                                        : number_of_shift
+                                }
+                            />
                             <div className="invalid-feedback">What's your name?</div>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="form-group col-6">
-                            <label>Số điện thoại</label>
-                            <input
-                                id="phone_number"
-                                type="phone"
-                                className="form-control"
-                                onChange={(event) => {
-                                    setPhone_number(event.target.value)
-                                }}
-                                required
-                                value={
-                                    phone_number === ""
-                                        ? props.student.phone_number
-                                        : phone_number
-                                }
-                            />
-                            <div className="invalid-feedback">Oh no! Email is invalid.</div>
-                        </div>
-                        <div
-                            className="form-group col-6"
-                        >
-                            <label>Ngày sinh</label>
-                            <div className="form-control">
-                                <DatePicker
-                                    onChange={onChangeDob}
-                                    defaultValue={dob}
-                                    bordered={false}
-                                    style={{padding: 0, width: "inherit"}}
-                                    format={dateFormatList}/>
-                            </div>
-                            <div className="valid-feedback">Good job!</div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="form-group col-6">
-                            <label>Email</label>
-                            <input
-                                id="email"
-                                type="email"
-                                className="form-control"
-                                onChange={(event) => {
-                                    setEmail(event.target.value)
-                                }}
-                                required
-                                value={
-                                    email === ""
-                                        ? props.student.email
-                                        : email
-                                }
-                            />
-                            <div className="invalid-feedback">Oh no! Email is invalid.</div>
-                        </div>
-                        <div className="form-group col-6">
-                            <label>Lương</label>
-                            <input
-                                id="salary"
-                                type="number"
-                                className="form-control"
-                                onChange={(event) => {
-                                    setSalary(event.target.value)
-                                }}
-                                required
-                                value={
-                                    salary === ""
-                                        ? props.student.salary
-                                        : salary
-                                }
-                            />
-                            <div className="invalid-feedback">Oh no! Email is invalid.</div>
-                        </div>
-                    </div>
                     <div className="form-group">
-                        <label>Địa chỉ</label>
+                        <label>Mô tả</label>
                         <textarea
                             className="form-control"
                             style={{height: "100px"}}
                             onChange={(event) => {
-                                setAddress(event.target.value)
+                                setDescription(event.target.value)
                             }}
                             required
                             value={
-                                address === ""
-                                    ? props.student.address
-                                    : address
+                                description === ""
+                                    ? props.course.description
+                                    : description
                             }
                         />
                     </div>
@@ -228,18 +138,8 @@ function AddEditReceptionist(props) {
     );
 }
 
-AddEditReceptionist.defaultProps = {
+AddEditCourse.defaultProps = {
     show_add: false,
-    student: {
-        name: "",
-        email: "",
-        avatar: null,
-        dob: timeNow(),
-        gender: "male",
-        address: "",
-        phone_number: "",
-        salary: 0,
-    },
 };
 
-export default AddEditReceptionist;
+export default AddEditCourse;

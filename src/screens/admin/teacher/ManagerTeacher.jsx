@@ -346,7 +346,7 @@ function ManagerTeacher(props) {
                                                 style={{marginRight: "5px"}}
                                             >
                                                 <button type="button" className="btn btn-light">
-                                                    {"Tổng học viên: " + object.total_items}
+                                                    {"Tổng giảng viên: " + object.total_items}
                                                 </button>
                                             </div>
                                         </div>

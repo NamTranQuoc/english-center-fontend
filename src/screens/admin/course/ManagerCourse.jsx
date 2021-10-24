@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {getMembers} from "../../../service/MemberService";
 import {showNotification} from "../../../components/common/NotifyCation";
-import AddEditReceptionist from "./AddEditReceptionist";
+import AddEditCourse from "./AddEditCourse";
 import UpDownButton from "../../../components/common/UpDownButton";
 import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
 import DateRange from "../../../components/common/DateRange";
 import CustomInput from "../../../components/common/CustomInput";
 import {Redirect} from "react-router-dom";
+import {getCourses} from "../../../service/CourseService";
 
-const key = {_id: "ID", name: "Họ và tên", create_date: "Ngày tạo", salary: "Lương"};
+const key = {_id: "ID", name: "Tên khóa học", create_date: "Ngày tạo", tuition: "Học phí", number_of_shift: "Số buổi học"};
 
-function ManagerReceptionist(props) {
-    const image_default = "https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Favatar-1.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6";
+function ManagerCourse(props) {
 
     const [object, setObject] = useState({
         items: [],
@@ -29,20 +29,19 @@ function ManagerReceptionist(props) {
     const [size, setSize] = useState(5);
     const [page, setPage] = useState(1);
     const [item, setItem] = useState(null);
-    const [types] = useState(["receptionist"]);
     const [keyword, setKeyword] = useState(null);
+    const [category_courses, setCategory_courses] = useState([]);
     const [sort, setSort] = useState({is_asc: false, field: "ID"})
     const [create_date, setCreate_date] = useState({from: null, to: null});
-    const [url_avatar, setUrl_avatar] = useState(null);
     const [is_update, setIs_update] = useState(true);
 
     useEffect(() => {
-        getMembers(
+        getCourses(
             page,
             size,
             getKeyByValue(key, sort.field),
             sort.is_asc,
-            types,
+            category_courses,
             keyword,
             getTimestamp(create_date.from),
             getTimestamp(create_date.to)
@@ -53,7 +52,7 @@ function ManagerReceptionist(props) {
                 showNotification(Response.data.message);
             }
         });
-    }, [types, keyword, sort, create_date, size, page, is_update])
+    }, [category_courses, keyword, sort, create_date, size, page, is_update])
 
     function onSort(event) {
         setSort({
@@ -91,12 +90,10 @@ function ManagerReceptionist(props) {
     function onShowAdd() {
         setShowAdd(!showAdd);
         setItem(props.item);
-        setUrl_avatar(image_default);
     }
 
     function closeModal() {
         setShowAdd(!showAdd);
-        setUrl_avatar(null);
         setItem(props.item);
     }
 
@@ -104,17 +101,6 @@ function ManagerReceptionist(props) {
         setShowAdd(!showAdd);
         const ob = JSON.parse(event.currentTarget.getAttribute("data-item"))
         setItem(ob);
-        try {
-            if (ob.avatar == null) {
-                setUrl_avatar(image_default);
-            } else {
-                getImageURL(ob.avatar, image_default).then(value => {
-                    setUrl_avatar(value);
-                })
-            }
-        } catch (e) {
-            setUrl_avatar(image_default);
-        }
     }
 
     function getPageShow() {
@@ -154,7 +140,7 @@ function ManagerReceptionist(props) {
                 <div className="main-content">
                     <section className="section">
                         <div className="section-header">
-                            <h1>Nhân viên</h1>
+                            <h1>Khóa học</h1>
                             <div className="section-header-breadcrumb">
                                 <div className="breadcrumb-item">
                                     <button
@@ -209,18 +195,24 @@ function ManagerReceptionist(props) {
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
-                                                        <th>Email</th>
                                                         <th onClick={onSort}>
                                                             <UpDownButton
                                                                 asc={sort.is_asc}
-                                                                col_name={key.create_date}
+                                                                col_name={key.tuition}
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
                                                         <th onClick={onSort}>
                                                             <UpDownButton
                                                                 asc={sort.is_asc}
-                                                                col_name={key.salary}
+                                                                col_name={key.number_of_shift}
+                                                                select_field={sort.field}
+                                                            />
+                                                        </th>
+                                                        <th onClick={onSort}>
+                                                            <UpDownButton
+                                                                asc={sort.is_asc}
+                                                                col_name={key.create_date}
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
@@ -346,7 +338,7 @@ function ManagerReceptionist(props) {
                                                 style={{marginRight: "5px"}}
                                             >
                                                 <button type="button" className="btn btn-light">
-                                                    {"Tổng học viên: " + object.total_items}
+                                                    {"Tổng khóa học: " + object.total_items}
                                                 </button>
                                             </div>
                                         </div>
@@ -356,12 +348,11 @@ function ManagerReceptionist(props) {
                         </div>
                     </section>
                 </div>
-                {showAdd && url_avatar && (
-                    <AddEditReceptionist
+                {showAdd && (
+                    <AddEditCourse
                         show_add={showAdd}
                         close_modal={closeModal}
-                        student={item}
-                        url_avatar={url_avatar}
+                        course={item}
                         reload={onSetIsUpdate}
                     />
                 )}
@@ -370,16 +361,14 @@ function ManagerReceptionist(props) {
     }
 }
 
-ManagerReceptionist.defaultProps = {
+ManagerCourse.defaultProps = {
     item: {
         _id: -1,
         name: "",
-        email: "",
-        password: "",
-        avatar: null,
-        salary: 0,
-        gender: "male",
+        tuition: 0,
+        number_of_shift: 0,
+        description: "",
     },
 };
 
-export default ManagerReceptionist;
+export default ManagerCourse;
