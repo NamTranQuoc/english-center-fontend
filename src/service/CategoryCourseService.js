@@ -52,3 +52,19 @@ export function updateCategoryCourse(id, name, status, description) {
         },
     });
 }
+
+export async function getAll() {
+    axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_all`,
+    }).then((Response) => {
+        let result = [];
+        for (let i = 0; i < Response.data.payload.length; i++) {
+            result.push({
+                value: Response.data.payload[i]._id,
+                label: Response.data.payload[i].name,
+            })
+        }
+        localStorage.setItem('category_course', JSON.stringify(result));
+    });
+}
