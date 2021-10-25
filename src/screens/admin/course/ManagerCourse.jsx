@@ -151,14 +151,12 @@ function ManagerCourse(props) {
     }
 
     function getNameCategoryCourse(id) {
-        let result = "-";
-        storage_category_courses.map(item => {
-            console.log(item.value === id);
-            if (item.value === id) {
-                result = item.label;
+        for (let i = 0; i < storage_category_courses.length; i++) {
+            if (storage_category_courses[i].value === id) {
+                return storage_category_courses[i].label;
             }
-        });
-        return result;
+        }
+        return "-";
     }
 
     if (getToken() == null) {

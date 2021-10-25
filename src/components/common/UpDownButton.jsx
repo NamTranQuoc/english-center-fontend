@@ -9,7 +9,7 @@ function UpDownButton(props) {
                     alt="up"
                     width="10px"
                     height="10px"
-                    src="https://training.omicrm.dev/_next/static/chunks/media/images/ic_sort_up_g.2a19aab73031112.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Fup.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6"
                     style={{
                         opacity:
                             props.asc &&
@@ -22,7 +22,7 @@ function UpDownButton(props) {
                     alt="down"
                     width="10px"
                     height="10px"
-                    src="https://training.omicrm.dev/_next/static/chunks/media/images/ic_sort_down_g.69973dc0eebd94f.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/englishcenter-bd4ab.appspot.com/o/images%2Fdown.png?alt=media&token=1e9f3c81-c00e-40fb-9be1-6b292d0582c6"
                     style={{
                         opacity:
                             !props.asc &&
