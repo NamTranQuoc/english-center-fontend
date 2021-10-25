@@ -25,7 +25,7 @@ function Sidebar() {
                             <span>Xuất báo cáo</span>
                         </a>
                     </li>
-                    <li className="menu-header">Quản lý</li>
+                    <li className="menu-header">Quản lý người dùng</li>
                     <li
                         className={pathName === "/admin/student" ? "active" : ""}
                     >
@@ -48,6 +48,23 @@ function Sidebar() {
                         <a href="/admin/receptionist" className="nav-link no-dropdown">
                             <i className="fas fa-fire"/>
                             <span>Nhân viên</span>
+                        </a>
+                    </li>
+                    <li className="menu-header">Quản lý học vụ</li>
+                    <li
+                        className={pathName === "/admin/category/course" ? "active" : ""}
+                    >
+                        <a href="/admin/category/course" className="nav-link no-dropdown">
+                            <i className="fas fa-fire"/>
+                            <span>Loại khóa học</span>
+                        </a>
+                    </li>
+                    <li
+                        className={pathName === "/admin/course" ? "active" : ""}
+                    >
+                        <a href="/admin/course" className="nav-link no-dropdown">
+                            <i className="fas fa-fire"/>
+                            <span>Khóa học</span>
                         </a>
                     </li>
                 </ul>
