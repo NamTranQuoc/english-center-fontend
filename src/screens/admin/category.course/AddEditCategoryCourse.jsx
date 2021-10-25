@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import 'antd/dist/antd.css';
 import {showNotification} from "../../../components/common/NotifyCation";
-import {addCategoryCourse, updateCategoryCourse} from "../../../service/CategoryCourseService";
-
-const dateFormatList = "DD/MM/YYYY";
+import {addCategoryCourse, getAll, updateCategoryCourse} from "../../../service/CategoryCourseService";
 
 function AddEditCategoryCourse(props) {
     const [name, setName] = useState("");
@@ -15,6 +13,7 @@ function AddEditCategoryCourse(props) {
             addCategoryCourse(name, status, description).then((Response) => {
                 if (Response.data.code !== -9999) {
                     showNotification("success_add");
+                    getAll();
                     props.close_modal();
                     props.reload();
                 } else {
@@ -26,6 +25,7 @@ function AddEditCategoryCourse(props) {
                 (Response) => {
                     if (Response.data.code !== -9999) {
                         showNotification("success_update");
+                        getAll();
                         props.close_modal();
                         props.reload();
                     } else {

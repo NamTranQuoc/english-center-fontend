@@ -1,17 +1,20 @@
 import React, {useState} from "react";
 import 'antd/dist/antd.css';
 import {showNotification} from "../../../components/common/NotifyCation";
-import {addCategoryCourse, updateCategoryCourse} from "../../../service/CategoryCourseService";
+import {addCourse, updateCourse} from "../../../service/CourseService";
+
+const storage_category_courses = JSON.parse(localStorage.getItem('category_course'));
 
 function AddEditCourse(props) {
     const [name, setName] = useState("");
     const [tuition, setTuition] = useState("");
     const [number_of_shift, setNumber_of_shift] = useState("");
     const [description, setDescription] = useState("");
+    const [category_course, setCategory_course] = useState(storage_category_courses[0].value);
 
     function onSubmit(e) {
-        if (props.category_course._id === -1) {
-            addCategoryCourse(name, tuition, number_of_shift, description).then((Response) => {
+        if (props.course._id === -1) {
+            addCourse(name, category_course, tuition, number_of_shift, description).then((Response) => {
                 if (Response.data.code !== -9999) {
                     showNotification("success_add");
                     props.close_modal();
@@ -21,7 +24,7 @@ function AddEditCourse(props) {
                 }
             });
         } else {
-            updateCategoryCourse(props.category_course._id, name, tuition, number_of_shift, description).then(
+            updateCourse(props.course._id, name, category_course, tuition, number_of_shift, description).then(
                 (Response) => {
                     if (Response.data.code !== -9999) {
                         showNotification("success_update");
@@ -33,6 +36,10 @@ function AddEditCourse(props) {
                 }
             );
         }
+    }
+
+    function onChangeCategoryCourse(e) {
+        setCategory_course(e.target.value);
     }
 
     return (
@@ -56,9 +63,17 @@ function AddEditCourse(props) {
                     <div className="form-group"/>
                     <div className="row">
                         <div className="form-group col-6">
+                            <label>Loại khóa học</label>
+                            <select className="custom-select" onChange={onChangeCategoryCourse} defaultValue={category_course}>
+                                {storage_category_courses.map((item) => {
+                                    return <option value={item.value}>{item.label}</option>
+                                })}
+                            </select>
+                            <div className="invalid-feedback">What's your name?</div>
+                        </div>
+                        <div className="form-group col-6">
                             <label>Tên khóa học</label>
                             <input
-                                id="name"
                                 type="text"
                                 className="form-control"
                                 onChange={(event) => {
@@ -76,11 +91,10 @@ function AddEditCourse(props) {
                         <div className="form-group col-6">
                             <label>Học phí</label>
                             <input
-                                id="name"
                                 type="text"
                                 className="form-control"
                                 onChange={(event) => {
-                                    setName(event.target.value)
+                                    setTuition(event.target.value)
                                 }}
                                 required
                                 value={
@@ -94,11 +108,10 @@ function AddEditCourse(props) {
                         <div className="form-group col-6">
                             <label>Số buổi học</label>
                             <input
-                                id="name"
                                 type="text"
                                 className="form-control"
                                 onChange={(event) => {
-                                    setName(event.target.value)
+                                    setNumber_of_shift(event.target.value)
                                 }}
                                 required
                                 value={
