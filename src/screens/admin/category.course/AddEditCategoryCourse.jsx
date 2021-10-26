@@ -1,16 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import 'antd/dist/antd.css';
 import {showNotification} from "../../../components/common/NotifyCation";
 import {addCategoryCourse, getAll, updateCategoryCourse} from "../../../service/CategoryCourseService";
+import {Button, Col, Form, Input, Row, Select} from "antd";
+import Modal from "antd/es/modal/Modal";
+import TextArea from "antd/es/input/TextArea";
+
+const {Option} = Select;
 
 function AddEditCategoryCourse(props) {
-    const [name, setName] = useState("");
-    const [status, setStatus] = useState(props.category_course.status);
-    const [description, setDescription] = useState("");
-
-    function onSubmit(e) {
+    function onSubmit(values) {
         if (props.category_course._id === -1) {
-            addCategoryCourse(name, status, description).then((Response) => {
+            addCategoryCourse(values.category_name, values.status, values.description).then((Response) => {
                 if (Response.data.code !== -9999) {
                     showNotification("success_add");
                     getAll();
@@ -21,7 +22,7 @@ function AddEditCategoryCourse(props) {
                 }
             });
         } else {
-            updateCategoryCourse(props.category_course._id, name, status, description).then(
+            updateCategoryCourse(props.category_course._id, values.category_name, values.status, values.description).then(
                 (Response) => {
                     if (Response.data.code !== -9999) {
                         showNotification("success_update");
@@ -36,83 +37,63 @@ function AddEditCategoryCourse(props) {
         }
     }
 
-    function onChangeStatus(e) {
-        setStatus(e.target.value);
-    }
-
     return (
-        <div hidden={!props.show_add} className="custom-css-001">
-            <div
-                className="custom-css-002"
-                onClick={() => props.close_modal()}
-            />
-            <div className="modal-content custom-css-003">
-                {/*<form className="needs-validation" noValidate>*/}
-                <div className="modal-header">
-                    <h4>Thông tin loại khóa học</h4>
-                    <button
-                        className="btn btn-link"
-                        onClick={() => props.close_modal()}
-                    >
-                        <i className="fas fa-times"/>
-                    </button>
-                </div>
-                <div className="modal-body custom-css-004">
-                    <div className="form-group"/>
-                    <div className="row">
-                        <div className="form-group col-6">
-                            <label>Tên loại khóa học</label>
-                            <input
-                                id="name"
-                                type="text"
-                                className="form-control"
-                                onChange={(event) => {
-                                    setName(event.target.value)
-                                }}
-                                required
-                                value={
-                                    name === ""
-                                        ? props.category_course.name
-                                        : name
-                                }
-                            />
-                            <div className="invalid-feedback">What's your name?</div>
-                        </div>
-                        <div className="form-group col-6">
-                            <label>Trạng thái</label>
-                            <select className="custom-select" onChange={onChangeStatus} defaultValue={status}>
-                                <option value="ACTIVE">Hoạt động</option>
-                                <option value="INACTIVE">Không hoạt động</option>
-                            </select>
-
-                            <div className="invalid-feedback">What's your name?</div>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Mô tả</label>
-                        <textarea
-                            className="form-control"
-                            style={{height: "100px"}}
-                            onChange={(event) => {
-                                setDescription(event.target.value)
-                            }}
-                            required
-                            value={
-                                description === ""
-                                    ? props.category_course.description
-                                    : description
-                            }
-                        />
-                    </div>
-                </div>
-                <div className="modal-footer text-right">
-                    <button className="btn btn-primary" onClick={onSubmit}>
-                        Submit
-                    </button>
-                </div>
-            </div>
-            {/*</form>*/}
-        </div>
+        <Modal title="Thông tin loại khóa học" visible={props.show_add}
+               footer={
+                   <Button type="primary" form={"normal_login"} htmlType="submit">Lưu</Button>
+               }
+               onCancel={props.close_modal}>
+            <Form
+                layout={"vertical"}
+                name="normal_login"
+                className="login-form"
+                initialValues={{
+                    category_name: props.category_course.name,
+                    status: props.category_course.status,
+                    description: props.category_course.description,
+                }}
+                onFinish={onSubmit}
+            >
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item
+                            label={"Tên loại khóa học"}
+                            name="category_name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Vui lòng nhập tên loại khóa học!',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Toeic"/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label="Trạng thái"
+                                   name="status"
+                                   rules={[
+                                       {
+                                           required: true,
+                                           message: 'Vui lòng nhập tên loại khóa học!',
+                                       },
+                                   ]}>
+                            <Select>
+                                <Option value="ACTIVE">Hoạt động</Option>
+                                <Option value="INACTIVE">Không hoạt động</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={24}>
+                        <Form.Item label={"Mô tả"} name="description">
+                            <TextArea rows={4}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+        </Modal>
     );
 }
 
