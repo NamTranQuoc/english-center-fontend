@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {showNotification} from "../../../components/common/NotifyCation";
 import AddEditCategoryCourse from "./AddEditCategoryCourse";
 import UpDownButton from "../../../components/common/UpDownButton";
-import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
+import {getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
 import DateRange from "../../../components/common/DateRange";
 import CustomInput from "../../../components/common/CustomInput";
@@ -28,7 +28,6 @@ function ManagerCategoryCourse(props) {
     const [size, setSize] = useState(5);
     const [page, setPage] = useState(1);
     const [item, setItem] = useState(null);
-    const [types] = useState(["receptionist"]);
     const [keyword, setKeyword] = useState(null);
     const [sort, setSort] = useState({is_asc: false, field: "ID"})
     const [create_date, setCreate_date] = useState({from: null, to: null});

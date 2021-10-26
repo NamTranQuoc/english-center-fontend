@@ -24,12 +24,19 @@ export function getCourses(page, size, field, is_asc, category_courses, keyword,
 }
 
 export function addCourse(name, category_course_id, tuition, number_of_shift, description) {
-    return axios.post(`${INSTRUCTOR_API_URL}/add`, {
-        name: name,
-        category_course_id: category_course_id,
-        tuition: tuition,
-        number_of_shift: number_of_shift,
-        description: description,
+    return axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/add`,
+        data: {
+            name: name,
+            category_course_id: category_course_id,
+            tuition: tuition,
+            number_of_shift: number_of_shift,
+            description: description,
+        },
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
     });
 }
 

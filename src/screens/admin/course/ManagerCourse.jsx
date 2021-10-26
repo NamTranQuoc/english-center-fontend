@@ -1,19 +1,33 @@
 import React, {useEffect, useState} from "react";
-import {getMembers} from "../../../service/MemberService";
 import {showNotification} from "../../../components/common/NotifyCation";
 import AddEditCourse from "./AddEditCourse";
 import UpDownButton from "../../../components/common/UpDownButton";
-import {getImageURL, getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
+import {getKeyByValue, getTimestamp, getToken, parseDate, range} from "../../../components/common/Utils";
 import {Image, InputGroup} from "react-bootstrap";
 import DateRange from "../../../components/common/DateRange";
 import CustomInput from "../../../components/common/CustomInput";
 import {Redirect} from "react-router-dom";
 import {getCourses} from "../../../service/CourseService";
+import Select from "react-select";
 
-const key = {_id: "ID", name: "Tên khóa học", create_date: "Ngày tạo", tuition: "Học phí", number_of_shift: "Số buổi học"};
+const key = {
+    _id: "ID",
+    name: "Tên khóa học",
+    create_date: "Ngày tạo",
+    tuition: "Học phí",
+    number_of_shift: "Số buổi học",
+};
+const storage_category_courses = JSON.parse(localStorage.getItem('category_course'));
+
+const style = {
+    control: base => ({
+        ...base,
+        border: 0,
+        boxShadow: "none"
+    })
+};
 
 function ManagerCourse(props) {
-
     const [object, setObject] = useState({
         items: [],
         total_pages: 1,
@@ -53,6 +67,10 @@ function ManagerCourse(props) {
             }
         });
     }, [category_courses, keyword, sort, create_date, size, page, is_update])
+
+    function handleSelect(e) {
+        setCategory_courses(Array.isArray(e) ? e.map((x) => x.value) : []);
+    }
 
     function onSort(event) {
         setSort({
@@ -132,6 +150,15 @@ function ManagerCourse(props) {
         setIs_update(!is_update);
     }
 
+    function getNameCategoryCourse(id) {
+        for (let i = 0; i < storage_category_courses.length; i++) {
+            if (storage_category_courses[i].value === id) {
+                return storage_category_courses[i].label;
+            }
+        }
+        return "-";
+    }
+
     if (getToken() == null) {
         return <Redirect to="/login"/>;
     } else {
@@ -165,6 +192,22 @@ function ManagerCourse(props) {
                                                 </InputGroup.Text>
                                                 <DateRange setDates={setDates}/>
                                             </InputGroup>
+                                            <InputGroup className="custom-css-007">
+                                                <InputGroup.Text className="custom-css-008">
+                                                    Loại:
+                                                </InputGroup.Text>
+                                                <Select
+                                                    placeholder={"Chọn"}
+                                                    closeMenuOnSelect={false}
+                                                    isMulti
+                                                    options={storage_category_courses}
+                                                    value={storage_category_courses.filter((obj) =>
+                                                        category_courses.includes(obj.value)
+                                                    )}
+                                                    onChange={handleSelect}
+                                                    styles={style}
+                                                />
+                                            </InputGroup>
                                         </div>
                                         <div className="card-body p-0">
                                             <InputGroup>
@@ -188,6 +231,7 @@ function ManagerCourse(props) {
                                                                 select_field={sort.field}
                                                             />
                                                         </th>
+                                                        <th>Loại</th>
                                                         <th onClick={onSort}>
                                                             <UpDownButton
                                                                 asc={sort.is_asc}
@@ -219,19 +263,20 @@ function ManagerCourse(props) {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {object.items.map((student, index) => {
+                                                    {object.items.map((item, index) => {
                                                         return (
                                                             <tr
                                                                 key={index + 1}
-                                                                data-item={JSON.stringify(student)}
+                                                                data-item={JSON.stringify(item)}
                                                                 onClick={onShowEdit}
                                                             >
                                                                 <th>{index + 1}</th>
-                                                                <td>{student._id}</td>
-                                                                <td>{student.name}</td>
-                                                                <td>{student.email}</td>
-                                                                <td>{parseDate(student.create_date)}</td>
-                                                                <td>{student.salary}</td>
+                                                                <td>{item._id}</td>
+                                                                <td>{getNameCategoryCourse(item.category_course_id)}</td>
+                                                                <td>{item.name}</td>
+                                                                <td>{item.tuition}</td>
+                                                                <td>{item.number_of_shift}</td>
+                                                                <td>{parseDate(item.create_date)}</td>
                                                             </tr>
                                                         );
                                                     })}
