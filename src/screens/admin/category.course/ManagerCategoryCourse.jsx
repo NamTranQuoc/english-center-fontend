@@ -10,6 +10,7 @@ import {Redirect} from "react-router-dom";
 import {getCategoryCourses} from "../../../service/CategoryCourseService";
 
 const key = {_id: "ID", name: "Tên loại khóa học", create_date: "Ngày tạo", status: "Trạng thái"};
+const key_status = {ACTIVE: "Hoạt động", INACTIVE: "Không hoạt động" }
 
 function ManagerCategoryCourse(props) {
 
@@ -219,7 +220,7 @@ function ManagerCategoryCourse(props) {
                                                                 <th>{index + 1}</th>
                                                                 <td>{category._id}</td>
                                                                 <td>{category.name}</td>
-                                                                <td>{category.status}</td>
+                                                                <td>{key_status[category.status]}</td>
                                                                 <td>{parseDate(category.create_date)}</td>
                                                             </tr>
                                                         );
