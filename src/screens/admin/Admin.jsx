@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import '../../css/Admin.css';
 import {Layout, Menu} from 'antd';
 import {TeamOutlined,} from '@ant-design/icons';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import ManagerStudents from "../../screens/admin/student/ManagerStudents";
 import Dashboard from "./dashboard/Dashboard";
 import ManagerTeacher from "../../screens/admin/teacher/ManagerTeacher";
@@ -41,8 +41,17 @@ const items = [
 ]
 
 function Admin() {
+    const location = useLocation();
     const [collapse, setCollapse] = useState(true);
-    const [selectedKey, setSelectedKey] = useState("0");
+    const [selectedKey, setSelectedKey] = useState(() => {
+        for (let i = 0; i < items.length; i++) {
+            for (let j = 0; j < items[i].child.length; j++) {
+                if (location.pathname === items[i].child[j].path) {
+                    return items[i].child[j].key;
+                }
+            }
+        }
+    });
     const [content, setContent] = useState(<Dashboard/>);
 
     function onClickMenu(item) {
@@ -81,7 +90,7 @@ function Admin() {
                         </Link>
                     </Menu.Item>
                     {items.map((item) => (
-                        <SubMenu icon={<TeamOutlined/>} title={item.label}>
+                        <SubMenu children={["1", "2", "3"]} icon={<TeamOutlined/>} title={item.label}>
                             {item.child.map((subItem) => (
                                 <Menu.Item key={subItem.key}>
                                     <Link to={subItem.path}>
