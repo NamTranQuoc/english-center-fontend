@@ -1,75 +1,104 @@
-import React from "react";
+import React, {useState} from "react";
+import 'antd/dist/antd.css';
+import './Sidebar.css';
+import {Layout, Menu} from 'antd';
+import {TeamOutlined,} from '@ant-design/icons';
+import {Link} from "react-router-dom";
+import ManagerStudents from "../../screens/admin/student/ManagerStudents";
+import Dashboard from "../../screens/admin/dashboard/Dashboard";
+import ManagerTeacher from "../../screens/admin/teacher/ManagerTeacher";
+import ManagerReceptionist from "../../screens/admin/receptionist/ManagerReceptionist";
+import ManagerCategoryCourse from "../../screens/admin/category.course/ManagerCategoryCourse";
+import ManagerCourse from "../../screens/admin/course/ManagerCourse";
+
+const {Header, Content, Footer, Sider} = Layout;
+const {SubMenu} = Menu;
+
+const items = [
+    {
+        label: "QUẢN LÝ NGƯỜI DÙNG", child: [
+            {
+                key: "1", label: "Học viên", path: "/admin/student", content: <ManagerStudents/>
+            },
+            {
+                key: "2", label: "Giảng viên", path: "/admin/teacher", content: <ManagerTeacher/>
+            },
+            {
+                key: "3", label: "Nhân viên", path: "/admin/receptionist", content: <ManagerReceptionist/>
+            }
+        ]
+    },
+    {
+        label: "QUẢN LÝ HỌC VỤ", child: [
+            {
+                key: "4", label: "Loại khóa học", path: "/admin/category-course", content: <ManagerCategoryCourse/>
+            },
+            {
+                key: "5", label: "Khóa học", path: "/admin/course", content: <ManagerCourse/>
+            }
+        ]
+    },
+]
 
 function Sidebar() {
-    const pathName = window.location.pathname;
+    const [collapse, setCollapse] = useState(true);
+    const [selectedKey, setSelectedKey] = useState("0");
+    const [content, setContent] = useState(<Dashboard/>);
+
+    function onClickMenu(item) {
+        setSelectedKey(item.key);
+        if (item.key !== "0") {
+            for (let i = 0; i < items.length; i++) {
+                for (let j = 0; j < items[i].child.length; j++) {
+                    if (item.key === items[i].child[j].key) {
+                        setContent(items[i].child[j].content);
+                        break;
+                    }
+                }
+            }
+        } else {
+            console.log(item.key);
+            setContent(<Dashboard/>);
+        }
+    }
+
+    function onCollapse() {
+        setCollapse(!collapse);
+    }
+
     return (
-        <div className="main-sidebar">
-            <aside id="sidebar-wrapper">
-                <div className="sidebar-brand">
-                    <a href="index.html">Stisla</a>
-                </div>
-                <div className="sidebar-brand sidebar-brand-sm">
-                    <a href="index.html">St</a>
-                </div>
-                <ul className="sidebar-menu">
-                    <li className="menu-header">Thống kê</li>
-                    <li className={pathName === "/admin/dashboard" ? "active" : ""}>
-                        <a href="/admin/dashboard" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Tổng quan</span>
-                        </a>
-                    </li>
-                    <li className={pathName === "/admin/abc" ? "active" : ""}>
-                        <a href="/admin/abc" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Xuất báo cáo</span>
-                        </a>
-                    </li>
-                    <li className="menu-header">Quản lý người dùng</li>
-                    <li
-                        className={pathName === "/admin/student" ? "active" : ""}
-                    >
-                        <a href="/admin/student" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Học viên</span>
-                        </a>
-                    </li>
-                    <li
-                        className={pathName === "/admin/teacher" ? "active" : ""}
-                    >
-                        <a href="/admin/teacher" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Giảng viên</span>
-                        </a>
-                    </li>
-                    <li
-                        className={pathName === "/admin/receptionist" ? "active" : ""}
-                    >
-                        <a href="/admin/receptionist" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Nhân viên</span>
-                        </a>
-                    </li>
-                    <li className="menu-header">Quản lý học vụ</li>
-                    <li
-                        className={pathName === "/admin/category/course" ? "active" : ""}
-                    >
-                        <a href="/admin/category/course" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Loại khóa học</span>
-                        </a>
-                    </li>
-                    <li
-                        className={pathName === "/admin/course" ? "active" : ""}
-                    >
-                        <a href="/admin/course" className="nav-link no-dropdown">
-                            <i className="fas fa-fire"/>
-                            <span>Khóa học</span>
-                        </a>
-                    </li>
-                </ul>
-            </aside>
-        </div>
+        <Layout style={{minHeight: "100vh",}}>
+            <Sider collapsible onCollapse={onCollapse} width={250} breakpoint="lg">
+                <div className="logo"/>
+                <Menu theme="dark"
+                      defaultSelectedKeys={['/']}
+                      selectedKeys={[selectedKey]}
+                      mode="inline"
+                      onClick={onClickMenu}>
+                    <Menu.Item key="0" icon={<TeamOutlined/>}>
+                        <Link to="/admin/dashboard">
+                            <span>TỔNG QUAN</span>
+                        </Link>
+                    </Menu.Item>
+                    {items.map((item) => (
+                        <SubMenu icon={<TeamOutlined/>} title={item.label}>
+                            {item.child.map((subItem) => (
+                                <Menu.Item key={subItem.key}>
+                                    <Link to={subItem.path}>
+                                        <span>{subItem.label}</span>
+                                    </Link>
+                                </Menu.Item>
+                            ))}
+                        </SubMenu>
+                    ))}
+                </Menu>
+            </Sider>
+            <Layout>
+                <Header>Header</Header>
+                <Content>{content}</Content>
+                <Footer>Footer</Footer>
+            </Layout>
+        </Layout>
     );
 }
 
