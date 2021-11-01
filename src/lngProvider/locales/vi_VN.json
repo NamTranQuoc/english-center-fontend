@@ -6,5 +6,11 @@
   "sidebar.managerUser.receptionist": "Nhân viên",
   "sidebar.managerStudy": "Quản lý học vụ",
   "sidebar.managerStudy.courseCategory": "Loại khóa học",
-  "sidebar.managerStudy.course": "Khóa học"
+  "sidebar.managerStudy.course": "Khóa học",
+  "admin.user.student.title": "Quản lý học viên",
+  "admin.user.student.table.index": "STT",
+  "admin.user.student.table.id": "ID",
+  "admin.user.student.table.name": "Họ và tên",
+  "admin.user.student.table.email": "Email",
+  "admin.user.student.table.createdDate": "Ngày tạo"
 }

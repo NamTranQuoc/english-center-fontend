@@ -30,7 +30,7 @@ function* createUserWithEmailPassword({payload}) {
     if (signUpUser.message) {
       yield put(showAuthMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      localStorage.setItem('token', signUpUser.user.uid);
       yield put(userSignUpSuccess(signUpUser.user.uid));
     }
   } catch (error) {
@@ -45,6 +45,7 @@ function* signInUserWithEmailPassword({payload}) {
     if (response.data.code !== 9999) {
       yield put(showAuthMessage(response.data.message));
     } else {
+      localStorage.setItem('token', response.data.payload);
       yield put(userSignUpSuccess(response.data.payload));
     }
   } catch (error) {
@@ -57,7 +58,7 @@ function* signOut() {
   try {
     const signOutUser = yield call(signOutRequest);
     if (signOutUser === undefined) {
-      localStorage.removeItem('user_id');
+      localStorage.removeItem('token');
       yield put(userSignOutSuccess(signOutUser));
     } else {
       yield put(showAuthMessage(signOutUser.message));
