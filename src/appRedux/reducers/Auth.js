@@ -1,4 +1,5 @@
 import {
+  GET_MEMBER,
   HIDE_MESSAGE,
   INIT_URL,
   ON_HIDE_LOADER,
@@ -14,11 +15,12 @@ const INIT_STATE = {
   alertMessage: '',
   showMessage: false,
   initURL: '',
-  authUser: localStorage.getItem('user_id'),
+  authUser: localStorage.getItem('token'),
 };
 
 
 export default (state = INIT_STATE, action) => {
+  console.log("222222" + action.type);
   switch (action.type) {
     case SIGNUP_USER_SUCCESS: {
       return {

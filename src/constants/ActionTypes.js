@@ -18,3 +18,7 @@ export const SIGNOUT_USER = 'SIGNOUT_USER';
 export const SIGNOUT_USER_SUCCESS = 'SIGNOUT_USER_SUCCESS';
 export const INIT_URL = 'INIT_URL';
 
+//Member
+export const GET_MEMBER = 'GET_MEMBER';
+export const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
+
