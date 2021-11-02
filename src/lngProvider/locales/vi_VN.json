@@ -19,5 +19,6 @@
   "appModule.iAccept" : "Chấp nhận",
   "appModule.termAndCondition" : "Điều kiện và điều khoản",
   "app.userAuth.or" : "Hoặc",
-  "app.userAuth.signUp" : "Đằng ký"
+  "app.userAuth.signUp" : "Đằng ký",
+  "table.total.items": "Tổng"
 }

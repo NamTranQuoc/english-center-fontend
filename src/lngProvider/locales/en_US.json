@@ -19,5 +19,6 @@
   "appModule.iAccept" : "Accept",
   "appModule.termAndCondition" : "Term and Condition",
   "app.userAuth.or" : "Or",
-  "app.userAuth.signUp" : "SignUp"
+  "app.userAuth.signUp" : "SignUp",
+  "table.total.items": "Total"
 }
