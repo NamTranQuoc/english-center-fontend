@@ -15,7 +15,6 @@ class SignUp extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log("values", values);
       if (!err) {
         this.props.showAuthLoader();
         this.props.userSignUp(values);
@@ -96,8 +95,7 @@ class SignUp extends React.Component {
                   })(
                     <Checkbox><IntlMessages id="appModule.iAccept"/></Checkbox>
                   )}
-                  <span className="gx-link gx-signup-form-forgot"><IntlMessages
-                    id="appModule.termAndCondition"/></span>
+                  <span className="gx-link gx-signup-form-forgot"><IntlMessages id="appModule.termAndCondition"/></span>
                 </FormItem>
                 <FormItem>
                   <Button type="primary" className="gx-mb-0" htmlType="submit">

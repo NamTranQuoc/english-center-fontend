@@ -78,8 +78,7 @@ class SignIn extends React.Component {
                   })(
                     <Checkbox><IntlMessages id="appModule.iAccept"/></Checkbox>
                   )}
-                  <span className="gx-signup-form-forgot gx-link"><IntlMessages
-                    id="appModule.termAndCondition"/></span>
+                  <span className="gx-signup-form-forgot gx-link"><IntlMessages id="appModule.termAndCondition"/></span>
                 </FormItem>
                 <FormItem>
                   <Button type="primary" className="gx-mb-0" htmlType="submit">

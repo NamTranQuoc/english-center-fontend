@@ -12,5 +12,12 @@
   "admin.user.student.table.id": "ID",
   "admin.user.student.table.name": "Name",
   "admin.user.student.table.email": "Email",
-  "admin.user.student.table.createdDate": "Created date"
+  "admin.user.student.table.createdDate": "Created date",
+  "app.userAuth.signIn" : "SignIn",
+  "app.userAuth.bySigning" : "SignIn by",
+  "app.userAuth.getAccount" : "Account",
+  "appModule.iAccept" : "Accept",
+  "appModule.termAndCondition" : "Term and Condition",
+  "app.userAuth.or" : "Or",
+  "app.userAuth.signUp" : "SignUp"
 }

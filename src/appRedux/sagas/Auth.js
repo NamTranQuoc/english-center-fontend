@@ -49,7 +49,6 @@ function* signInUserWithEmailPassword({payload}) {
       yield put(userSignUpSuccess(response.data.payload));
     }
   } catch (error) {
-    console.log(error);
     yield put(showAuthMessage(error));
   }
 }

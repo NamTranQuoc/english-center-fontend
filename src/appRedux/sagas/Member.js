@@ -1,8 +1,8 @@
-import {all, fork, takeEvery} from "redux-saga/effects";
+import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {GET_MEMBER} from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
-import {createUserAccount, signInUser, signOutUser} from "./Auth";
+import {showAuthMessage} from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
 
@@ -27,18 +27,17 @@ const getListMemberRequest = async (payload) =>
         .catch(error => error)
 
 function* getListMemberGenerate({payload}) {
-    console.log(payload);
-    // try {
-    //     const response = yield call(getListMemberRequest, payload);
-    //     if (response.data.code !== 9999) {
-    //         yield put(showAuthMessage(response.data.message));
-    //     } else {
-    //         yield put(userSignUpSuccess(response.data.payload));
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    //     yield put(showAuthMessage(error));
-    // }
+    try {
+        const response = yield call(getListMemberRequest, payload);
+        if (response.data.code !== 9999) {
+            yield put(showAuthMessage(response.data.message));
+        } else {
+
+        }
+    } catch (error) {
+        console.log(error);
+        yield put(showAuthMessage(error));
+    }
 }
 
 export function* getListMember() {

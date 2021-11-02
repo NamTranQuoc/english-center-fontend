@@ -1,6 +1,4 @@
-import {
-    GET_MEMBER
-} from "../../constants/ActionTypes";
+import {GET_MEMBER} from "../../constants/ActionTypes";
 
 const INIT_STATE = {
     loader: false,
@@ -15,7 +13,6 @@ const INIT_STATE = {
 
 
 export default (state = INIT_STATE, action) => {
-    console.log("reducers11111" + action.type);
     switch (action.type) {
         case GET_MEMBER: {
             return {
