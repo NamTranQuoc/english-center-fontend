@@ -12,15 +12,15 @@ import SignUp from "../SignUp";
 import {setInitUrl} from "../../appRedux/actions";
 
 import {
-  LAYOUT_TYPE_BOXED,
-  LAYOUT_TYPE_FRAMED,
-  LAYOUT_TYPE_FULL,
-  NAV_STYLE_ABOVE_HEADER,
-  NAV_STYLE_BELOW_HEADER,
-  NAV_STYLE_DARK_HORIZONTAL,
-  NAV_STYLE_DEFAULT_HORIZONTAL,
-  NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
-  THEME_TYPE_DARK
+    LAYOUT_TYPE_BOXED,
+    LAYOUT_TYPE_FRAMED,
+    LAYOUT_TYPE_FULL,
+    NAV_STYLE_ABOVE_HEADER,
+    NAV_STYLE_BELOW_HEADER,
+    NAV_STYLE_DARK_HORIZONTAL,
+    NAV_STYLE_DEFAULT_HORIZONTAL,
+    NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
+    THEME_TYPE_DARK
 } from "../../constants/ThemeSetting";
 
 const RestrictedRoute = ({component: Component, authUser, ...rest}) =>
@@ -96,7 +96,7 @@ class App extends Component {
       if (authUser === null) {
         return (<Redirect to={'/signin'}/>);
       } else if (initURL === '' || initURL === '/' || initURL === '/signin') {
-        return (<Redirect to={'/sample'}/>);
+        return (<Redirect to={'/dashboard'}/>);
       } else {
         return (<Redirect to={initURL}/>);
       }

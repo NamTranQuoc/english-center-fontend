@@ -1,6 +1,6 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {SIGNIN_USER, SIGNOUT_USER, SIGNUP_USER} from "../../constants/ActionTypes";
-import {showAuthMessage, userSignOutSuccess, userSignUpSuccess} from "../actions";
+import {showMessage, userSignOutSuccess, userSignUpSuccess} from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
 
@@ -28,13 +28,13 @@ function* createUserWithEmailPassword({payload}) {
   try {
     const signUpUser = yield call(createUserWithEmailPasswordRequest, email, password);
     if (signUpUser.message) {
-      yield put(showAuthMessage(signUpUser.message));
+      yield put(showMessage(signUpUser.message));
     } else {
-      localStorage.setItem('user_id', signUpUser.user.uid);
+      localStorage.setItem('token', signUpUser.user.uid);
       yield put(userSignUpSuccess(signUpUser.user.uid));
     }
   } catch (error) {
-    yield put(showAuthMessage(error));
+    yield put(showMessage(error));
   }
 }
 
@@ -43,13 +43,13 @@ function* signInUserWithEmailPassword({payload}) {
   try {
     const response = yield call(signInUserWithEmailPasswordRequest, email, password);
     if (response.data.code !== 9999) {
-      yield put(showAuthMessage(response.data.message));
+      yield put(showMessage(response.data.message));
     } else {
+      localStorage.setItem('token', response.data.payload);
       yield put(userSignUpSuccess(response.data.payload));
     }
   } catch (error) {
-    console.log(error);
-    yield put(showAuthMessage(error));
+    yield put(showMessage(error));
   }
 }
 
@@ -57,13 +57,13 @@ function* signOut() {
   try {
     const signOutUser = yield call(signOutRequest);
     if (signOutUser === undefined) {
-      localStorage.removeItem('user_id');
+      localStorage.removeItem('token');
       yield put(userSignOutSuccess(signOutUser));
     } else {
-      yield put(showAuthMessage(signOutUser.message));
+      yield put(showMessage(signOutUser.message));
     }
   } catch (error) {
-    yield put(showAuthMessage(error));
+    yield put(showMessage(error));
   }
 }
 

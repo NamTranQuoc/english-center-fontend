@@ -1,11 +1,11 @@
 import {SWITCH_LANGUAGE, TOGGLE_COLLAPSED_NAV, WINDOW_WIDTH} from "../../constants/ActionTypes";
 import {
-  LAYOUT_TYPE,
-  LAYOUT_TYPE_FULL,
-  NAV_STYLE,
-  NAV_STYLE_FIXED,
-  THEME_COLOR_SELECTION_PRESET,
-  THEME_TYPE_SEMI_DARK
+    LAYOUT_TYPE,
+    LAYOUT_TYPE_FULL,
+    NAV_STYLE,
+    NAV_STYLE_FIXED,
+    THEME_COLOR_SELECTION_PRESET,
+    THEME_TYPE_SEMI_DARK
 } from "../../constants/ThemeSetting";
 
 const initialSettings = {

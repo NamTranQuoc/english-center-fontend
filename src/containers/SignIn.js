@@ -3,7 +3,7 @@ import {Button, Checkbox, Form, Icon, Input, message} from "antd";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {hideAuthLoader, hideMessage, showAuthLoader, userSignIn, userSignInSuccess,} from "../appRedux/actions";
+import {hideLoader, hideMessage, showLoader, userSignIn, userSignInSuccess,} from "../appRedux/actions";
 import IntlMessages from "../util/IntlMessages";
 import CircularProgress from "../components/CircularProgress";
 
@@ -14,7 +14,7 @@ class SignIn extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.showAuthLoader();
+        this.props.showLoader();
         this.props.userSignIn(values);
       }
     });
@@ -78,8 +78,7 @@ class SignIn extends React.Component {
                   })(
                     <Checkbox><IntlMessages id="appModule.iAccept"/></Checkbox>
                   )}
-                  <span className="gx-signup-form-forgot gx-link"><IntlMessages
-                    id="appModule.termAndCondition"/></span>
+                  <span className="gx-signup-form-forgot gx-link"><IntlMessages id="appModule.termAndCondition"/></span>
                 </FormItem>
                 <FormItem>
                   <Button type="primary" className="gx-mb-0" htmlType="submit">
@@ -93,25 +92,25 @@ class SignIn extends React.Component {
                   <ul className="gx-social-link">
                     <li>
                       <Icon type="google" onClick={() => {
-                        this.props.showAuthLoader();
+                        this.props.showLoader();
                         this.props.userGoogleSignIn();
                       }}/>
                     </li>
                     <li>
                       <Icon type="facebook" onClick={() => {
-                        this.props.showAuthLoader();
+                        this.props.showLoader();
                         this.props.userFacebookSignIn();
                       }}/>
                     </li>
                     <li>
                       <Icon type="github" onClick={() => {
-                        this.props.showAuthLoader();
+                        this.props.showLoader();
                         this.props.userGithubSignIn();
                       }}/>
                     </li>
                     <li>
                       <Icon type="twitter" onClick={() => {
-                        this.props.showAuthLoader();
+                        this.props.showLoader();
                         this.props.userTwitterSignIn();
                       }}/>
                     </li>
@@ -145,7 +144,7 @@ const mapStateToProps = ({auth}) => {
 export default connect(mapStateToProps, {
   userSignIn,
   hideMessage,
-  hideAuthLoader,
-  showAuthLoader,
+  hideLoader,
+  showLoader,
   userSignInSuccess,
 })(WrappedNormalLoginForm);
