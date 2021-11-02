@@ -5,13 +5,13 @@ import {Drawer, Layout} from "antd";
 import SidebarContent from "./SidebarContent";
 import {toggleCollapsedSideNav, updateWindowWidth} from "../../appRedux/actions";
 import {
-  NAV_STYLE_DRAWER,
-  NAV_STYLE_FIXED,
-  NAV_STYLE_MINI_SIDEBAR,
-  NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-  NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
-  TAB_SIZE,
-  THEME_TYPE_LITE
+    NAV_STYLE_DRAWER,
+    NAV_STYLE_FIXED,
+    NAV_STYLE_MINI_SIDEBAR,
+    NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
+    NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
+    TAB_SIZE,
+    THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
 
 const {Sider} = Layout;

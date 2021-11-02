@@ -1,13 +1,12 @@
 import {
-  GET_MEMBER,
-  HIDE_MESSAGE,
-  INIT_URL,
-  ON_HIDE_LOADER,
-  ON_SHOW_LOADER,
-  SHOW_MESSAGE,
-  SIGNIN_USER_SUCCESS,
-  SIGNOUT_USER_SUCCESS,
-  SIGNUP_USER_SUCCESS
+    HIDE_MESSAGE,
+    INIT_URL,
+    ON_HIDE_LOADER,
+    ON_SHOW_LOADER,
+    SHOW_MESSAGE,
+    SIGNIN_USER_SUCCESS,
+    SIGNOUT_USER_SUCCESS,
+    SIGNUP_USER_SUCCESS
 } from "../../constants/ActionTypes";
 
 const INIT_STATE = {
@@ -20,7 +19,6 @@ const INIT_STATE = {
 
 
 export default (state = INIT_STATE, action) => {
-  console.log("222222" + action.type);
   switch (action.type) {
     case SIGNUP_USER_SUCCESS: {
       return {

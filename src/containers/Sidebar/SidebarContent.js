@@ -10,9 +10,9 @@ import Auxiliary from "../../util/Auxiliary";
 import UserProfile from "./UserProfile";
 import AppsNavigation from "./AppsNavigation";
 import {
-  NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-  NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
-  THEME_TYPE_LITE
+    NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
+    NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
+    THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
 import IntlMessages from "../../util/IntlMessages";
 

@@ -1,9 +1,7 @@
 import React, {useEffect} from "react";
 import {Card, Form, Table} from "antd";
 import IntlMessages from "../../../util/IntlMessages";
-import {
-    getListMember,
-} from "../../../appRedux/actions";
+import {getListMember,} from "../../../appRedux/actions";
 import {connect} from "react-redux";
 
 const columns = [
