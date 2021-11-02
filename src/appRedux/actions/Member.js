@@ -1,15 +1,15 @@
-import {GET_LIST_SUCCESS, SIGNUP_USER} from "../../constants/ActionTypes";
+import {GET_LIST_STUDENT_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
 
 export const getListMember = (param) => {
     return {
-        type: SIGNUP_USER,
+        type: GET_MEMBER,
         payload: param
     };
 };
 
-export const getListMemberSuccess = (user) => {
+export const getListSuccess = (payload) => {
     return {
-        type: GET_LIST_SUCCESS,
-        payload: user
+        type: GET_LIST_STUDENT_SUCCESS,
+        payload: payload
     };
 };

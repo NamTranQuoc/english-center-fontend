@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Card, Form, Table} from "antd";
 import IntlMessages from "../../../util/IntlMessages";
-import {getListMember,} from "../../../appRedux/actions";
+import {getListMember, showLoader} from "../../../appRedux/actions";
 import {connect} from "react-redux";
 
 const columns = [
@@ -13,54 +13,84 @@ const columns = [
     },
     {
         title: <IntlMessages id="admin.user.student.table.id"/>,
-        dataIndex: "name",
-        width: "20%"
+        dataIndex: "_id",
+        width: "25%",
+        sorter: true
     },
     {
         title: <IntlMessages id="admin.user.student.table.name"/>,
         dataIndex: "name",
-        width: "30%"
+        width: "30%",
+        sorter: true
     },
     {
         title: <IntlMessages id="admin.user.student.table.email"/>,
-        dataIndex: "name",
-        width: "20%"
+        dataIndex: "email",
+        width: "20%",
+        sorter: true
     },
     {
         title: <IntlMessages id="admin.user.student.table.createdDate"/>,
-        dataIndex: "name",
-        width: "20%"
+        dataIndex: "create_date",
+        width: "15%",
+        sorter: true
     },
 ];
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-    data.push({
-        key: i,
-        name: `Edward King ${i}`,
-        age: 32,
-        address: `London, Park Lane no. ${i}`,
-    });
-}
+function StudentPage(props) {
+    let param = {
+        page: 1,
+        size: 10,
+        sort: {
+            is_asc: true,
+            field: "_id"
+        },
+        types: ["student"],
+    };
 
-function StudentPage() {
-    useEffect(() => {
-        const param = {
-            page: 1,
-            size: 10
+    function onChange(pagination, filters, sorter, extra) {
+        if (sorter != null && sorter.columnKey != null && sorter.order != null) {
+            param = {
+                ...param,
+                sort: {
+                    is_asc: sorter.order === "ascend",
+                    field: sorter.columnKey
+                },
+            };
         }
-        getListMember(param);
-    });
+        param = {
+            ...param,
+            page: pagination.current,
+            size: pagination.pageSize
+        }
+        props.getListMember(param);
+    }
+
+    useEffect(() => {
+        props.getListMember(param);
+    }, []);
+
+    function showTotalItems(total) {
+        return <span><IntlMessages id="table.total.items"/>: {total}</span>;
+    }
+
     return (
         <Card title={<IntlMessages id="admin.user.student.title"/>}>
-            <Table dataSource={data} columns={columns} scroll={{y: 520}} pagination={{
-                size: "small",
-                total: 1000,
-                showSizeChanger: true,
-                showQuickJumper: true,
-                defaultPageSize: 10,
-                pageSizeOptions: ["10", "15", "20"]
-            }}/>
+            <Table dataSource={props.items}
+                   columns={columns}
+                   loading={props.loader}
+                   onChange={onChange}
+                   scroll={{y: 520}} pagination={
+                {
+                    size: "small",
+                    total: props.totalItems,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                    showTotal: showTotalItems,
+                    defaultPageSize: 10,
+                    pageSizeOptions: ["10", "15", "20"]
+                }
+            }/>
         </Card>
     );
 }
@@ -68,8 +98,8 @@ function StudentPage() {
 const WrappedNormalLoginForm = Form.create()(StudentPage);
 
 const mapStateToProps = ({member}) => {
-    const {loader, alertMessage, showMessage, authUser, indexSelected, items, totalItems } = member;
-    return {loader, alertMessage, showMessage, authUser, indexSelected, items, totalItems}
+    const {loader, alertMessage, showMessage, indexSelected, items, totalItems} = member;
+    return {loader, alertMessage, showMessage, indexSelected, items, totalItems}
 };
 
-export default connect(mapStateToProps, {getListMember})(WrappedNormalLoginForm);
+export default connect(mapStateToProps, {getListMember, showLoader})(WrappedNormalLoginForm);

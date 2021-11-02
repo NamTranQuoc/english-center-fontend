@@ -1,15 +1,32 @@
-import {GET_LIST_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
+import {HIDE_MESSAGE, INIT_URL, ON_HIDE_LOADER, ON_SHOW_LOADER, SHOW_MESSAGE} from "../../constants/ActionTypes";
 
-export const getListMember = (param) => {
+export const showMessage = (message) => {
     return {
-        type: GET_MEMBER,
-        payload: param
+        type: SHOW_MESSAGE,
+        payload: message
     };
 };
 
-export const getListMemberSuccess = (payload) => {
+export const setInitUrl = (url) => {
     return {
-        type: GET_LIST_SUCCESS,
-        payload: payload
+        type: INIT_URL,
+        payload: url
+    };
+};
+
+export const showLoader = () => {
+    return {
+        type: ON_SHOW_LOADER,
+    };
+};
+
+export const hideMessage = () => {
+    return {
+        type: HIDE_MESSAGE,
+    };
+};
+export const hideLoader = () => {
+    return {
+        type: ON_HIDE_LOADER,
     };
 };

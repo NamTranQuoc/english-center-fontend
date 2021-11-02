@@ -1,31 +1,47 @@
-import {GET_LIST_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
+import {HIDE_MESSAGE, INIT_URL, ON_HIDE_LOADER, ON_SHOW_LOADER, SHOW_MESSAGE} from "../../constants/ActionTypes";
 
 const INIT_STATE = {
     loader: false,
     alertMessage: "",
     showMessage: false,
     initURL: "",
-    authUser: localStorage.getItem('token'),
-    indexSelected: -1,
-    items: [],
-    totalItems: 0,
 };
 
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
-        case GET_MEMBER: {
+        case INIT_URL: {
             return {
                 ...state,
-                loader: true,
-                param: action.payload
+                initURL: action.payload
             }
         }
-        case GET_LIST_SUCCESS: {
+        case SHOW_MESSAGE: {
             return {
                 ...state,
-                loader: false,
-                items: action.payload.items,
+                alertMessage: action.payload,
+                showMessage: true,
+                loader: false
+            }
+        }
+        case HIDE_MESSAGE: {
+            return {
+                ...state,
+                alertMessage: '',
+                showMessage: false,
+                loader: false
+            }
+        }
+        case ON_SHOW_LOADER: {
+            return {
+                ...state,
+                loader: true
+            }
+        }
+        case ON_HIDE_LOADER: {
+            return {
+                ...state,
+                loader: false
             }
         }
         default:
