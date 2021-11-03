@@ -1,6 +1,14 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {SIGNIN_USER, SIGNOUT_USER, SIGNUP_USER} from "../../constants/ActionTypes";
-import {showMessage, userSignOutSuccess, userSignUpSuccess} from "../actions";
+import {
+  hideLoader,
+  setInitUrl,
+  showLoader,
+  showMessage,
+  userSignInSuccess,
+  userSignOutSuccess,
+  userSignUpSuccess
+} from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
 
@@ -41,15 +49,19 @@ function* createUserWithEmailPassword({payload}) {
 function* signInUserWithEmailPassword({payload}) {
   const {email, password} = payload;
   try {
+    yield put(showLoader());
     const response = yield call(signInUserWithEmailPasswordRequest, email, password);
     if (response.data.code !== 9999) {
       yield put(showMessage(response.data.message));
     } else {
       localStorage.setItem('token', response.data.payload);
-      yield put(userSignUpSuccess(response.data.payload));
+      yield put(userSignInSuccess(response.data.payload));
+      yield put(setInitUrl("/admin/dashboard"));
     }
   } catch (error) {
     yield put(showMessage(error));
+  } finally {
+    yield put(hideLoader());
   }
 }
 

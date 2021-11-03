@@ -2,7 +2,7 @@ import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {GET_MEMBER} from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
-import {getListSuccess, showMessage} from "../actions";
+import {getListSuccess, hideLoaderTable, showMessage} from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
 
@@ -33,6 +33,8 @@ function* getListMemberGenerate({payload}) {
         }
     } catch (error) {
         yield put(showMessage(error));
+    } finally {
+        yield put(hideLoaderTable());
     }
 }
 

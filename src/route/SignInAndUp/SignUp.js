@@ -3,11 +3,10 @@ import {Button, Checkbox, Form, Icon, Input} from "antd";
 import {Link} from "react-router-dom";
 
 import {connect} from "react-redux";
-import {hideMessage, showLoader, userSignUp,} from "../appRedux/actions";
+import {hideMessage, showLoader, userSignUp,} from "../../appRedux/actions";
 
-import IntlMessages from "../util/IntlMessages";
+import IntlMessages from "../../util/IntlMessages";
 import {message} from "antd/lib/index";
-import CircularProgress from "../components/CircularProgress";
 
 const FormItem = Form.Item;
 
@@ -43,7 +42,7 @@ class SignUp extends React.Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {showMessage, loader, alertMessage} = this.props;
+    const {showMessage, alertMessage} = this.props;
     return (
       <div className="gx-app-login-wrap">
         <div className="gx-app-login-container">
@@ -135,11 +134,6 @@ class SignUp extends React.Component {
                 </div>
               </Form>
             </div>
-            {loader &&
-            <div className="gx-loader-view">
-              <CircularProgress/>
-            </div>
-            }
             {showMessage &&
             message.error(alertMessage)}
           </div>
@@ -154,8 +148,8 @@ class SignUp extends React.Component {
 const WrappedSignUpForm = Form.create()(SignUp);
 
 const mapStateToProps = ({auth}) => {
-  const {loader, alertMessage, showMessage, authUser} = auth;
-  return {loader, alertMessage, showMessage, authUser}
+  const {alertMessage, showMessage, authUser} = auth;
+  return {alertMessage, showMessage, authUser}
 };
 
 export default connect(mapStateToProps, {

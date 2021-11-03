@@ -3,8 +3,8 @@ import {Layout, Popover} from "antd";
 import {Link} from "react-router-dom";
 import languageData from "./languageData";
 import {switchLanguage, toggleCollapsedSideNav} from "../../appRedux/actions";
-import UserInfo from "../../components/UserInfo";
-import AppNotification from "../../components/AppNotification";
+import UserInfo from "../UserInfo";
+import AppNotification from "../AppNotification";
 import Auxiliary from "../../util/Auxiliary";
 
 

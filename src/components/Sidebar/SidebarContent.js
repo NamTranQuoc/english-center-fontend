@@ -33,8 +33,8 @@ class SidebarContent extends Component {
 
   render() {
     const {themeType, navStyle, pathname} = this.props;
-    const selectedKeys = pathname.substr(1);
-    const defaultOpenKeys = selectedKeys.split('/dashboard')[1];
+    const selectedKeys = pathname;
+    const defaultOpenKeys = "/admin/dashboard";
     return (<Auxiliary>
 
         <SidebarLogo/>
@@ -50,8 +50,8 @@ class SidebarContent extends Component {
               theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
               mode="inline">
 
-              <Menu.Item key="dashboard">
-                <Link to="/dashboard"><i className="icon icon-widgets"/>
+              <Menu.Item key="/admin/dashboard">
+                <Link to="/admin/dashboard"><i className="icon icon-widgets"/>
                   <IntlMessages id="sidebar.dashboard"/></Link>
               </Menu.Item>
               <Menu.SubMenu key="managerUser"
@@ -61,16 +61,16 @@ class SidebarContent extends Component {
                                 <i className="icon icon-avatar"/>
                                 <IntlMessages id="sidebar.managerUser"/>
                               </span>}>
-                <Menu.Item key="student">
-                  <Link to="/student">
+                <Menu.Item key="/admin/student">
+                  <Link to="/admin/student">
                     <IntlMessages id="sidebar.managerUser.student"/></Link>
                 </Menu.Item>
-                <Menu.Item key="teacher">
-                  <Link to="/teacher">
+                <Menu.Item key="/admin/teacher">
+                  <Link to="/admin/teacher">
                     <IntlMessages id="sidebar.managerUser.teacher"/></Link>
                 </Menu.Item>
-                <Menu.Item key="receptionist">
-                  <Link to="/receptionist">
+                <Menu.Item key="/admin/receptionist">
+                  <Link to="/admin/receptionist">
                     <IntlMessages id="sidebar.managerUser.receptionist"/></Link>
                 </Menu.Item>
               </Menu.SubMenu>
@@ -81,12 +81,12 @@ class SidebarContent extends Component {
                                 <i className="icon icon-ckeditor"/>
                                 <IntlMessages id="sidebar.managerStudy"/>
                               </span>}>
-                <Menu.Item key="courseCategory">
-                  <Link to="/course-category">
+                <Menu.Item key="/admin/course-category">
+                  <Link to="/admin/course-category">
                     <IntlMessages id="sidebar.managerStudy.courseCategory"/></Link>
                 </Menu.Item>
-                <Menu.Item key="course">
-                  <Link to="/course">
+                <Menu.Item key="/admin/course">
+                  <Link to="/admin/course">
                     <IntlMessages id="sidebar.managerStudy.course"/></Link>
                 </Menu.Item>
               </Menu.SubMenu>

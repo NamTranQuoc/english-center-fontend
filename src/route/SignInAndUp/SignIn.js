@@ -3,9 +3,8 @@ import {Button, Checkbox, Form, Icon, Input, message} from "antd";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {hideLoader, hideMessage, showLoader, userSignIn, userSignInSuccess,} from "../appRedux/actions";
-import IntlMessages from "../util/IntlMessages";
-import CircularProgress from "../components/CircularProgress";
+import {hideLoader, hideMessage, showLoader, userSignIn, userSignInSuccess,} from "../../appRedux/actions";
+import IntlMessages from "../../util/IntlMessages";
 
 const FormItem = Form.Item;
 
@@ -14,7 +13,6 @@ class SignIn extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.showLoader();
         this.props.userSignIn(values);
       }
     });
@@ -33,7 +31,7 @@ class SignIn extends React.Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {showMessage, loader, alertMessage} = this.props;
+    const {showMessage, alertMessage} = this.props;
 
     return (
       <div className="gx-app-login-wrap">
@@ -121,10 +119,6 @@ class SignIn extends React.Component {
               </Form>
             </div>
 
-            {loader ?
-              <div className="gx-loader-view">
-                <CircularProgress/>
-              </div> : null}
             {showMessage ?
               message.error(alertMessage.toString()) : null}
           </div>
@@ -136,9 +130,10 @@ class SignIn extends React.Component {
 
 const WrappedNormalLoginForm = Form.create()(SignIn);
 
-const mapStateToProps = ({auth}) => {
-  const {loader, alertMessage, showMessage, authUser} = auth;
-  return {loader, alertMessage, showMessage, authUser}
+const mapStateToProps = ({auth, common}) => {
+  const {authUser} = auth;
+  const {alertMessage, showMessage} = common;
+  return {alertMessage, showMessage, authUser}
 };
 
 export default connect(mapStateToProps, {
