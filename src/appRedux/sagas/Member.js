@@ -2,7 +2,7 @@ import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {GET_MEMBER} from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
-import {getListSuccess, showMessage} from "../actions";
+import {getListSuccess, hideLoader, showLoader, showMessage} from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
 
@@ -25,6 +25,7 @@ const getListMemberRequest = async (payload) =>
 
 function* getListMemberGenerate({payload}) {
     try {
+        yield put(showLoader());
         const response = yield call(getListMemberRequest, payload);
         if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
@@ -33,6 +34,8 @@ function* getListMemberGenerate({payload}) {
         }
     } catch (error) {
         yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
     }
 }
 

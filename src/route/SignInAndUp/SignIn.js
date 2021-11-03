@@ -3,9 +3,9 @@ import {Button, Checkbox, Form, Icon, Input, message} from "antd";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {hideLoader, hideMessage, showLoader, userSignIn, userSignInSuccess,} from "../appRedux/actions";
-import IntlMessages from "../util/IntlMessages";
-import CircularProgress from "../components/CircularProgress";
+import {hideLoader, hideMessage, showLoader, userSignIn, userSignInSuccess,} from "../../appRedux/actions";
+import IntlMessages from "../../util/IntlMessages";
+import CircularProgress from "../../components/CircularProgress";
 
 const FormItem = Form.Item;
 
@@ -14,7 +14,6 @@ class SignIn extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.showLoader();
         this.props.userSignIn(values);
       }
     });
@@ -136,8 +135,9 @@ class SignIn extends React.Component {
 
 const WrappedNormalLoginForm = Form.create()(SignIn);
 
-const mapStateToProps = ({auth}) => {
-  const {loader, alertMessage, showMessage, authUser} = auth;
+const mapStateToProps = ({auth, common}) => {
+  const {authUser} = auth;
+  const {loader, alertMessage, showMessage} = common;
   return {loader, alertMessage, showMessage, authUser}
 };
 

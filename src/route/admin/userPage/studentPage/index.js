@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Card, Form, Table} from "antd";
-import IntlMessages from "../../../util/IntlMessages";
-import {getListMember, showLoader} from "../../../appRedux/actions";
+import IntlMessages from "../../../../util/IntlMessages";
+import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
 
 const columns = [
@@ -97,9 +97,10 @@ function StudentPage(props) {
 
 const WrappedNormalLoginForm = Form.create()(StudentPage);
 
-const mapStateToProps = ({member}) => {
-    const {loader, alertMessage, showMessage, indexSelected, items, totalItems} = member;
-    return {loader, alertMessage, showMessage, indexSelected, items, totalItems}
+const mapStateToProps = ({getList, common}) => {
+    const {items, totalItems} = getList;
+    const {loader, alertMessage, showMessage} = common;
+    return {loader, alertMessage, showMessage, items, totalItems}
 };
 
 export default connect(mapStateToProps, {getListMember, showLoader})(WrappedNormalLoginForm);

@@ -1,4 +1,4 @@
-import {GET_LIST_STUDENT_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
+import {GET_LIST_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
 
 export const getListMember = (param) => {
     return {
@@ -9,7 +9,7 @@ export const getListMember = (param) => {
 
 export const getListSuccess = (payload) => {
     return {
-        type: GET_LIST_STUDENT_SUCCESS,
+        type: GET_LIST_SUCCESS,
         payload: payload
     };
 };

@@ -3,11 +3,11 @@ import {Button, Checkbox, Form, Icon, Input} from "antd";
 import {Link} from "react-router-dom";
 
 import {connect} from "react-redux";
-import {hideMessage, showLoader, userSignUp,} from "../appRedux/actions";
+import {hideMessage, showLoader, userSignUp,} from "../../appRedux/actions";
 
-import IntlMessages from "../util/IntlMessages";
+import IntlMessages from "../../util/IntlMessages";
 import {message} from "antd/lib/index";
-import CircularProgress from "../components/CircularProgress";
+import CircularProgress from "../../components/CircularProgress";
 
 const FormItem = Form.Item;
 

@@ -1,11 +1,10 @@
 import React, {Component} from "react";
 import {Layout} from "antd";
 
-import Sidebar from "../Sidebar/index";
-
-import Topbar from "../Topbar/index";
+import Sidebar from "../../components/Sidebar/index";
+import Topbar from "../../components/Topbar/index";
 import {footerText} from "../../util/config";
-import App from "../../routes/index";
+import App from "../../route/admin";
 import {connect} from "react-redux";
 import {
     NAV_STYLE_ABOVE_HEADER,

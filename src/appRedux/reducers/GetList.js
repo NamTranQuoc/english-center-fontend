@@ -1,12 +1,6 @@
-import {GET_LIST_STUDENT_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
+import {GET_LIST_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
 
 const INIT_STATE = {
-    alertMessage: "",
-    showMessage: false,
-    initURL: "",
-    authUser: localStorage.getItem('token'),
-    indexSelected: -1,
-    loader: false,
     items: [],
     totalItems: 0
 };
@@ -17,11 +11,12 @@ export default (state = INIT_STATE, action) => {
         case GET_MEMBER: {
             return {
                 ...state,
+                items: [],
                 loader: true,
                 param: action.payload
             }
         }
-        case GET_LIST_STUDENT_SUCCESS: {
+        case GET_LIST_SUCCESS: {
             return {
                 ...state,
                 loader: false,
