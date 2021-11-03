@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 
 import {hideLoader, hideMessage, showLoader, userSignIn, userSignInSuccess,} from "../../appRedux/actions";
 import IntlMessages from "../../util/IntlMessages";
-import CircularProgress from "../../components/CircularProgress";
 
 const FormItem = Form.Item;
 
@@ -32,7 +31,7 @@ class SignIn extends React.Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {showMessage, loader, alertMessage} = this.props;
+    const {showMessage, alertMessage} = this.props;
 
     return (
       <div className="gx-app-login-wrap">
@@ -120,10 +119,6 @@ class SignIn extends React.Component {
               </Form>
             </div>
 
-            {loader ?
-              <div className="gx-loader-view">
-                <CircularProgress/>
-              </div> : null}
             {showMessage ?
               message.error(alertMessage.toString()) : null}
           </div>
@@ -137,8 +132,8 @@ const WrappedNormalLoginForm = Form.create()(SignIn);
 
 const mapStateToProps = ({auth, common}) => {
   const {authUser} = auth;
-  const {loader, alertMessage, showMessage} = common;
-  return {loader, alertMessage, showMessage, authUser}
+  const {alertMessage, showMessage} = common;
+  return {alertMessage, showMessage, authUser}
 };
 
 export default connect(mapStateToProps, {

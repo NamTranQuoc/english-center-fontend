@@ -1,4 +1,11 @@
-import {HIDE_MESSAGE, INIT_URL, ON_HIDE_LOADER, ON_SHOW_LOADER, SHOW_MESSAGE} from "../../constants/ActionTypes";
+import {
+    HIDE_MESSAGE,
+    INIT_URL,
+    ON_HIDE_LOADER,
+    ON_HIDE_LOADER_TABLE,
+    ON_SHOW_LOADER,
+    SHOW_MESSAGE
+} from "../../constants/ActionTypes";
 
 export const showMessage = (message) => {
     return {
@@ -25,8 +32,15 @@ export const hideMessage = () => {
         type: HIDE_MESSAGE,
     };
 };
+
 export const hideLoader = () => {
     return {
         type: ON_HIDE_LOADER,
+    };
+};
+
+export const hideLoaderTable = () => {
+    return {
+        type: ON_HIDE_LOADER_TABLE,
     };
 };

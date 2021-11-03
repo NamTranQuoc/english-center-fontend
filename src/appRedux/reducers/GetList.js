@@ -1,8 +1,9 @@
-import {GET_LIST_SUCCESS, GET_MEMBER} from "../../constants/ActionTypes";
+import {GET_LIST_SUCCESS, GET_MEMBER, ON_HIDE_LOADER_TABLE} from "../../constants/ActionTypes";
 
 const INIT_STATE = {
     items: [],
-    totalItems: 0
+    totalItems: 0,
+    loaderTable: false
 };
 
 
@@ -12,16 +13,21 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 items: [],
-                loader: true,
+                loaderTable: true,
                 param: action.payload
             }
         }
         case GET_LIST_SUCCESS: {
             return {
                 ...state,
-                loader: false,
                 items: action.payload.items,
                 totalItems: action.payload.total_items
+            }
+        }
+        case ON_HIDE_LOADER_TABLE: {
+            return {
+                ...state,
+                loaderTable: false,
             }
         }
         default:

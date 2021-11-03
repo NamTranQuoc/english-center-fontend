@@ -21,4 +21,5 @@ export const INIT_URL = 'INIT_URL';
 //Member
 export const GET_MEMBER = 'GET_MEMBER';
 export const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
+export const ON_HIDE_LOADER_TABLE = "ON_HIDE_LOADER_TABLE";
 

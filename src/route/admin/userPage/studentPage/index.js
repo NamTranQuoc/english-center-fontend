@@ -78,7 +78,7 @@ function StudentPage(props) {
         <Card title={<IntlMessages id="admin.user.student.title"/>}>
             <Table dataSource={props.items}
                    columns={columns}
-                   loading={props.loader}
+                   loading={props.loaderTable}
                    onChange={onChange}
                    scroll={{y: 520}} pagination={
                 {
@@ -98,9 +98,9 @@ function StudentPage(props) {
 const WrappedNormalLoginForm = Form.create()(StudentPage);
 
 const mapStateToProps = ({getList, common}) => {
-    const {items, totalItems} = getList;
-    const {loader, alertMessage, showMessage} = common;
-    return {loader, alertMessage, showMessage, items, totalItems}
+    const {loaderTable, items, totalItems} = getList;
+    const {alertMessage, showMessage} = common;
+    return {loaderTable, alertMessage, showMessage, items, totalItems}
 };
 
 export default connect(mapStateToProps, {getListMember, showLoader})(WrappedNormalLoginForm);
