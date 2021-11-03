@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Card, Form, Table} from "antd";
-import IntlMessages from "../../../util/IntlMessages";
-import {getListMember, showLoader} from "../../../appRedux/actions";
+import IntlMessages from "../../../../util/IntlMessages";
+import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
 
 const columns = [
@@ -78,7 +78,7 @@ function StudentPage(props) {
         <Card title={<IntlMessages id="admin.user.student.title"/>}>
             <Table dataSource={props.items}
                    columns={columns}
-                   loading={props.loader}
+                   loading={props.loaderTable}
                    onChange={onChange}
                    scroll={{y: 520}} pagination={
                 {
@@ -97,9 +97,10 @@ function StudentPage(props) {
 
 const WrappedNormalLoginForm = Form.create()(StudentPage);
 
-const mapStateToProps = ({member}) => {
-    const {loader, alertMessage, showMessage, indexSelected, items, totalItems} = member;
-    return {loader, alertMessage, showMessage, indexSelected, items, totalItems}
+const mapStateToProps = ({getList, common}) => {
+    const {loaderTable, items, totalItems} = getList;
+    const {alertMessage, showMessage} = common;
+    return {loaderTable, alertMessage, showMessage, items, totalItems}
 };
 
 export default connect(mapStateToProps, {getListMember, showLoader})(WrappedNormalLoginForm);

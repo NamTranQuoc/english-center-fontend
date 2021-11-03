@@ -6,7 +6,7 @@ import {Route, Switch} from "react-router-dom";
 import "./assets/vendors/style";
 import "./styles/wieldy.less";
 import configureStore, {history} from "./appRedux/store";
-import App from "./containers/App/index";
+import AppRoute from "./route";
 
 
 export const store = configureStore();
@@ -15,7 +15,7 @@ const NextApp = () =>
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
-        <Route path="/" component={App}/>
+        <Route path="/" component={AppRoute}/>
       </Switch>
     </ConnectedRouter>
   </Provider>;

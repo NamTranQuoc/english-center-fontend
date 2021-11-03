@@ -1,24 +1,23 @@
 import React, {Component} from "react";
 import {Layout} from "antd";
 
-import Sidebar from "../Sidebar/index";
-
-import Topbar from "../Topbar/index";
+import Sidebar from "../../components/Sidebar/index";
+import Topbar from "../../components/Topbar/index";
 import {footerText} from "../../util/config";
-import App from "../../routes/index";
+import App from "../../route/admin";
 import {connect} from "react-redux";
 import {
-    NAV_STYLE_ABOVE_HEADER,
-    NAV_STYLE_BELOW_HEADER,
-    NAV_STYLE_DARK_HORIZONTAL,
-    NAV_STYLE_DEFAULT_HORIZONTAL,
-    NAV_STYLE_DRAWER,
-    NAV_STYLE_FIXED,
-    NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
-    NAV_STYLE_MINI_SIDEBAR,
-    NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-    NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
-    TAB_SIZE
+  NAV_STYLE_ABOVE_HEADER,
+  NAV_STYLE_BELOW_HEADER,
+  NAV_STYLE_DARK_HORIZONTAL,
+  NAV_STYLE_DEFAULT_HORIZONTAL,
+  NAV_STYLE_DRAWER,
+  NAV_STYLE_FIXED,
+  NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
+  NAV_STYLE_MINI_SIDEBAR,
+  NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
+  NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
+  TAB_SIZE
 } from "../../constants/ThemeSetting";
 
 const {Content, Footer} = Layout;
