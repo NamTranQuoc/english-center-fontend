@@ -1,4 +1,5 @@
 import {
+    CLEAR_ITEMS,
     HIDE_MESSAGE,
     INIT_URL,
     ON_HIDE_LOADER,
@@ -44,3 +45,9 @@ export const hideLoaderTable = () => {
         type: ON_HIDE_LOADER_TABLE,
     };
 };
+
+export const clearItems = () => {
+    return {
+        type: CLEAR_ITEMS,
+    }
+}
