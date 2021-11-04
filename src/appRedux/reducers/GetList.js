@@ -1,4 +1,4 @@
-import {GET_LIST_SUCCESS, GET_MEMBER, ON_HIDE_LOADER_TABLE} from "../../constants/ActionTypes";
+import {CLEAR_ITEMS, GET_LIST_SUCCESS, GET_MEMBER, ON_HIDE_LOADER_TABLE} from "../../constants/ActionTypes";
 
 const INIT_STATE = {
     items: [],
@@ -12,7 +12,6 @@ export default (state = INIT_STATE, action) => {
         case GET_MEMBER: {
             return {
                 ...state,
-                items: [],
                 loaderTable: true,
                 param: action.payload
             }
@@ -28,6 +27,13 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 loaderTable: false,
+            }
+        }
+        case CLEAR_ITEMS: {
+            return {
+                ...state,
+                items: [],
+                totalItems: 0,
             }
         }
         default:

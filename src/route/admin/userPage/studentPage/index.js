@@ -67,7 +67,9 @@ function StudentPage(props) {
     }
 
     useEffect(() => {
-        props.getListMember(param);
+        if (props.items.length === 0) {
+            props.getListMember(param);
+        }
     }, []);
 
     function showTotalItems(total) {
