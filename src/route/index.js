@@ -10,6 +10,7 @@ import AppLocale from "../lngProvider";
 import MainApp from "./admin/MainApp";
 import Home from "./user";
 import CircularProgress from "../components/CircularProgress";
+import {NotificationContainer} from "react-notifications";
 
 const RestrictedRoute = ({component: Component, authUser, ...rest}) =>
     <Route
@@ -27,8 +28,6 @@ const RestrictedRoute = ({component: Component, authUser, ...rest}) =>
 
 function AppRoute(props) {
     const currentAppLocale = AppLocale[props.locale.locale];
-
-    console.log(props.initURL)
     if (props.initURL === "/signin") {
         if (props.authUser != null) {
             props.setInitUrl("/admin/dashboard");
@@ -41,22 +40,28 @@ function AppRoute(props) {
             props.setInitUrl(props.history.location.pathname);
         }
     }
+
     return (
-        <>
+        <div>
             <ConfigProvider locale={currentAppLocale.antd}>
+                <CircularProgress/>
                 <IntlProvider
                     locale={currentAppLocale.locale}
                     messages={currentAppLocale.messages}>
                     <Switch>
-                        <Route exact path={`${props.match.url}`} component={Home}/>
-                        <Route path={`${props.match.url}signin`} component={SignIn}/>
-                        <Route path={`${props.match.url}signup`} component={SignUp}/>
-                        <RestrictedRoute path={`${props.match.url}`} authUser={props.authUser} component={MainApp}/>
+                        <Route path={"/signin"} component={SignIn}/>
+                        <Route path={"/signup"} component={SignUp}/>
+                        <RestrictedRoute path={"/admin"} authUser={props.authUser} component={MainApp}/>
+                        <Route path={"/"} component={Home}/>
                     </Switch>
                 </IntlProvider>
+                <IntlProvider
+                    locale={currentAppLocale.locale}
+                    messages={currentAppLocale.messages}>
+                    <NotificationContainer/>
+                </IntlProvider>
             </ConfigProvider>
-            {props.loader ? <div className="gx-loader-view"><CircularProgress/></div> : null}
-        </>
+        </div>
     );
 }
 

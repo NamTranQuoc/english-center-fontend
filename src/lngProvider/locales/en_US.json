@@ -20,5 +20,12 @@
   "appModule.termAndCondition" : "Term and Condition",
   "app.userAuth.or" : "Or",
   "app.userAuth.signUp" : "SignUp",
-  "table.total.items": "Total"
+  "table.total.items": "Total",
+  "notification.member_not_exist": "Member not found",
+  "notification.success_update": "Success update",
+  "notification.success_add": "Success add",
+  "notification.member_type_deny": "Authentication error",
+  "notification.member_exist": "Member already exists",
+  "notification.password_incorrect": "Incorrect password",
+  "notification.param_not_null": "The input data is incomplete"
 }

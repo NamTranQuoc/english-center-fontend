@@ -20,5 +20,12 @@
   "appModule.termAndCondition" : "Điều kiện và điều khoản",
   "app.userAuth.or" : "Hoặc",
   "app.userAuth.signUp" : "Đằng ký",
-  "table.total.items": "Tổng"
+  "table.total.items": "Tổng",
+  "notification.member_not_exist": "Người dùng này không tồn tại",
+  "notification.success_update": "Cập nhập thành công",
+  "notification.success_add": "Thêm thành công",
+  "notification.member_type_deny": "Lỗi xác thực",
+  "notification.member_exist": "Người dùng đã tồn tại",
+  "notification.password_incorrect": "Mật khẩu không chính xác",
+  "notification.param_not_null": "Dữ liệu đầu vào không đầy đủ"
 }
