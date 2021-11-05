@@ -3,11 +3,11 @@ import appLocaleData from "react-intl/locale-data/vi";
 import viMessages from "../locales/vi_VN.json";
 
 const ViLang = {
-  messages: {
-    ...viMessages
-  },
-  antd: antdVi,
-  locale: 'vi',
-  data: appLocaleData
+    messages: {
+        ...viMessages
+    },
+    antd: antdVi,
+    locale: 'vi',
+    data: appLocaleData
 };
 export default ViLang;
