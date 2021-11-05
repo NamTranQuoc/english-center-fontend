@@ -9,61 +9,61 @@ import {
 } from "../../constants/ThemeSetting";
 
 const initialSettings = {
-  navCollapsed: true,
-  navStyle: NAV_STYLE_FIXED,
-  layoutType: LAYOUT_TYPE_FULL,
-  themeType: THEME_TYPE_SEMI_DARK,
-  colorSelection: THEME_COLOR_SELECTION_PRESET,
+    navCollapsed: true,
+    navStyle: NAV_STYLE_FIXED,
+    layoutType: LAYOUT_TYPE_FULL,
+    themeType: THEME_TYPE_SEMI_DARK,
+    colorSelection: THEME_COLOR_SELECTION_PRESET,
 
-  pathname: '',
-  width: window.innerWidth,
-  isDirectionRTL: false,
-  locale: {
-    languageId: 'vietnam',
-    locale: 'vi',
-    name: 'Việt Nam',
-    icon: 'vn'
-  }
+    pathname: '',
+    width: window.innerWidth,
+    isDirectionRTL: false,
+    locale: {
+        languageId: 'vietnam',
+        locale: 'vi',
+        name: 'Việt Nam',
+        icon: 'vn'
+    }
 };
 
 const settings = (state = initialSettings, action) => {
-  switch (action.type) {
-    case '@@router/LOCATION_CHANGE':
-      return {
-        ...state,
-        pathname: action.payload.pathname,
-        navCollapsed: false
-      };
-    case TOGGLE_COLLAPSED_NAV:
-      return {
-        ...state,
-        navCollapsed: action.navCollapsed
-      };
-    case WINDOW_WIDTH:
-      return {
-        ...state,
-        width: action.width,
-      };
-    case NAV_STYLE:
-      return {
-        ...state,
-        navStyle: action.navStyle
-      };
-    case LAYOUT_TYPE:
-      return {
-        ...state,
-        layoutType: action.layoutType
-      };
+    switch (action.type) {
+        case '@@router/LOCATION_CHANGE':
+            return {
+                ...state,
+                pathname: action.payload.pathname,
+                navCollapsed: false
+            };
+        case TOGGLE_COLLAPSED_NAV:
+            return {
+                ...state,
+                navCollapsed: action.navCollapsed
+            };
+        case WINDOW_WIDTH:
+            return {
+                ...state,
+                width: action.width,
+            };
+        case NAV_STYLE:
+            return {
+                ...state,
+                navStyle: action.navStyle
+            };
+        case LAYOUT_TYPE:
+            return {
+                ...state,
+                layoutType: action.layoutType
+            };
 
-    case SWITCH_LANGUAGE:
-      return {
-        ...state,
-        locale: action.payload,
+        case SWITCH_LANGUAGE:
+            return {
+                ...state,
+                locale: action.payload,
 
-      };
-    default:
-      return state;
-  }
+            };
+        default:
+            return state;
+    }
 };
 
 export default settings;

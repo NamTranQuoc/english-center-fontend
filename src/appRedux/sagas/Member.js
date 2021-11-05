@@ -15,7 +15,8 @@ const getListMemberRequest = async (payload) =>
             types: payload.types,
             keyword: payload.keyword,
             from_date: payload.from_date,
-            to_date: payload.to_date
+            to_date: payload.to_date,
+            genders: payload.genders
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),

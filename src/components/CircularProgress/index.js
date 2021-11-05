@@ -7,7 +7,8 @@ function CircularProgress(props) {
     console.log(props.loader);
     if (props.loader) {
         return (
-            <div style={{    width: "100vw",
+            <div style={{
+                width: "100vw",
                 height: "100vh",
                 display: "flex",
                 alignItems: "center",
