@@ -31,5 +31,6 @@
   "notification.member_type_deny": "Authentication error",
   "notification.member_exist": "Member already exists",
   "notification.password_incorrect": "Incorrect password",
-  "notification.param_not_null": "The input data is incomplete"
+  "notification.param_not_null": "The input data is incomplete",
+  "table.search": "Search"
 }
