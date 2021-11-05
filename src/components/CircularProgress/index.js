@@ -1,7 +1,32 @@
 import React from "react";
-import loader from "../../assets/images/loader.svg"
+import image from "../../assets/images/loader.svg"
+import {Form} from "antd";
+import {connect} from "react-redux";
 
-const CircularProgress = ({className}) => <div className={`loader ${className}`}>
-  <img src={loader} alt="loader"/>
-</div>;
-export default CircularProgress;
+function CircularProgress(props) {
+    console.log(props.loader);
+    if (props.loader) {
+        return (
+            <div style={{    width: "100vw",
+                height: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+                zIndex: "99999"
+            }}>
+                <img height={100} width={100} src={image} alt="loader"/>
+            </div>
+        );
+    }
+    return null;
+}
+
+const WrappedNormalLoginForm = Form.create()(CircularProgress);
+
+const mapStateToProps = ({common}) => {
+    const {loader} = common;
+    return {loader}
+};
+
+export default connect(mapStateToProps, {})(WrappedNormalLoginForm);

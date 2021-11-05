@@ -8,10 +8,10 @@ import {
     SHOW_MESSAGE
 } from "../../constants/ActionTypes";
 
-export const showMessage = (message) => {
+export const showMessage = (payload) => {
     return {
         type: SHOW_MESSAGE,
-        payload: message
+        payload: payload
     };
 };
 

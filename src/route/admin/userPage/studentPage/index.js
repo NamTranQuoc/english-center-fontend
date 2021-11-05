@@ -6,30 +6,35 @@ import {connect} from "react-redux";
 
 const columns = [
     {
+        key: "index",
         title: <IntlMessages id="admin.user.student.table.index"/>,
         dataIndex: "index",
         render: (text, record, index) => index + 1,
         width: '10%',
     },
     {
+        key: "_id",
         title: <IntlMessages id="admin.user.student.table.id"/>,
         dataIndex: "_id",
         width: "25%",
         sorter: true
     },
     {
+        key: "name",
         title: <IntlMessages id="admin.user.student.table.name"/>,
         dataIndex: "name",
         width: "30%",
         sorter: true
     },
     {
+        key: "email",
         title: <IntlMessages id="admin.user.student.table.email"/>,
         dataIndex: "email",
         width: "20%",
         sorter: true
     },
     {
+        key: "create_date",
         title: <IntlMessages id="admin.user.student.table.createdDate"/>,
         dataIndex: "create_date",
         width: "15%",
