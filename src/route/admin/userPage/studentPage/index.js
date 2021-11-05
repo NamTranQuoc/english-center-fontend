@@ -3,6 +3,7 @@ import {Card, Form, Table} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
+import {getDate, getGender} from "../../../../util/ParseUtils";
 
 const columns = [
     {
@@ -23,7 +24,30 @@ const columns = [
         key: "name",
         title: <IntlMessages id="admin.user.student.table.name"/>,
         dataIndex: "name",
-        width: "30%",
+        width: "20%",
+        sorter: true
+    },
+    {
+        key: "gender",
+        title: <IntlMessages id="admin.user.student.table.gender"/>,
+        dataIndex: "gender",
+        render: (gender) => getGender(gender),
+        width: "10%",
+        filters: [
+            {
+                text: getGender("male"),
+                value: "male",
+            },
+            {
+                text: getGender("female"),
+                value: "female",
+            },
+            {
+                text: getGender("other"),
+                value: "other",
+            }
+        ],
+        filterSearch: true,
         sorter: true
     },
     {
@@ -37,6 +61,7 @@ const columns = [
         key: "create_date",
         title: <IntlMessages id="admin.user.student.table.createdDate"/>,
         dataIndex: "create_date",
+        render: (create_date) => getDate(create_date),
         width: "15%",
         sorter: true
     },
@@ -53,7 +78,7 @@ function StudentPage(props) {
         types: ["student"],
     };
 
-    function onChange(pagination, filters, sorter, extra) {
+    function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
             param = {
                 ...param,
@@ -67,6 +92,13 @@ function StudentPage(props) {
             ...param,
             page: pagination.current,
             size: pagination.pageSize
+        }
+        console.log();
+        if (filters.hasOwnProperty("gender")) {
+            param = {
+                ...param,
+                genders: filters.gender
+            }
         }
         props.getListMember(param);
     }
