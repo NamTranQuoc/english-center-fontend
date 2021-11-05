@@ -7,11 +7,11 @@ import Common from "./Common";
 
 
 const reducers = combineReducers({
-  routing: routerReducer,
-  settings: Settings,
-  common: Common,
-  auth: Auth,
-  getList: GetList,
+    routing: routerReducer,
+    settings: Settings,
+    common: Common,
+    auth: Auth,
+    getList: GetList,
 });
 
 export default reducers;

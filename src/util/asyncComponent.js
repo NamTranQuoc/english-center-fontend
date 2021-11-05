@@ -36,7 +36,7 @@ export default function asyncComponent(importComponent) {
         render() {
             const Component = this.state.component || null;
             return (
-                <ReactPlaceholder type="text" rows={7} ready={Component !== null}>
+                <ReactPlaceholder ready={Component !== null}>
                     {Component}
                 </ReactPlaceholder>
             );
