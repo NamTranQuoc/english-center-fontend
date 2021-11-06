@@ -9,11 +9,7 @@ import SidebarLogo from "./SidebarLogo";
 import Auxiliary from "../../util/Auxiliary";
 import UserProfile from "./UserProfile";
 import AppsNavigation from "./AppsNavigation";
-import {
-    NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-    NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
-    THEME_TYPE_LITE
-} from "../../constants/ThemeSetting";
+import {NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR, NAV_STYLE_NO_HEADER_MINI_SIDEBAR} from "../../constants/ThemeSetting";
 import IntlMessages from "../../util/IntlMessages";
 
 class SidebarContent extends Component {
@@ -24,22 +20,15 @@ class SidebarContent extends Component {
         }
         return "";
     };
-    getNavStyleSubMenuClass = (navStyle) => {
-        if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR) {
-            return "gx-no-header-submenu-popup";
-        }
-        return "";
-    };
 
     render() {
-        const {themeType, navStyle, pathname} = this.props;
+        const {pathname} = this.props;
         const selectedKeys = pathname;
         const defaultOpenKeys = "/admin/dashboard";
         return (<Auxiliary>
-
                 <SidebarLogo/>
                 <div className="gx-sidebar-content">
-                    <div className={`gx-sidebar-notifications ${this.getNoHeaderClass(navStyle)}`}>
+                    <div className={`gx-sidebar-notifications`}>
                         <UserProfile/>
                         <AppsNavigation/>
                     </div>
@@ -47,35 +36,37 @@ class SidebarContent extends Component {
                         <Menu
                             defaultOpenKeys={[defaultOpenKeys]}
                             selectedKeys={[selectedKeys]}
-                            theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
-                            mode="inline">
+                            mode="inline"
+                            theme="dark">
 
                             <Menu.Item key="/admin/dashboard">
                                 <Link to="/admin/dashboard"><i className="icon icon-widgets"/>
-                                    <IntlMessages id="sidebar.dashboard"/></Link>
+                                    <IntlMessages id="sidebar.dashboard"/>
+                                </Link>
                             </Menu.Item>
                             <Menu.SubMenu key="managerUser"
-                                          className={this.getNavStyleSubMenuClass(navStyle)}
                                           title={
                                               <span>
-                                <i className="icon icon-avatar"/>
-                                <IntlMessages id="sidebar.managerUser"/>
-                              </span>}>
+                                                  <i className="icon icon-avatar"/><IntlMessages
+                                                  id="sidebar.managerUser"/>
+                                              </span>}>
                                 <Menu.Item key="/admin/student">
                                     <Link to="/admin/student">
-                                        <IntlMessages id="sidebar.managerUser.student"/></Link>
+                                        <IntlMessages id="sidebar.managerUser.student"/>
+                                    </Link>
                                 </Menu.Item>
                                 <Menu.Item key="/admin/teacher">
                                     <Link to="/admin/teacher">
-                                        <IntlMessages id="sidebar.managerUser.teacher"/></Link>
+                                        <IntlMessages id="sidebar.managerUser.teacher"/>
+                                    </Link>
                                 </Menu.Item>
                                 <Menu.Item key="/admin/receptionist">
                                     <Link to="/admin/receptionist">
-                                        <IntlMessages id="sidebar.managerUser.receptionist"/></Link>
+                                        <IntlMessages id="sidebar.managerUser.receptionist"/>
+                                    </Link>
                                 </Menu.Item>
                             </Menu.SubMenu>
                             <Menu.SubMenu key="managerStudy"
-                                          className={this.getNavStyleSubMenuClass(navStyle)}
                                           title={
                                               <span>
                                 <i className="icon icon-ckeditor"/>
@@ -83,14 +74,15 @@ class SidebarContent extends Component {
                               </span>}>
                                 <Menu.Item key="/admin/course-category">
                                     <Link to="/admin/course-category">
-                                        <IntlMessages id="sidebar.managerStudy.courseCategory"/></Link>
+                                        <IntlMessages id="sidebar.managerStudy.courseCategory"/>
+                                    </Link>
                                 </Menu.Item>
                                 <Menu.Item key="/admin/course">
                                     <Link to="/admin/course">
-                                        <IntlMessages id="sidebar.managerStudy.course"/></Link>
+                                        <IntlMessages id="sidebar.managerStudy.course"/>
+                                    </Link>
                                 </Menu.Item>
                             </Menu.SubMenu>
-
                         </Menu>
                     </CustomScrollbars>
                 </div>
@@ -101,8 +93,8 @@ class SidebarContent extends Component {
 
 SidebarContent.propTypes = {};
 const mapStateToProps = ({settings}) => {
-    const {navStyle, themeType, locale, pathname} = settings;
-    return {navStyle, themeType, locale, pathname}
+    const {navStyle, locale, pathname} = settings;
+    return {navStyle, locale, pathname}
 };
 export default connect(mapStateToProps)(SidebarContent);
 
