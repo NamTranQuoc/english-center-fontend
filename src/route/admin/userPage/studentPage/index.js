@@ -1,54 +1,52 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Form, Icon, Input, Select, Table} from "antd";
+import {Button, Card, Col, DatePicker, Form, Icon, Input, Modal, Row, Select, Table} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
 import {getDate, getGender} from "../../../../util/ParseUtils";
-import { DatePicker } from 'antd';
+import TextArea from "antd/es/input/TextArea";
 
-const { RangePicker } = DatePicker;
+const {RangePicker} = DatePicker;
+
+let param = {
+    page: 1,
+    size: 10,
+    sort: {
+        is_asc: true,
+        field: "_id"
+    },
+    types: ["student"],
+    keyword: "",
+    genders: []
+}
 
 function StudentPage(props) {
-    const [param, setParam] = useState({
-        page: 1,
-        size: 10,
-        sort: {
-            is_asc: true,
-            field: "_id"
-        },
-        types: ["student"],
-    })
+    const [showModal, setShowModal] = useState(false);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
-            setParam(param => ({
+            param = {
                 ...param,
                 sort: {
                     is_asc: sorter.order === "ascend",
                     field: sorter.columnKey
                 }
-            }));
+            }
         }
-        setParam(param => ({
+        param = {
             ...param,
             page: pagination.current,
             size: pagination.pageSize
-        }));
-        if (filters.hasOwnProperty("gender")) {
-            setParam(param => ({
-                ...param,
-                genders: filters.gender
-            }));
         }
         props.getListMember(param);
     }
 
     function onSearch(e) {
-        const value = e.target.value
-        setParam(param => ({
+        param = {
             ...param,
-            keyword: value,
-        }));
+            keyword: e.target.value,
+            page: 1
+        }
         props.getListMember(param);
     }
 
@@ -64,29 +62,54 @@ function StudentPage(props) {
 
     function onFilterGender(e) {
         const genders = Array.isArray(e) ? e.map((x) => x) : []
-        setParam(param => ({
+        param = {
             ...param,
-            genders: genders
-        }));
+            genders: genders,
+            page: 1
+        }
         props.getListMember(param);
+    }
+
+    function onFilterDate(dates) {
+        if (dates != null && dates[0] != null && dates[1] != null) {
+            param = {
+                ...param,
+                from_date: dates[0].unix() * 1000,
+                to_date: dates[1].unix() * 1000,
+                page: 1
+            }
+            props.getListMember(param);
+        }
+    }
+
+    function onShow() {
+        console.log(showModal);
+        setShowModal(!showModal);
     }
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.student.title"/></h2>}
-            extra={<Button type="primary" shape="circle" icon="plus" size="large" style={{float: "right"}} />}>
+              extra={<Button type="primary" shape="circle" icon="plus" size="large" style={{float: "right"}}
+                             onClick={onShow}/>}>
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
                            name="genders"
                            style={{marginLeft: "10px", marginRight: "10px"}}>
-                    <Select mode="multiple" style={{minWidth: "100px"}} onChange={onFilterGender}>
-                        <Select.Option key="male">{getGender("male")}</Select.Option>
-                        <Select.Option key="female">{getGender("female")}</Select.Option>
-                        <Select.Option key="other">{getGender("other")}</Select.Option>
-                    </Select>
+                    <IntlMessages id="admin.user.gender.male">
+                        {placeholder => <Select mode="multiple" style={{minWidth: "100px"}} onChange={onFilterGender}
+                                                placeholder={placeholder}>
+                            <Select.Option key="male">{getGender("male")}</Select.Option>
+                            <Select.Option key="female">{getGender("female")}</Select.Option>
+                            <Select.Option key="other">{getGender("other")}</Select.Option>
+                        </Select>
+                        }
+                    </IntlMessages>
                 </Form.Item>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.createdDate"/>}
                            name="createdDate">
-                    <RangePicker showTime style={{width: "auto"}}/>
+                    <RangePicker showTime style={{width: "150px"}} onOk={onFilterDate}
+                                 placeholder={props.locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
+                    />
                 </Form.Item>
             </Form>
             <IntlMessages id="table.search">
@@ -158,16 +181,67 @@ function StudentPage(props) {
                     pageSizeOptions: ["10", "15", "20"]
                 }
             }/>
+            <Modal
+                title="Thông tin loại khóa học"
+                visible={showModal}
+                footer={
+                    <Button type="primary" form={"normal_login"} htmlType="submit">Lưu</Button>
+                }
+                onCancel={onShow}
+            >
+                <Form
+                >
+                    <Row gutter={24}>
+                        <Col span={12}>
+                            <Form.Item
+                                label={"Tên loại khóa học"}
+                                name="category_name"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Vui lòng nhập tên loại khóa học!',
+                                    },
+                                ]}
+                            >
+                                <Input placeholder="Toeic"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label="Trạng thái"
+                                       name="status"
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: 'Vui lòng nhập tên loại khóa học!',
+                                           },
+                                       ]}>
+                                <Select>
+                                    <Select.Option value="ACTIVE">Hoạt động</Select.Option>
+                                    <Select.Option value="INACTIVE">Không hoạt động</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={24}>
+                        <Col span={24}>
+                            <Form.Item label={"Mô tả"} name="description">
+                                <TextArea rows={4}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </Form>
+            </Modal>
         </Card>
     );
 }
 
 const WrappedNormalLoginForm = Form.create()(StudentPage);
 
-const mapStateToProps = ({getList, common}) => {
+const mapStateToProps = ({getList, common, settings}) => {
     const {loaderTable, items, totalItems} = getList;
     const {alertMessage, showMessage} = common;
-    return {loaderTable, alertMessage, showMessage, items, totalItems}
+    const {locale} = settings;
+    return {loaderTable, alertMessage, showMessage, items, totalItems, locale}
 };
 
 export default connect(mapStateToProps, {getListMember, showLoader})(WrappedNormalLoginForm);

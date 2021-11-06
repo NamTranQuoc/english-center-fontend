@@ -18,12 +18,12 @@ const initialSettings = {
     pathname: '',
     width: window.innerWidth,
     isDirectionRTL: false,
-    locale: {
+    locale: localStorage.getItem('locale') == null ? {
         languageId: 'vietnam',
         locale: 'vi',
         name: 'Việt Nam',
         icon: 'vn'
-    }
+    } : JSON.parse(localStorage.getItem('locale'))
 };
 
 const settings = (state = initialSettings, action) => {
@@ -59,7 +59,6 @@ const settings = (state = initialSettings, action) => {
             return {
                 ...state,
                 locale: action.payload,
-
             };
         default:
             return state;

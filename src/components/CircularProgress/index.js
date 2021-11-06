@@ -4,7 +4,6 @@ import {Form} from "antd";
 import {connect} from "react-redux";
 
 function CircularProgress(props) {
-    console.log(props.loader);
     if (props.loader) {
         return (
             <div style={{
