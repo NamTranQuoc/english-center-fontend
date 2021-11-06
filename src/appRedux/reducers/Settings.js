@@ -59,7 +59,6 @@ const settings = (state = initialSettings, action) => {
             return {
                 ...state,
                 locale: action.payload,
-
             };
         default:
             return state;

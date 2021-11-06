@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import Nprogress from "nprogress";
 import ReactPlaceholder from "react-placeholder";
 import "nprogress/nprogress.css";
+import image from "../assets/images/loader.svg"
 
 import "react-placeholder/lib/reactPlaceholder.css";
 
@@ -14,10 +14,6 @@ export default function asyncComponent(importComponent) {
             };
         }
 
-        componentWillMount() {
-            Nprogress.start();
-        }
-
         componentWillUnmount() {
             this.mounted = false;
         }
@@ -25,7 +21,6 @@ export default function asyncComponent(importComponent) {
         async componentDidMount() {
             this.mounted = true;
             const {default: Component} = await importComponent();
-            Nprogress.done();
             if (this.mounted) {
                 this.setState({
                     component: <Component {...this.props} />
@@ -34,7 +29,19 @@ export default function asyncComponent(importComponent) {
         }
 
         render() {
-            const Component = this.state.component || null;
+            const Component = this.state.component || (<div style={{
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+                zIndex: "99999"
+            }}>
+                <img height={100} width={100} src={image} alt="loader"/>
+            </div>);
             return (
                 <ReactPlaceholder ready={Component !== null}>
                     {Component}

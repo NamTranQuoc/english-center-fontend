@@ -40,7 +40,6 @@ function AppRoute(props) {
             props.setInitUrl(props.history.location.pathname);
         }
     }
-
     return (
         <div>
             <ConfigProvider locale={currentAppLocale.antd}>
@@ -66,9 +65,9 @@ function AppRoute(props) {
 }
 
 const mapStateToProps = ({settings, auth, common}) => {
-    const {locale, navStyle, themeType, layoutType} = settings;
+    const {locale} = settings;
     const {authUser} = auth;
     const {initURL, loader} = common;
-    return {locale, navStyle, themeType, layoutType, authUser, initURL, loader}
+    return {locale, authUser, initURL, loader}
 };
 export default connect(mapStateToProps, {setInitUrl})(AppRoute);

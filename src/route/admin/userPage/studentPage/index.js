@@ -1,54 +1,49 @@
-import React, {useEffect, useState} from "react";
-import {Button, Card, Form, Icon, Input, Select, Table} from "antd";
+import React, {useEffect} from "react";
+import {Button, Card, DatePicker, Form, Icon, Input, Select, Table} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
 import {getDate, getGender} from "../../../../util/ParseUtils";
-import { DatePicker } from 'antd';
 
-const { RangePicker } = DatePicker;
+const {RangePicker} = DatePicker;
+
+let param = {
+    page: 1,
+    size: 10,
+    sort: {
+        is_asc: true,
+        field: "_id"
+    },
+    types: ["student"],
+    keyword: "",
+    genders: []
+}
 
 function StudentPage(props) {
-    const [param, setParam] = useState({
-        page: 1,
-        size: 10,
-        sort: {
-            is_asc: true,
-            field: "_id"
-        },
-        types: ["student"],
-    })
-
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
-            setParam(param => ({
+            param = {
                 ...param,
                 sort: {
                     is_asc: sorter.order === "ascend",
                     field: sorter.columnKey
                 }
-            }));
+            }
         }
-        setParam(param => ({
+        param = {
             ...param,
             page: pagination.current,
             size: pagination.pageSize
-        }));
-        if (filters.hasOwnProperty("gender")) {
-            setParam(param => ({
-                ...param,
-                genders: filters.gender
-            }));
         }
         props.getListMember(param);
     }
 
     function onSearch(e) {
-        const value = e.target.value
-        setParam(param => ({
+        param = {
             ...param,
-            keyword: value,
-        }));
+            keyword: e.target.value,
+            page: 1
+        }
         props.getListMember(param);
     }
 
@@ -64,16 +59,21 @@ function StudentPage(props) {
 
     function onFilterGender(e) {
         const genders = Array.isArray(e) ? e.map((x) => x) : []
-        setParam(param => ({
+        param = {
             ...param,
-            genders: genders
-        }));
+            genders: genders,
+            page: 1
+        }
         props.getListMember(param);
+    }
+
+    function onFilterDate(e) {
+        console.log(e);
     }
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.student.title"/></h2>}
-            extra={<Button type="primary" shape="circle" icon="plus" size="large" style={{float: "right"}} />}>
+              extra={<Button type="primary" shape="circle" icon="plus" size="large" style={{float: "right"}}/>}>
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
                            name="genders"
@@ -86,7 +86,7 @@ function StudentPage(props) {
                 </Form.Item>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.createdDate"/>}
                            name="createdDate">
-                    <RangePicker showTime style={{width: "auto"}}/>
+                    <RangePicker showTime style={{width: "auto"}} onChange={onFilterDate}/>
                 </Form.Item>
             </Form>
             <IntlMessages id="table.search">
