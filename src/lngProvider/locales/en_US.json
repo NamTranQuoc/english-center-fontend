@@ -32,5 +32,6 @@
   "notification.member_exist": "Member already exists",
   "notification.password_incorrect": "Incorrect password",
   "notification.param_not_null": "The input data is incomplete",
-  "table.search": "Search"
+  "table.search": "Search",
+  "filter.select": "Select"
 }
