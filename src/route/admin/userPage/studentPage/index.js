@@ -22,6 +22,7 @@ let param = {
 
 function StudentPage(props) {
     const [showModal, setShowModal] = useState(false);
+    const [style, setStyle] = useState("150px");
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -71,11 +72,24 @@ function StudentPage(props) {
     }
 
     function onFilterDate(dates) {
-        if (dates != null && dates[0] != null && dates[1] != null) {
+        if (dates !== null && dates.length > 0) {
+            setStyle("370px");
             param = {
                 ...param,
                 from_date: dates[0].unix() * 1000,
                 to_date: dates[1].unix() * 1000,
+                page: 1
+            }
+            props.getListMember(param);
+        }
+    }
+    function onChangeDatePicker(dates) {
+        if (dates === null || dates.length === 0) {
+            setStyle("150px");
+            param = {
+                ...param,
+                from_date: null,
+                to_date: null,
                 page: 1
             }
             props.getListMember(param);
@@ -95,7 +109,7 @@ function StudentPage(props) {
                 <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
                            name="genders"
                            style={{marginLeft: "10px", marginRight: "10px"}}>
-                    <IntlMessages id="admin.user.gender.male">
+                    <IntlMessages id="filter.select">
                         {placeholder => <Select mode="multiple" style={{minWidth: "100px"}} onChange={onFilterGender}
                                                 placeholder={placeholder}>
                             <Select.Option key="male">{getGender("male")}</Select.Option>
@@ -107,7 +121,9 @@ function StudentPage(props) {
                 </Form.Item>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.createdDate"/>}
                            name="createdDate">
-                    <RangePicker showTime style={{width: "150px"}} onOk={onFilterDate}
+                    <RangePicker showTime style={{width: style}}
+                                 onOk={onFilterDate}
+                                 onChange={onChangeDatePicker}
                                  placeholder={props.locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
                     />
                 </Form.Item>

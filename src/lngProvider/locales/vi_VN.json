@@ -32,5 +32,6 @@
   "notification.member_exist": "Người dùng đã tồn tại",
   "notification.password_incorrect": "Mật khẩu không chính xác",
   "notification.param_not_null": "Dữ liệu đầu vào không đầy đủ",
-  "table.search": "Tìm kiếm"
+  "table.search": "Tìm kiếm",
+  "filter.select": "Chọn"
 }
