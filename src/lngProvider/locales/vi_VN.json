@@ -26,7 +26,7 @@
     "appModule.iAccept": "Chấp nhận",
     "appModule.termAndCondition": "Điều kiện và điều khoản",
     "app.userAuth.or": "Hoặc",
-    "app.userAuth.signUp": "Đằng ký",
+    "app.userAuth.signUp": "Đăng ký",
     "table.total.items": "Tổng",
     "notification.member_not_exist": "Người dùng này không tồn tại",
     "notification.success_update": "Cập nhập thành công",
@@ -50,5 +50,6 @@
     "admin.user.form.save": "Lưu",
     "admin.user.form.edit": "Chỉnh sửa",
     "admin.user.form.delete": "Xóa",
-    "admin.user.form.cancel": "Hủy"
+    "admin.user.form.cancel": "Hủy",
+    "sidebar.home": "Trang chủ"
 }
