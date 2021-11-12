@@ -3,7 +3,7 @@ import {Route, Switch} from "react-router-dom";
 
 import asyncComponent from "util/asyncComponent";
 
-const App = ({match}) => (
+const App = () => (
     <div className="gx-main-content-wrapper">
         <Switch>
             <Route path="/home" component={asyncComponent(() => import('./homePage'))}/>

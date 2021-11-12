@@ -5,7 +5,7 @@ import {ConfigProvider} from 'antd';
 import {IntlProvider} from "react-intl";
 import AppLocale from "../../lngProvider";
 import MainApp from "./MainApp";
-import HomeApp from "../../routes/user";
+import HomeApp from "./HomeApp";
 import SignIn from "../SignIn";
 import SignUp from "../SignUp";
 import {setInitUrl} from "../../appRedux/actions";
@@ -140,7 +140,7 @@ const App = () => {
                     <Route exact path="/signin" component={SignIn}/>
                     <Route exact path="/signup" component={SignUp}/>
                     <RestrictedRoute path="/admin" authUser={authUser} location={location} component={MainApp}/>
-                    <Route exact path="/home" component={HomeApp}/>
+                    <Route path="/home" location={location} component={HomeApp}/>
                 </Switch>
             </IntlProvider>
             <IntlProvider

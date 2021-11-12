@@ -3,7 +3,7 @@ import {
     LAYOUT_TYPE,
     LAYOUT_TYPE_FULL,
     NAV_STYLE,
-    NAV_STYLE_FIXED,
+    NAV_STYLE_FIXED, NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
     THEME_COLOR,
     THEME_TYPE, THEME_TYPE_DARK,
     UPDATE_RTL_STATUS
@@ -11,6 +11,7 @@ import {
 
 const initialSettings = {
     navStyle: NAV_STYLE_FIXED,
+    navStyleHome: NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
     layoutType: LAYOUT_TYPE_FULL,
     themeType: THEME_TYPE_DARK,
     themeColor: '',

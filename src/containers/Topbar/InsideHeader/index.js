@@ -2,12 +2,11 @@ import React, {useState} from "react";
 import {Button, Dropdown, Layout, Menu, message, Popover} from 'antd';
 import Icon from '@ant-design/icons';
 import {useDispatch, useSelector} from "react-redux";
-import CustomScrollbars from "util/CustomScrollbars";
 import languageData from "../languageData";
-import SearchBox from "components/SearchBox";
-import UserInfo from "components/UserInfo";
-import AppNotification from "components/AppNotification";
-import MailNotification from "components/MailNotification";
+import SearchBox from "../../../components/SearchBox";
+import UserInfo from "../../../components/UserInfo";
+import AppNotification from "../../../components/AppNotification";
+import MailNotification from "../../../components/MailNotification";
 import HorizontalNav from "../HorizontalNav";
 import {Link} from "react-router-dom";
 import {switchLanguage, toggleCollapsedSideNav} from "../../../appRedux/actions";
@@ -36,7 +35,6 @@ const InsideHeader = () => {
     const dispatch = useDispatch();
 
     const languageMenu = () => (
-        <CustomScrollbars className="gx-popover-lang-scroll">
             <ul className="gx-sub-popover">
                 {languageData.map(language =>
                     <li className="gx-media gx-pointer" key={JSON.stringify(language)} onClick={(e) =>
@@ -46,8 +44,7 @@ const InsideHeader = () => {
                         <span className="gx-language-text">{language.name}</span>
                     </li>
                 )}
-            </ul>
-        </CustomScrollbars>);
+            </ul>);
 
     const updateSearchChatUser = (evt) => {
         setSearchText(evt.target.value)
@@ -63,8 +60,8 @@ const InsideHeader = () => {
                             <p className="gx-mb-0 gx-text-truncate"><IntlMessages id="app.announced"/></p>
                         </div>
                         <ul className="gx-login-list">
-                            <li>Login</li>
-                            <li>Signup</li>
+                            <li><a href={"/signin"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signIn"}/></a></li>
+                            <li><a href={"/signup"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signUp"}/></a></li>
                         </ul>
                     </div>
                 </div>

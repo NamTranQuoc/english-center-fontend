@@ -1,7 +1,6 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {Menu} from "antd";
-import {Link} from "react-router-dom";
 import IntlMessages from "../../util/IntlMessages";
 import {
     NAV_STYLE_ABOVE_HEADER,
@@ -13,7 +12,7 @@ import {
 const SubMenu = Menu.SubMenu;
 
 const HorizontalNav = () => {
-    const navStyle = useSelector(({settings}) => settings.navStyle);
+    const navStyleHome = useSelector(({settings}) => settings.navStyleHome);
     const pathname = useSelector(({common}) => common.pathname);
 
     const getNavStyleSubMenuClass = (navStyle) => {
@@ -37,13 +36,7 @@ const HorizontalNav = () => {
             defaultOpenKeys={[selectedKeys]}
             selectedKeys={[selectedKeys]}
             mode="horizontal">
-            <SubMenu className={getNavStyleSubMenuClass(navStyle)} key="main" title={<IntlMessages id="sidebar.main"/>}>
-                <Menu.Item key="/admin/dashboard">
-                    <Link to="/admin/dashboard">
-                        <i className="icon icon-widgets"/>
-                        <IntlMessages id="sidebar.samplePage"/>
-                    </Link>
-                </Menu.Item>
+            <SubMenu className={getNavStyleSubMenuClass(navStyleHome)} key="/home" title={<IntlMessages id="sidebar.home"/>}>
             </SubMenu>
         </Menu>
     );
