@@ -73,9 +73,8 @@ const StudentPage = () => {
     }
 
     useEffect(() => {
-        if (items.length === 0) {
-            dispatch(getListMember(param));
-        }
+        dispatch(getListMember(param));
+        // eslint-disable-next-line
     }, []);
 
     function showTotalItems(total) {
@@ -429,7 +428,9 @@ const StudentPage = () => {
                 }
             }/>
             {hasShowModal && modal()}
-            {hasShowModal && <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal} urlAvatar={urlAvatar} action={action} param={param}/>}
+            {hasShowModal &&
+            <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal} urlAvatar={urlAvatar}
+                         action={action} param={param}/>}
         </Card>
     );
 };

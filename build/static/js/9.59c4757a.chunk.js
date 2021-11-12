@@ -1,0 +1,1 @@
+(this["webpackJsonpwieldy-hook"]=this["webpackJsonpwieldy-hook"]||[]).push([[9],{791:function(e,c,t){"use strict";t.r(c);t(0);var i=t(1);c.default=function(){return Object(i.jsx)("div",{children:Object(i.jsx)("div",{className:"gx-d-flex justify-content-center",children:Object(i.jsx)("h4",{children:"TeacherPage"})})})}}}]);
