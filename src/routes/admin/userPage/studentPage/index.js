@@ -386,6 +386,14 @@ const StudentPage = () => {
                                sorter: true,
                            },
                            {
+                               key: "dob",
+                               title: <IntlMessages id="admin.user.student.table.dob"/>,
+                               dataIndex: "dob",
+                               render: (dob) => getDate(dob),
+                               width: 120,
+                               sorter: true
+                           },
+                           {
                                key: "email",
                                title: <IntlMessages id="admin.user.student.table.email"/>,
                                dataIndex: "email",
@@ -397,7 +405,7 @@ const StudentPage = () => {
                                title: <IntlMessages id="admin.user.student.table.createdDate"/>,
                                dataIndex: "create_date",
                                render: (create_date) => getDate(create_date),
-                               width: 150,
+                               width: 120,
                                sorter: true
                            },
                            {
