@@ -140,7 +140,6 @@ const StudentPage = () => {
                 page: 1
             }
         }
-
     }
 
     function showModal() {

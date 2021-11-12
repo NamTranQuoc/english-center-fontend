@@ -50,5 +50,6 @@
     "admin.user.form.save": "Save",
     "admin.user.form.edit": "Edit",
     "admin.user.form.delete": "Delete",
-    "admin.user.form.cancel": "Cancel"
+    "admin.user.form.cancel": "Cancel",
+    "sidebar.home": "Home"
 }
