@@ -4,7 +4,6 @@ import IntlMessages from "../../../../util/IntlMessages";
 import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
 import {getDate, getGender} from "../../../../util/ParseUtils";
-import TextArea from "antd/es/input/TextArea";
 
 const {RangePicker} = DatePicker;
 
@@ -205,12 +204,13 @@ function StudentPage(props) {
                 }
                 onCancel={onShow}
             >
-                <Form
-                >
-                    <Row gutter={24}>
-                        <Col span={12}>
+                <Form>
+                    <Row gutter={[24, 24]}>
+                        <Col className="gutter-row" span={12}>
                             <Form.Item
                                 label={"Tên loại khóa học"}
+                                labelCol={{span: 24}}
+                                wrapperCol={{span: 24}}
                                 name="category_name"
                                 rules={[
                                     {
@@ -222,9 +222,11 @@ function StudentPage(props) {
                                 <Input placeholder="Toeic"/>
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col className="gutter-row" span={12}>
                             <Form.Item label="Trạng thái"
                                        name="status"
+                                       labelCol={{span: 24}}
+                                       wrapperCol={{span: 24}}
                                        rules={[
                                            {
                                                required: true,
@@ -237,11 +239,13 @@ function StudentPage(props) {
                                 </Select>
                             </Form.Item>
                         </Col>
-                    </Row>
-                    <Row gutter={24}>
-                        <Col span={24}>
-                            <Form.Item label={"Mô tả"} name="description">
-                                <TextArea rows={4}/>
+                        <Col className="gutter-row" span={24}>
+                            <Form.Item
+                                label={"Mô tả"}
+                                labelCol={{span: 24}}
+                                wrapperCol={{span: 24}}
+                                name="description">
+                                <Input.TextArea rows={4}/>
                             </Form.Item>
                         </Col>
                     </Row>
