@@ -2,6 +2,7 @@ import React from 'react';
 import './index.css';
 import {Upload} from 'antd';
 import {createNotification} from "../Notification";
+import ImgCrop from 'antd-img-crop';
 
 function beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -22,25 +23,28 @@ const dummyRequest = ({file, onSuccess}) => {
 };
 
 function Image(props) {
+    const abc = (file) => {
+        let reader = new FileReader();
+        props.setImage(file);
+        reader.onloadend = () => {
+            props.setUrl(reader.result.toString());
+        };
+        reader.readAsDataURL(file);
+    }
+
     return (
-        <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            action={(file) => {
-                let reader = new FileReader();
-                props.setImage(file);
-                reader.onloadend = () => {
-                    props.setUrl(reader.result.toString());
-                };
-                reader.readAsDataURL(file);
-            }}
-            beforeUpload={beforeUpload}
-            customRequest={dummyRequest}
-            disabled={props.disabled}>
-            {props.url != null ? <img src={props.url} alt="avatar" style={{width: '95%'}}/> : "Upload"}
-        </Upload>
+        <ImgCrop rotate onModalOk={abc}>
+            <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                beforeUpload={beforeUpload}
+                customRequest={dummyRequest}
+                disabled={props.disabled}>
+                {props.url != null ? <img src={props.url} alt="avatar" style={{width: '95%'}}/> : "Upload"}
+            </Upload>
+        </ImgCrop>
     );
 }
 
