@@ -4,7 +4,6 @@ import IntlMessages from "../../../../util/IntlMessages";
 import {getListMember, showLoader} from "../../../../appRedux/actions";
 import {connect} from "react-redux";
 import {getDate, getGender} from "../../../../util/ParseUtils";
-import TextArea from "antd/es/input/TextArea";
 
 const {RangePicker} = DatePicker;
 
@@ -22,6 +21,7 @@ let param = {
 
 function StudentPage(props) {
     const [showModal, setShowModal] = useState(false);
+    const [style, setStyle] = useState("150px");
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -71,11 +71,24 @@ function StudentPage(props) {
     }
 
     function onFilterDate(dates) {
-        if (dates != null && dates[0] != null && dates[1] != null) {
+        if (dates !== null && dates.length > 0) {
+            setStyle("370px");
             param = {
                 ...param,
                 from_date: dates[0].unix() * 1000,
                 to_date: dates[1].unix() * 1000,
+                page: 1
+            }
+            props.getListMember(param);
+        }
+    }
+    function onChangeDatePicker(dates) {
+        if (dates === null || dates.length === 0) {
+            setStyle("150px");
+            param = {
+                ...param,
+                from_date: null,
+                to_date: null,
                 page: 1
             }
             props.getListMember(param);
@@ -95,7 +108,7 @@ function StudentPage(props) {
                 <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
                            name="genders"
                            style={{marginLeft: "10px", marginRight: "10px"}}>
-                    <IntlMessages id="admin.user.gender.male">
+                    <IntlMessages id="filter.select">
                         {placeholder => <Select mode="multiple" style={{minWidth: "100px"}} onChange={onFilterGender}
                                                 placeholder={placeholder}>
                             <Select.Option key="male">{getGender("male")}</Select.Option>
@@ -107,7 +120,9 @@ function StudentPage(props) {
                 </Form.Item>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.createdDate"/>}
                            name="createdDate">
-                    <RangePicker showTime style={{width: "150px"}} onOk={onFilterDate}
+                    <RangePicker showTime style={{width: style}}
+                                 onOk={onFilterDate}
+                                 onChange={onChangeDatePicker}
                                  placeholder={props.locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
                     />
                 </Form.Item>
@@ -189,12 +204,13 @@ function StudentPage(props) {
                 }
                 onCancel={onShow}
             >
-                <Form
-                >
-                    <Row gutter={24}>
-                        <Col span={12}>
+                <Form>
+                    <Row gutter={[24, 24]}>
+                        <Col className="gutter-row" span={12}>
                             <Form.Item
                                 label={"Tên loại khóa học"}
+                                labelCol={{span: 24}}
+                                wrapperCol={{span: 24}}
                                 name="category_name"
                                 rules={[
                                     {
@@ -206,9 +222,11 @@ function StudentPage(props) {
                                 <Input placeholder="Toeic"/>
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col className="gutter-row" span={12}>
                             <Form.Item label="Trạng thái"
                                        name="status"
+                                       labelCol={{span: 24}}
+                                       wrapperCol={{span: 24}}
                                        rules={[
                                            {
                                                required: true,
@@ -221,11 +239,13 @@ function StudentPage(props) {
                                 </Select>
                             </Form.Item>
                         </Col>
-                    </Row>
-                    <Row gutter={24}>
-                        <Col span={24}>
-                            <Form.Item label={"Mô tả"} name="description">
-                                <TextArea rows={4}/>
+                        <Col className="gutter-row" span={24}>
+                            <Form.Item
+                                label={"Mô tả"}
+                                labelCol={{span: 24}}
+                                wrapperCol={{span: 24}}
+                                name="description">
+                                <Input.TextArea rows={4}/>
                             </Form.Item>
                         </Col>
                     </Row>

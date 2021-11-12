@@ -36,7 +36,7 @@ const signOutRequest = async () => {
 function* createUserWithEmailPassword({payload}) {
     const {email, password} = payload;
     try {
-        const signUpUser = yield call(createUserWithEmailPasswordRequest, email, password);
+        const signUpUser = yield call(signInUserWithEmailPasswordRequest, email, password);
         if (signUpUser.message) {
             yield put(showMessage(signUpUser.message));
         } else {
