@@ -16,6 +16,7 @@ import Image from "../../../../components/uploadImage";
 import moment from 'moment';
 import "../index.css";
 import DeleteModal from "./deleteModal";
+import ResetPassword from "../ResetPassword";
 
 moment.updateLocale('vi', {
     weekdaysMin: ["Cn", "T2", "T3", "T4", "T5", "T6", "T7"],
@@ -44,6 +45,7 @@ const TeacherPage = () => {
     const [image, setImage] = useState(null);
     const [urlAvatar, setUrlAvatar] = useState(null);
     const [action, setAction] = useState("edit");
+    const [resetPassword, setResetPassword] = useState(false);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -197,14 +199,20 @@ const TeacherPage = () => {
     const menus = (index) => (<Menu onClick={(e) => {
         if (e.key === 'delete') {
             setAction("delete");
+            dispatch(onSelectIndex(index));
+            dispatch(onShowModal());
+        } else if (e.key === 'resetPassword') {
+            dispatch(onSelectIndex(index));
+            setResetPassword(!resetPassword);
         } else {
             setAction("edit");
+            dispatch(onSelectIndex(index));
+            dispatch(onShowModal());
         }
-        dispatch(onSelectIndex(index));
-        dispatch(onShowModal());
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
         <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
+        <Menu.Item key="resetPassword"><IntlMessages id="admin.user.form.resetPassword"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -533,6 +541,10 @@ const TeacherPage = () => {
             {hasShowModal &&
             <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal} urlAvatar={urlAvatar}
                          action={action} param={param}/>}
+            {resetPassword && <ResetPassword hasShowModal={resetPassword} showModal={() => {
+                setResetPassword(!ResetPassword);
+                dispatch(onSelectIndex(-1));
+            }}/>}
         </Card>
     );
 };
