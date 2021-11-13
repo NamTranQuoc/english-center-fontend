@@ -51,5 +51,19 @@
     "admin.user.form.edit": "Edit",
     "admin.user.form.delete": "Delete",
     "admin.user.form.cancel": "Cancel",
-    "sidebar.home": "Home"
+    "sidebar.home": "Home",
+    "admin.user.teacher.title": "TEACHER MANAGER",
+    "admin.user.table.salary": "Salary",
+    "admin.user.form.teacher.title": "Teacher information",
+    "admin.user.form.salary": "Please enter salary",
+    "admin.user.table.certificate.type": "Certificate type",
+    "admin.user.table.certificate.code": "Certificate code",
+    "admin.user.table.certificate.score": "Certificate score",
+    "admin.user.form.certificate.type": "Please select type",
+    "admin.user.form.certificate.code": "Please enter code",
+    "admin.user.form.certificate.score": "Please enter score",
+    "admin.user.receptionist.title": "RECEPTIONIST MANAGER",
+    "admin.user.form.receptionist.title": "Receptionist information",
+    "notification.success_delete": "Success delete",
+    "notification.bad_request": "Unknown error"
 }
