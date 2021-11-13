@@ -51,5 +51,19 @@
     "admin.user.form.edit": "Chỉnh sửa",
     "admin.user.form.delete": "Xóa",
     "admin.user.form.cancel": "Hủy",
-    "sidebar.home": "Trang chủ"
+    "sidebar.home": "Trang chủ",
+    "admin.user.teacher.title": "QUẢN LÝ GIẢNG VIÊN",
+    "admin.user.table.salary": "Lương",
+    "admin.user.form.teacher.title": "Thông tin giảng viên",
+    "admin.user.form.salary": "Vui lòng nhập tiền lương",
+    "admin.user.table.certificate.type": "Loại bằng",
+    "admin.user.table.certificate.code": "Mã số bằng",
+    "admin.user.table.certificate.score": "Điểm",
+    "admin.user.form.certificate.type": "Vui lòng chọn loại bằng",
+    "admin.user.form.certificate.code": "Vui lòng nhập mã số bằng",
+    "admin.user.form.certificate.score": "Vui lòng nhập điểm số",
+    "admin.user.receptionist.title": "QUẢN LÝ NHÂN VIÊN",
+    "admin.user.form.receptionist.title": "Thông tin nhân viên",
+    "notification.success_delete": "Xóa thành công",
+    "notification.bad_request": "Lỗi không xác định"
 }

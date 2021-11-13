@@ -79,7 +79,9 @@ const deleteMemberRequest = async (payload) =>
 function* getListMemberGenerate({payload}) {
     try {
         const response = yield call(getListMemberRequest, payload);
-        if (response.data.code !== 9999) {
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(getListSuccess(response.data.payload));
@@ -95,8 +97,9 @@ function* addMemberGenerate({payload}) {
     yield put(showLoader());
     try {
         const response = yield call(addMemberRequest, payload);
-        console.log(response.data.code !== 9999)
-        if (response.data.code !== 9999) {
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(uploadImage(payload.avatar, response.data.payload.avatar));
@@ -123,7 +126,9 @@ function* updateMemberGenerate({payload}) {
     yield put(showLoader());
     try {
         const response = yield call(updateMemberRequest, payload.member);
-        if (response.data.code !== 9999) {
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(uploadImage(payload.member.avatar, response.data.payload.avatar));
@@ -142,7 +147,9 @@ function* deleteMemberGenerate({payload}) {
     yield put(showLoader());
     try {
         const response = yield call(deleteMemberRequest, payload);
-        if (response.data.code !== 9999) {
+        if (response.data.hasOwnProperty("code")) {
+            yield put(showMessage(response.data));
+        } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());

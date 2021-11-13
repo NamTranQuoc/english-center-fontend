@@ -31,12 +31,20 @@ const errors = {
         message: <IntlMessages id="notification.success_update"/>,
         type: "success",
     },
+    success_delete: {
+        message: <IntlMessages id="notification.success_delete"/>,
+        type: "success",
+    },
     type_deny: {
         message: <IntlMessages id="notification.type_deny"/>,
         type: "error",
     },
     size_deny: {
         message: <IntlMessages id="notification.size_deny"/>,
+        type: "error",
+    },
+    bad_request: {
+        message: <IntlMessages id="notification.bad_request"/>,
         type: "error",
     },
 };
