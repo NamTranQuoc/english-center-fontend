@@ -65,5 +65,12 @@
     "admin.user.receptionist.title": "RECEPTIONIST MANAGER",
     "admin.user.form.receptionist.title": "Receptionist information",
     "notification.success_delete": "Success delete",
-    "notification.bad_request": "Unknown error"
+    "notification.bad_request": "Unknown error",
+    "admin.user.form.resetPassword": "Reset password",
+    "admin.user.form.reset": "Reset",
+    "admin.user.newPassword": "New password",
+    "admin.user.confirmPassword": "Confirm password",
+    "notification.success_reset": "Success Reset",
+    "admin.user.form.password": "Please enter password",
+    "notification.confirm_password_incorrect": "Confirm password incorrect"
 }

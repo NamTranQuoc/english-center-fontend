@@ -1,6 +1,7 @@
 import IntlMessages from "./IntlMessages";
 import React from "react";
 import {storage} from "../firebase/firebase";
+import jwt from 'jwt-decode';
 
 export function getDate(timestamp) {
     const date = new Date(timestamp);
@@ -41,4 +42,22 @@ export async function getImageURL(path) {
 
 export function getMoney(value) {
     return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+export function getRoleCurrent() {
+    const token = localStorage.getItem("token");
+    if (token != null) {
+        const parse = jwt(token);
+        return parse.role;
+    }
+    return null;
+}
+
+export function getMemberIdCurrent() {
+    const token = localStorage.getItem("token");
+    if (token != null) {
+        const parse = jwt(token);
+        return parse.member_id;
+    }
+    return null;
 }

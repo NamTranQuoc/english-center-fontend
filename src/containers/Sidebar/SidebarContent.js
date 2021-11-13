@@ -13,10 +13,12 @@ import {
 } from "../../constants/ThemeSetting";
 import IntlMessages from "../../util/IntlMessages";
 import {useSelector} from "react-redux";
+import {getRoleCurrent} from "../../util/ParseUtils";
 
 const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
     const {navStyle, themeType} = useSelector(({settings}) => settings);
     const pathname = useSelector(({common}) => common.pathname);
+    const roleCurrent = getRoleCurrent();
 
     const getNoHeaderClass = (navStyle) => {
         if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR || navStyle === NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR) {
@@ -41,13 +43,15 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                         mode="inline">
 
                         <Menu.Item key="/admin/dashboard">
-                            <Link to="/admin/dashboard"><i className="icon icon-widgets"/>
+                            <Link to="/admin/dashboard">
+                                <i className="icon icon-widgets"/>
                                 <span><IntlMessages id="sidebar.dashboard"/></span>
                             </Link>
                         </Menu.Item>
-                        <Menu.SubMenu key="managerUser"
-                                      title={
-                                          <span><i className="icon icon-avatar"/>
+                        {roleCurrent === "admin" ?
+                            <Menu.SubMenu key="managerUser"
+                                          title={
+                                              <span><i className="icon icon-avatar"/>
                                               <span><IntlMessages id="sidebar.managerUser"/>
                                               </span></span>}>
                             <Menu.Item key="/admin/student">
@@ -65,7 +69,13 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                     <span><IntlMessages id="sidebar.managerUser.receptionist"/></span>
                                 </Link>
                             </Menu.Item>
-                        </Menu.SubMenu>
+                        </Menu.SubMenu> : <Menu.Item key="/admin/student">
+                                <Link to="/admin/student">
+                                    <i className="icon icon-avatar"/>
+                                    <span><IntlMessages id="sidebar.managerUser.student"/></span>
+                                </Link>
+                            </Menu.Item>
+                        }
                         <Menu.SubMenu key="managerStudy"
                                       title={
                                           <span><i className="icon icon-ckeditor"/>

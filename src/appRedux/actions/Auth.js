@@ -1,5 +1,5 @@
 import {
-    ON_SHOW_LOADER,
+    ON_SHOW_LOADER, RESET_PASSWORD,
     SIGNIN_USER,
     SIGNIN_USER_SUCCESS,
     SIGNOUT_USER,
@@ -47,5 +47,12 @@ export const userSignOutSuccess = () => {
 export const showAuthLoader = () => {
     return {
         type: ON_SHOW_LOADER,
+    };
+};
+
+export const resetPassword = (param) => {
+    return {
+        type: RESET_PASSWORD,
+        payload: param
     };
 };
