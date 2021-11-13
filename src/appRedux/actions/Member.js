@@ -1,5 +1,5 @@
 import {
-    ADD_MEMBER, DELETE_MEMBER,
+    ADD_MEMBER, DELETE_MEMBER, GET_CURRENT_MEMBER,
     GET_LIST_SUCCESS,
     GET_MEMBER,
     ON_HIDE_LOADER_TABLE,
@@ -52,5 +52,11 @@ export const deleteMember = (id, type, param) => {
             type: type,
             param: param
         }
+    };
+};
+
+export const getCurrentMember = () => {
+    return {
+        type: GET_CURRENT_MEMBER
     };
 };

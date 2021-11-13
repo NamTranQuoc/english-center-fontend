@@ -6,6 +6,7 @@ import {Link, useHistory} from "react-router-dom";
 import {hideMessage, userSignIn,} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
+import {getRoleCurrent} from "../util/ParseUtils";
 
 const SignIn = () => {
     const dispatch = useDispatch();
@@ -19,7 +20,12 @@ const SignIn = () => {
             }, 100);
         }
         if (authUser !== null) {
-            history.push('/admin/dashboard');
+            const role = getRoleCurrent();
+            if (role === "admin" || role === "receptionist") {
+                history.push("/admin/dashboard");
+            } else {
+                history.push("/home");
+            }
         }
     });
 

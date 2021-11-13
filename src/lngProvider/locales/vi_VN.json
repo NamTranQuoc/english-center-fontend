@@ -65,5 +65,12 @@
     "admin.user.receptionist.title": "QUẢN LÝ NHÂN VIÊN",
     "admin.user.form.receptionist.title": "Thông tin nhân viên",
     "notification.success_delete": "Xóa thành công",
-    "notification.bad_request": "Lỗi không xác định"
+    "notification.bad_request": "Lỗi không xác định",
+    "admin.user.form.resetPassword": "Khôi phục mật khẩu",
+    "admin.user.form.reset": "Đổi",
+    "admin.user.newPassword": "Mật khẩu mới",
+    "admin.user.confirmPassword": "Xác nhận lại mật khẩu",
+    "notification.success_reset": "Khôi phục thành công",
+    "admin.user.form.password": "Vui lòng nhận mật khẩu",
+    "notification.confirm_password_incorrect": "Xác nhận mật khẩu không chính xác"
 }

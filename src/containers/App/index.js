@@ -22,6 +22,7 @@ import {
     THEME_TYPE_DARK
 } from "../../constants/ThemeSetting";
 import CircularProgress from "../../components/CircularProgress";
+import {getRoleCurrent} from "../../util/ParseUtils";
 
 const RestrictedRoute = ({component: Component, location, authUser, ...rest}) =>
     <Route
@@ -110,13 +111,19 @@ const App = () => {
     });
 
     useEffect(() => {
+        console.log(pathname);
         if (location.pathname === '/') {
             if (pathname === '/' || pathname === '') {
                 history.push('/home');
             } else if (authUser === null) {
                 history.push('/signin');
             } else if (pathname === '/signin') {
-                history.push('/admin/dashboard');
+                const role = getRoleCurrent();
+                if (role === "admin" || role === "receptionist") {
+                    history.push('/admin/dashboard');
+                } else {
+                    history.push('/home');
+                }
             } else {
                 history.push(pathname);
             }

@@ -8,6 +8,7 @@ export const SHOW_MESSAGE = 'SHOW_MESSAGE';
 export const HIDE_MESSAGE = 'HIDE_MESSAGE';
 export const ON_SHOW_LOADER = 'ON_SHOW_LOADER';
 export const ON_HIDE_LOADER = 'ON_HIDE_LOADER';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
 
 //Auth const
 export const SIGNUP_USER = 'SIGNUP_USER';
@@ -30,5 +31,7 @@ export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const SELECT_INDEX = 'SELECT_INDEX';
+export const SET_MEMBER = 'SET_MEMBER';
+export const GET_CURRENT_MEMBER= 'GET_CURRENT_MEMBER';
 
 

@@ -47,6 +47,14 @@ const errors = {
         message: <IntlMessages id="notification.bad_request"/>,
         type: "error",
     },
+    success_reset: {
+        message: <IntlMessages id="notification.success_reset"/>,
+        type: "success",
+    },
+    confirm_password_incorrect: {
+        message: <IntlMessages id="notification.confirm_password_incorrect"/>,
+        type: "success",
+    },
 };
 
 export function createNotification(message) {

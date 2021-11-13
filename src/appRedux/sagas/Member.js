@@ -1,5 +1,5 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_MEMBER, DELETE_MEMBER, GET_MEMBER, UPDATE_MEMBER} from "../../constants/ActionTypes";
+import {ADD_MEMBER, DELETE_MEMBER, GET_CURRENT_MEMBER, GET_MEMBER, UPDATE_MEMBER} from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
 import {
@@ -9,7 +9,7 @@ import {
     showLoader,
     showMessage,
     getListMember as getListMemberAction,
-    uploadImage, onHideModal
+    uploadImage, onHideModal, setMember
 } from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
@@ -70,6 +70,16 @@ const deleteMemberRequest = async (payload) =>
     await axios({
         method: "DELETE",
         url: `${INSTRUCTOR_API_URL}/delete/` + payload.id,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
+const getCurrentMemberRequest = async () =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_current`,
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
         },
@@ -147,14 +157,32 @@ function* deleteMemberGenerate({payload}) {
     yield put(showLoader());
     try {
         const response = yield call(deleteMemberRequest, payload);
-        if (response.data.hasOwnProperty("code")) {
-            yield put(showMessage(response.data));
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
             yield put(getListMemberAction(payload.param));
             yield put(showMessage("success_delete"));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+function* getCurrentMemberGenerate() {
+    yield put(showLoader());
+    try {
+        const response = yield call(getCurrentMemberRequest);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(setMember(response.data.payload));
         }
     } catch (error) {
         yield put(showMessage(error));
@@ -179,11 +207,16 @@ export function* deleteMember() {
     yield takeEvery(DELETE_MEMBER, deleteMemberGenerate);
 }
 
+export function* getCurrentMember() {
+    yield takeEvery(GET_CURRENT_MEMBER, getCurrentMemberGenerate);
+}
+
 export default function* rootSaga() {
     yield all([
         fork(getListMember),
         fork(addMember),
         fork(updateMember),
         fork(deleteMember),
+        fork(getCurrentMember),
     ]);
 }

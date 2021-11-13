@@ -3,7 +3,7 @@ import {
     HIDE_MESSAGE, HIDE_MODAL,
     INIT_URL,
     ON_HIDE_LOADER,
-    ON_SHOW_LOADER, SELECT_INDEX,
+    ON_SHOW_LOADER, SELECT_INDEX, SET_MEMBER,
     SHOW_MESSAGE, SHOW_MODAL, UPLOAD_IMAGE,
 } from "../../constants/ActionTypes";
 
@@ -71,6 +71,13 @@ export const onSelectIndex = (index) => {
     return {
         type: SELECT_INDEX,
         payload: index
+    }
+}
+
+export const setMember = (member) => {
+    return {
+        type: SET_MEMBER,
+        payload: member
     }
 }
 
