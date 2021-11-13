@@ -38,3 +38,7 @@ export async function getImageURL(path) {
     }
     return result + "";
 }
+
+export function getMoney(value) {
+    return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}

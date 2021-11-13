@@ -14,7 +14,7 @@ import {getDate, getGender, getImageURL} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import Image from "../../../../components/uploadImage";
 import moment from 'moment';
-import "./index.css";
+import "../index.css";
 import DeleteModal from "./deleteModal";
 
 moment.updateLocale('vi', {
@@ -258,6 +258,7 @@ const StudentPage = () => {
                             {
                                 required: true,
                                 message: <IntlMessages id="admin.user.form.phoneNumber"/>,
+                                pattern: new RegExp("([0-9]{10})"),
                             },
                         ]}>
                         <Input placeholder="0987654321"/>
