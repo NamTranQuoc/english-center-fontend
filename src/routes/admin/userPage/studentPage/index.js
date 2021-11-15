@@ -156,11 +156,7 @@ const StudentPage = () => {
     const getInitValueModal = () => {
         if (selectIndex !== -1 && items != null && items.length > selectIndex) {
             if (urlAvatar == null) {
-                getImageURL(items[selectIndex].avatar).then(value => {
-                    if (value !== "") {
-                        setUrlAvatar(value);
-                    }
-                });
+                setUrlAvatar(getImageURL(items[selectIndex].avatar));
             }
             return {
                 name: items[selectIndex].name,

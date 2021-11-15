@@ -174,7 +174,6 @@ function* deleteMemberGenerate({payload}) {
 }
 
 function* getCurrentMemberGenerate() {
-    yield put(showLoader());
     try {
         const response = yield call(getCurrentMemberRequest);
         if (response.status !== 200) {
@@ -186,8 +185,6 @@ function* getCurrentMemberGenerate() {
         }
     } catch (error) {
         yield put(showMessage(error));
-    } finally {
-        yield put(hideLoader());
     }
 }
 

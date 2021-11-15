@@ -42,7 +42,7 @@ function Image(props) {
                 beforeUpload={beforeUpload}
                 customRequest={dummyRequest}
                 disabled={props.disabled}>
-                {props.url != null ? <img src={props.url} alt="avatar" style={{width: '95%'}}/> : "Upload"}
+                {props.url != null && props.url !== "" ? <img src={props.url} alt="avatar" style={{width: '95%'}}/> : "Upload"}
             </Upload>
         </ImgCrop>
     );

@@ -10,7 +10,7 @@ const UserProfile = () => {
     const {authUser} = useSelector(({auth}) => auth);
     const {member} = useSelector(({common}) => common);
     const [urlAvatar, setUrlAvatar] = useState(null);
-    const [name, setName] = useState("not found");
+    const [name, setName] = useState("Not Found");
 
     useEffect(() => {
         dispatch(getCurrentMember());
@@ -19,11 +19,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         if (member != null) {
-            getImageURL(member.avatar).then(value => {
-                if (value !== "") {
-                    setUrlAvatar(value);
-                }
-            });
+            setUrlAvatar(getImageURL(member.avatar));
             setName(member.name);
         }
     }, [member])
