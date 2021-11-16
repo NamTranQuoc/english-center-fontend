@@ -111,7 +111,6 @@ const App = () => {
     });
 
     useEffect(() => {
-        console.log(pathname);
         if (location.pathname === '/') {
             if (pathname === '/' || pathname === '') {
                 history.push('/home');

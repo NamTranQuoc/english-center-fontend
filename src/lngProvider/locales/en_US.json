@@ -72,5 +72,6 @@
     "admin.user.confirmPassword": "Confirm password",
     "notification.success_reset": "Success Reset",
     "admin.user.form.password": "Please enter password",
-    "notification.confirm_password_incorrect": "Confirm password incorrect"
+    "notification.confirm_password_incorrect": "Confirm password incorrect",
+    "login.forgot.password": "Forgot password"
 }

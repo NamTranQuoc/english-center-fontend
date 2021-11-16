@@ -6,7 +6,7 @@ import {Link, useHistory} from "react-router-dom";
 import {hideMessage, userSignIn,} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
-import {getRoleCurrent} from "../util/ParseUtils";
+import {getImageURL, getRoleCurrent} from "../util/ParseUtils";
 
 const SignIn = () => {
     const dispatch = useDispatch();
@@ -42,16 +42,14 @@ const SignIn = () => {
                 <div className="gx-app-login-main-content">
                     <div className="gx-app-logo-content">
                         <div className="gx-app-logo-content-bg">
-
-                            <img src={"https://via.placeholder.com/272x395"} alt='Neature'/>
+                            {/*<img src={"https://via.placeholder.com/272x395"} alt='Neature'/>*/}
                         </div>
                         <div className="gx-app-logo-wid">
                             <h1><IntlMessages id="app.userAuth.signIn"/></h1>
-                            <p><IntlMessages id="app.userAuth.bySigning"/></p>
-                            <p><IntlMessages id="app.userAuth.getAccount"/></p>
+                            <a href="/home" style={{color: "#fdfdfd"}}><IntlMessages id="sidebar.home"/></a>
                         </div>
                         <div className="gx-app-logo">
-                            <img alt="example" src="/assets/images/logo.png"/>
+                            <img alt="logo" src={getImageURL("logo.png")}/>
                         </div>
                     </div>
                     <div className="gx-app-login-content">
@@ -76,6 +74,11 @@ const SignIn = () => {
                                 </Button>
                                 <span><IntlMessages id="app.userAuth.or"/></span> <Link to="/signup"><IntlMessages
                                 id="app.userAuth.signUp"/></Link>
+                            </Form.Item>
+                            <Form.Item name="remember">
+                                <Link className="gx-login-form-forgot"
+                                      to="/custom-views/user-auth/forgot-password"><IntlMessages
+                                    id="login.forgot.password"/></Link>
                             </Form.Item>
                         </Form>
                     </div>

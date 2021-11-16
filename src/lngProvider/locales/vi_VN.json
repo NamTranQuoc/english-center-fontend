@@ -72,5 +72,6 @@
     "admin.user.confirmPassword": "Xác nhận lại mật khẩu",
     "notification.success_reset": "Khôi phục thành công",
     "admin.user.form.password": "Vui lòng nhận mật khẩu",
-    "notification.confirm_password_incorrect": "Xác nhận mật khẩu không chính xác"
+    "notification.confirm_password_incorrect": "Xác nhận mật khẩu không chính xác",
+    "login.forgot.password": "Quên mật khẩu"
 }

@@ -1,15 +1,24 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_MEMBER, DELETE_MEMBER, GET_CURRENT_MEMBER, GET_MEMBER, UPDATE_MEMBER} from "../../constants/ActionTypes";
+import {
+    ADD_MEMBER,
+    DELETE_MEMBER,
+    GET_CURRENT_MEMBER,
+    GET_MEMBER,
+    SIGNUP_USER,
+    UPDATE_MEMBER
+} from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
 import {
+    getListMember as getListMemberAction,
     getListSuccess,
     hideLoader,
     hideLoaderTable,
+    onHideModal,
+    setMember,
     showLoader,
     showMessage,
-    getListMember as getListMemberAction,
-    uploadImage, onHideModal, setMember
+    uploadImage
 } from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
@@ -208,6 +217,28 @@ export function* getCurrentMember() {
     yield takeEvery(GET_CURRENT_MEMBER, getCurrentMemberGenerate);
 }
 
+export function* signUpUser() {
+    yield takeEvery(SIGNUP_USER, signUp);
+}
+
+function* signUp({payload}) {
+    try {
+        yield put(showLoader());
+        const response = yield call(addMemberRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(showMessage("success_add"));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         fork(getListMember),
@@ -215,5 +246,6 @@ export default function* rootSaga() {
         fork(updateMember),
         fork(deleteMember),
         fork(getCurrentMember),
+        fork(signUpUser),
     ]);
 }

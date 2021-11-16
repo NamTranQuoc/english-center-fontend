@@ -12,7 +12,6 @@ export const RESET_PASSWORD = 'RESET_PASSWORD';
 
 //Auth const
 export const SIGNUP_USER = 'SIGNUP_USER';
-export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS';
 export const SIGNIN_USER = 'SIGNIN_USER';
 export const SIGNIN_USER_SUCCESS = 'SIGNIN_USER_SUCCESS';
 export const SIGNOUT_USER = 'SIGNOUT_USER';
