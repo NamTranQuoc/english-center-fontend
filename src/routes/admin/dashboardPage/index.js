@@ -1,9 +1,10 @@
 import React from "react";
+import MyEditor from "../../../components/editor";
 
 const DashBoardPage = () => {
     return (
         <div>
-            <h4>DashBoardPage</h4>
+            <MyEditor />
         </div>
     );
 };

@@ -1,4 +1,11 @@
-import {CLEAR_ITEMS, GET_LIST_SUCCESS, GET_MEMBER, ON_HIDE_LOADER_TABLE,} from '../../constants/ActionTypes'
+import {
+    CLEAR_ITEMS,
+    GET_COURSE,
+    GET_COURSE_CATEGORY,
+    GET_LIST_SUCCESS,
+    GET_MEMBER,
+    ON_HIDE_LOADER_TABLE,
+} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     items: [],
@@ -8,6 +15,8 @@ const INIT_STATE = {
 
 const GetListReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
+        case GET_COURSE:
+        case GET_COURSE_CATEGORY:
         case GET_MEMBER: {
             return {
                 ...state,

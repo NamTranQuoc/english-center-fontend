@@ -6,11 +6,12 @@ import IntlMessages from "../../util/IntlMessages";
 import {getImageURL} from "../../util/ParseUtils";
 
 const UserProfile = () => {
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/englishcenter-2021.appspot.com/o/images%2Favatar.png?alt=media";
     const dispatch = useDispatch();
     const {authUser} = useSelector(({auth}) => auth);
     const {member} = useSelector(({common}) => common);
     const [urlAvatar, setUrlAvatar] = useState(null);
-    const [name, setName] = useState("not found");
+    const [name, setName] = useState("Not Found");
 
     useEffect(() => {
         dispatch(getCurrentMember());
@@ -19,11 +20,8 @@ const UserProfile = () => {
 
     useEffect(() => {
         if (member != null) {
-            getImageURL(member.avatar).then(value => {
-                if (value !== "") {
-                    setUrlAvatar(value);
-                }
-            });
+            const url = getImageURL(member.avatar);
+            setUrlAvatar(url === "" ? defaultImage : url);
             setName(member.name);
         }
     }, [member])

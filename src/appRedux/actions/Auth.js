@@ -1,17 +1,19 @@
 import {
-    ON_SHOW_LOADER, RESET_PASSWORD,
+    RESET_PASSWORD,
     SIGNIN_USER,
     SIGNIN_USER_SUCCESS,
     SIGNOUT_USER,
     SIGNOUT_USER_SUCCESS,
     SIGNUP_USER,
-    SIGNUP_USER_SUCCESS
 } from "../../constants/ActionTypes";
 
-export const userSignUp = (user) => {
+export const userSignUp = (user, history) => {
     return {
         type: SIGNUP_USER,
-        payload: user
+        payload: {
+            user: user,
+            history: history
+        }
     };
 };
 export const userSignIn = (user) => {
@@ -25,12 +27,6 @@ export const userSignOut = () => {
         type: SIGNOUT_USER
     };
 };
-export const userSignUpSuccess = (authUser) => {
-    return {
-        type: SIGNUP_USER_SUCCESS,
-        payload: authUser
-    };
-};
 
 export const userSignInSuccess = (authUser) => {
     return {
@@ -42,12 +38,6 @@ export const userSignOutSuccess = () => {
     return {
         type: SIGNOUT_USER_SUCCESS,
     }
-};
-
-export const showAuthLoader = () => {
-    return {
-        type: ON_SHOW_LOADER,
-    };
 };
 
 export const resetPassword = (param) => {

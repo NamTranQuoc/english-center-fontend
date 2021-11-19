@@ -1,36 +1,27 @@
-import React, {useEffect} from "react";
-import {Button, Checkbox, Form, Input} from "antd";
-import {Link, useHistory} from "react-router-dom";
+import React from "react";
+import {Button, Form, Input, Select} from "antd";
+import {Link} from "react-router-dom";
+import moment from 'moment';
 
-import {useDispatch, useSelector} from "react-redux";
-import {hideMessage, userSignUp,} from "../appRedux/actions";
+import {useDispatch} from "react-redux";
+import {userSignUp} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
+import {getGender, getImageURL} from "../util/ParseUtils";
+import {useHistory} from "react-router-dom";
 
-const FormItem = Form.Item;
-
-const SignUp = (props) => {
+const SignUp = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const {showMessage, authUser} = useSelector(({auth}) => auth);
 
-
-    useEffect(() => {
-        if (showMessage) {
-            setTimeout(() => {
-                dispatch(hideMessage());
-            }, 100);
+    const onFinish = member => {
+        member = {
+            ...member,
+            dob: moment() * 1000,
+            type: "student",
+            image: null
         }
-        if (authUser !== null) {
-            history.push('/');
-        }
-    });
-
-    const onFinishFailed = errorInfo => {
-    };
-
-    const onFinish = values => {
-        dispatch(userSignUp(values));
+        dispatch(userSignUp(member, history));
     };
 
     return (
@@ -39,51 +30,74 @@ const SignUp = (props) => {
                 <div className="gx-app-login-main-content">
                     <div className="gx-app-logo-content">
                         <div className="gx-app-logo-content-bg">
-                            <img src={"https://via.placeholder.com/272x395"} alt='Neature'/>
+                            {/*<img src={"https://via.placeholder.com/272x395"} alt='Neature'/>*/}
                         </div>
                         <div className="gx-app-logo-wid">
                             <h1><IntlMessages id="app.userAuth.signUp"/></h1>
-                            <p><IntlMessages id="app.userAuth.bySigning"/></p>
-                            <p><IntlMessages id="app.userAuth.getAccount"/></p>
+                            <a href="/home" style={{color: "#ffffff"}}><IntlMessages id="sidebar.home"/></a>
                         </div>
                         <div className="gx-app-logo">
-                            <img alt="example" src="/assets/images/logo.png"/>
+                            <img alt="logo" src={getImageURL("logo.png")}/>
                         </div>
                     </div>
 
                     <div className="gx-app-login-content">
                         <Form
-                            initialValues={{remember: true}}
+                            initialValues={{gender: "male"}}
                             name="basic"
                             onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
                             className="gx-signin-form gx-form-row0">
-                            <FormItem rules={[{required: true, message: 'Please input your username!'}]}
-                                      name="Username">
-                                <Input placeholder="Username"/>
-                            </FormItem>
-
-                            <FormItem name="email" rules={[{
-                                required: true, type: 'email', message: 'The input is not valid E-mail!',
-                            }]}>
+                            <Form.Item name="email"
+                                      rules={[
+                                          {
+                                              required: true,
+                                              message: <IntlMessages id="admin.user.form.email"/>,
+                                              type: "email"
+                                          }
+                                      ]}>
                                 <Input placeholder="Email"/>
-                            </FormItem>
-                            <FormItem name="password"
-                                      rules={[{required: true, message: 'Please input your Password!'}]}>
-                                <Input type="password" placeholder="Password"/>
-                            </FormItem>
-                            <FormItem name="remember" valuePropName="checked">
-                                <Checkbox>Remember me</Checkbox>
-                                <Link className="gx-login-form-forgot" to="/custom-views/user-auth/forgot-password">Forgot
-                                    password</Link>
-                            </FormItem>
-                            <FormItem>
+                            </Form.Item>
+                            <Form.Item
+                                name="name"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: <IntlMessages id="admin.user.form.name"/>,
+                                    },
+                                ]}>
+                                <Input placeholder="Name"/>
+                            </Form.Item>
+                            <Form.Item name="phone_number"
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: <IntlMessages id="admin.user.form.phoneNumber"/>,
+                                               pattern: new RegExp("([0-9]{10})"),
+                                           },
+                                       ]}>
+                                <Input placeholder="Phone Number" type={"number"}/>
+                            </Form.Item>
+                            <Form.Item name="gender"
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: <IntlMessages id="admin.user.form.gender"/>,
+                                           },
+                                       ]}>
+                                <Select>
+                                    <Select.Option value="male">{getGender("male")}</Select.Option>
+                                    <Select.Option value="female">{getGender("female")}</Select.Option>
+                                    <Select.Option value="other">{getGender("other")}</Select.Option>
+                                </Select>
+                            </Form.Item>
+
+                            <Form.Item>
                                 <Button type="primary" className="gx-mb-0" htmlType="submit">
                                     <IntlMessages id="app.userAuth.signUp"/>
                                 </Button>
                                 <span><IntlMessages id="app.userAuth.or"/></span> <Link to="/signin"><IntlMessages
                                 id="app.userAuth.signIn"/></Link>
-                            </FormItem>
+                            </Form.Item>
                         </Form>
                     </div>
                 </div>

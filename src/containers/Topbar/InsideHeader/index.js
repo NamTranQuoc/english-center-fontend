@@ -32,6 +32,7 @@ const InsideHeader = () => {
     const {locale} = useSelector(({settings}) => settings);
     const navCollapsed = useSelector(({common}) => common.navCollapsed);
     const width = useSelector(({common}) => common.width);
+    const authUser = useSelector(({auth}) => auth.authUser);
     const dispatch = useDispatch();
 
     const languageMenu = () => (
@@ -50,23 +51,16 @@ const InsideHeader = () => {
         setSearchText(evt.target.value)
     };
 
+    const getMemberAvatar = () => {
+        if (authUser == null) {
+            return (<li><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signIn"}/></Link><span style={{marginRight: "3px", marginLeft: "3px"}}>|</span><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signUp"}/></Link></li>)
+        } else {
+            return <li><UserInfo/></li>
+        }
+    }
+
     return (
         <div className="gx-header-horizontal gx-header-horizontal-dark gx-inside-header-horizontal">
-            <div className="gx-header-horizontal-top">
-                <div className="gx-container">
-                    <div className="gx-header-horizontal-top-flex">
-                        <div className="gx-header-horizontal-top-left">
-                            <i className="icon icon-alert gx-mr-3"/>
-                            <p className="gx-mb-0 gx-text-truncate"><IntlMessages id="app.announced"/></p>
-                        </div>
-                        <ul className="gx-login-list">
-                            <li><a href={"/signin"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signIn"}/></a></li>
-                            <li><a href={"/signup"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signUp"}/></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
             <Header
                 className="gx-header-horizontal-main">
                 <div className="gx-container">
@@ -135,7 +129,7 @@ const InsideHeader = () => {
               </span>
                                 </Popover>
                             </li>
-                            <li className="gx-user-nav"><UserInfo/></li>
+                            {getMemberAvatar()}
                         </ul>
                     </div>
                 </div>
