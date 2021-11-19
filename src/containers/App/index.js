@@ -107,15 +107,13 @@ const App = () => {
     useEffect(() => {
         if (pathname !== location.pathname) {
             dispatch(setInitUrl(location.pathname));
-        }
-    });
-
-    useEffect(() => {
-        if (location.pathname === '/') {
-            if (pathname === '/' || pathname === '') {
+        } else {
+            if (pathname === '/signin' || pathname === '/signup') {
+                history.push(pathname);
+            } else if (pathname === '/' || pathname === '' || pathname === '/home') {
                 history.push('/home');
             } else if (authUser === null) {
-                history.push('/signin');
+                history.push('/home');
             } else if (pathname === '/signin') {
                 const role = getRoleCurrent();
                 if (role === "admin" || role === "receptionist") {
@@ -127,7 +125,8 @@ const App = () => {
                 history.push(pathname);
             }
         }
-    }, [authUser, pathname, location, history]);
+        // eslint-disable-next-line
+    }, [authUser, pathname]);
 
     useEffect(() => {
         setLayoutType(layoutType);

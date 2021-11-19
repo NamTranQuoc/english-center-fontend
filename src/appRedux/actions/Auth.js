@@ -7,10 +7,13 @@ import {
     SIGNUP_USER,
 } from "../../constants/ActionTypes";
 
-export const userSignUp = (user) => {
+export const userSignUp = (user, history) => {
     return {
         type: SIGNUP_USER,
-        payload: user
+        payload: {
+            user: user,
+            history: history
+        }
     };
 };
 export const userSignIn = (user) => {
