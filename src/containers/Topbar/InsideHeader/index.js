@@ -60,8 +60,8 @@ const InsideHeader = () => {
                             <p className="gx-mb-0 gx-text-truncate"><IntlMessages id="app.announced"/></p>
                         </div>
                         <ul className="gx-login-list">
-                            <li><a href={"/signin"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signIn"}/></a></li>
-                            <li><a href={"/signup"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signUp"}/></a></li>
+                            <li><Link to={"/signin"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signIn"}/></Link></li>
+                            <li><Link to={"/signup"} style={{color: "#fa8c15"}}><IntlMessages id={"app.userAuth.signUp"}/></Link></li>
                         </ul>
                     </div>
                 </div>
