@@ -222,15 +222,17 @@ export function* signUpUser() {
 }
 
 function* signUp({payload}) {
+    const {history, user} = payload;
     try {
         yield put(showLoader());
-        const response = yield call(addMemberRequest, payload);
+        const response = yield call(addMemberRequest, user);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(showMessage("success_add"));
+            history.push('/signin');
         }
     } catch (error) {
         yield put(showMessage(error));

@@ -8,9 +8,11 @@ import {userSignUp} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
 import {getGender, getImageURL} from "../util/ParseUtils";
+import {useHistory} from "react-router-dom";
 
 const SignUp = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const onFinish = member => {
         member = {
@@ -19,7 +21,7 @@ const SignUp = () => {
             type: "student",
             image: null
         }
-        dispatch(userSignUp(member));
+        dispatch(userSignUp(member, history));
     };
 
     return (
