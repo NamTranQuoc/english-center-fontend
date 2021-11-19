@@ -73,5 +73,22 @@
     "notification.success_reset": "Khôi phục thành công",
     "admin.user.form.password": "Vui lòng nhận mật khẩu",
     "notification.confirm_password_incorrect": "Xác nhận mật khẩu không chính xác",
-    "login.forgot.password": "Quên mật khẩu"
+    "login.forgot.password": "Quên mật khẩu",
+    "admin.categoryCourse.table.name": "Tên loại khóa học",
+    "admin.categoryCourse.table.status": "Trạng thái",
+    "admin.categoryCourse.table.description": "Mô tả",
+    "admin.categoryCourse.table.ACTIVE": "Hoạt động",
+    "admin.categoryCourse.table.INACTIVE": "Không hoạt động",
+    "admin.user.categoryCourse.title": "QUẢN LÝ LOẠI KHÓA HỌC",
+    "admin.user.categoryCourse.info": "THÔNG TIN LOẠI KHÓA HỌC",
+    "admin.user.course.title": "QUẢN LÝ KHÓA HỌC",
+    "admin.course.table.name": "Tên khóa học",
+    "admin.course.table.type": "Loại khóa học",
+    "admin.course.table.numberOfShift": "Số buổi học",
+    "admin.course.table.tuition": "Học phí",
+    "admin.user.form.course.title": "Thông tin khóa học",
+    "admin.course.form.name": "Vui lòng nhập tên khóa học",
+    "admin.course.form.type": "Vui lòng chọn loại khóa học",
+    "admin.course.form.numberOfShift": "Vui lòng điền số buổi học",
+    "admin.course.form.tuition": "Vui lòng điền học phí"
 }

@@ -13,7 +13,7 @@ function WYSISWYG(props) {
     return (
         <Editor editorStyle={{
             width: '100%',
-            minHeight: 100,
+            minHeight: 270,
             borderWidth: 1,
             borderStyle: 'solid',
             borderColor: 'lightgray',
