@@ -53,3 +53,10 @@ export function getMemberIdCurrent() {
     }
     return null;
 }
+
+export function getStatus(status) {
+    if (status === null) {
+        return "-"
+    }
+    return <IntlMessages id={`admin.categoryCourse.table.${status}`}/>
+}

@@ -73,5 +73,22 @@
     "notification.success_reset": "Success Reset",
     "admin.user.form.password": "Please enter password",
     "notification.confirm_password_incorrect": "Confirm password incorrect",
-    "login.forgot.password": "Forgot password"
+    "login.forgot.password": "Forgot password",
+    "admin.categoryCourse.table.name": "Category name",
+    "admin.categoryCourse.table.ACTIVE": "Active",
+    "admin.categoryCourse.table.INACTIVE": "In-active",
+    "admin.categoryCourse.table.status": "Status",
+    "admin.user.categoryCourse.title": "COURSE CATEGORY MANAGEMENT",
+    "admin.user.categoryCourse.info": "COURSE CATEGORY INFORMATION",
+    "admin.categoryCourse.table.description": "Description",
+    "admin.user.course.title": "COURSE MANAGEMENT",
+    "admin.course.table.name": "Course name",
+    "admin.course.table.type": "Course category",
+    "admin.course.table.numberOfShift": "Number of shift",
+    "admin.course.table.tuition": "Tuition",
+    "admin.user.form.course.title": "COURSE INFORMATION",
+    "admin.course.form.name": "Please enter course name",
+    "admin.course.form.type": "Please select course category",
+    "admin.course.form.numberOfShift": "Please enter number of shift",
+    "admin.course.form.tuition": "Please enter tuition"
 }
