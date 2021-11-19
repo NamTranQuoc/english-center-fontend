@@ -105,7 +105,6 @@ const App = () => {
     }, [themeType]);
 
     useEffect(() => {
-        console.log(location.pathname);
         if (pathname !== location.pathname) {
             dispatch(setInitUrl(location.pathname));
         } else {
