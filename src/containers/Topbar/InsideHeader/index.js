@@ -53,7 +53,7 @@ const InsideHeader = () => {
 
     const getMemberAvatar = () => {
         if (authUser == null) {
-            return (<li><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signIn"}/></Link><span style={{marginRight: "3px", marginLeft: "3px"}}>|</span><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signUp"}/></Link></li>)
+            return (<li><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signIn"}/></Link><span style={{marginRight: "3px", marginLeft: "3px"}}>|</span><Link to={"/signup"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signUp"}/></Link></li>)
         } else {
             return <li><UserInfo/></li>
         }
