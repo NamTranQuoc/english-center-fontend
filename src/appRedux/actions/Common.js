@@ -1,10 +1,15 @@
 import {
     CLEAR_ITEMS,
-    HIDE_MESSAGE, HIDE_MODAL,
+    HIDE_MESSAGE,
+    HIDE_MODAL,
     INIT_URL,
     ON_HIDE_LOADER,
-    ON_SHOW_LOADER, SELECT_INDEX, SET_MEMBER,
-    SHOW_MESSAGE, SHOW_MODAL, UPLOAD_IMAGE,
+    ON_SHOW_LOADER,
+    SELECT_INDEX,
+    SET_MEMBER,
+    SHOW_MESSAGE,
+    SHOW_MODAL,
+    UPLOAD_IMAGE,
 } from "../../constants/ActionTypes";
 
 export const showMessage = (message) => {
