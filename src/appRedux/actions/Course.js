@@ -7,14 +7,14 @@ export const getListCourse = (param) => {
     };
 };
 
-export const addCourseCategory = (param) => {
+export const addCourse = (param) => {
     return {
         type: ADD_COURSE,
         payload: param
     };
 };
 
-export const updateCourseCategory = (courseCategory, param) => {
+export const updateCourse = (courseCategory, param) => {
     return {
         type: UPDATE_COURSE,
         payload: {
@@ -24,7 +24,7 @@ export const updateCourseCategory = (courseCategory, param) => {
     };
 };
 
-export const deleteCourseCategory = (id, param) => {
+export const deleteCourse = (id, param) => {
     return {
         type: DELETE_COURSE,
         payload: {
