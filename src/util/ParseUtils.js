@@ -60,3 +60,12 @@ export function getStatus(status) {
     }
     return <IntlMessages id={`admin.categoryCourse.table.${status}`}/>
 }
+
+export function getItemNameById(listItem, id) {
+    for (let i = 0; i < listItem.length; i++) {
+        if (listItem[i]._id === id) {
+            return listItem[i].name;
+        }
+    }
+    return "-";
+}
