@@ -10,7 +10,7 @@ import {
     onSelectIndex,
     onShowModal,
 } from "../../../../appRedux/actions";
-import {getImageURL, getStatus} from "../../../../util/ParseUtils";
+import {getImageURL, getItemNameById} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import moment from 'moment';
 import "../index.css";
@@ -37,13 +37,9 @@ let param = {
 const CoursePage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
-    //const {locale} = useSelector(({settings}) => settings);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
-    //const [, setStyle] = useState("150px");
-    //const [image, setImage] = useState(null);
     const [urlAvatar, setUrlAvatar] = useState(null);
     const [action, setAction] = useState("edit");
-    const [file, ] = useState(null);
     const {courseCategories} = useSelector(({courseCategory}) => courseCategory);
 
     function onChange(pagination, filters, sorter) {
@@ -61,7 +57,7 @@ const CoursePage = () => {
             page: pagination.current,
             size: pagination.pageSize
         }
-        dispatch(getListCourseCategory(param));
+        dispatch(getListCourse(param));
     }
 
     function onSearch(e) {
@@ -70,7 +66,7 @@ const CoursePage = () => {
             keyword: e.target.value,
             page: 1
         }
-        dispatch(getListCourseCategory(param));
+        dispatch(getListCourse(param));
     }
 
     useEffect(() => {
@@ -93,34 +89,7 @@ const CoursePage = () => {
         dispatch(getListCourseCategory(param));
     }
 
-    /*function onFilterDate(dates) {
-        if (dates !== null && dates[0] != null && dates[1] != null) {
-            setStyle("370px");
-            param = {
-                ...param,
-                from_date: dates[0].unix() * 1000,
-                to_date: dates[1].unix() * 1000,
-                page: 1
-            }
-            dispatch(getListCourseCategory(param));
-        }
-    }*/
-
-    /*function onChangeDatePicker(dates) {
-        if (dates === null || dates.length === 0) {
-            setStyle("150px");
-            param = {
-                ...param,
-                from_date: null,
-                to_date: null,
-                page: 1
-            }
-            dispatch(getListCourseCategory(param));
-        }
-    }*/
-
     function onSubmit(member) {
-        console.log(file)
         //dispatch(uploadFile(file, "text.doc"));
         /*if (selectIndex !== -1) {
             member = {
@@ -239,8 +208,9 @@ const CoursePage = () => {
                                    },
                                ]}>
                         <Select>
-                            <Select.Option value="ACTIVE">{getStatus("ACTIVE")}</Select.Option>
-                            <Select.Option value="INACTIVE">{getStatus("INACTIVE")}</Select.Option>
+                            {courseCategories.map(item => {
+                                return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
+                            })}
                         </Select>
                     </Form.Item>
                 </Col>
@@ -290,7 +260,6 @@ const CoursePage = () => {
             </Row>
         </Form>
     </Modal>);
-    console.log(courseCategories);
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.course.title"/></h2>}
@@ -353,6 +322,7 @@ const CoursePage = () => {
                                key: "category_course_id",
                                title: <IntlMessages id="admin.course.table.type"/>,
                                dataIndex: "category_course_id",
+                               render: (category_course_id) => getItemNameById(courseCategories, category_course_id),
                                width: 150,
                                sorter: true,
                            },

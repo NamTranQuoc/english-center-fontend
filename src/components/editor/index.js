@@ -1,10 +1,10 @@
 import React from "react";
 import WYSISWYG from "./WYSISWYG";
 
-const MyEditor = () => {
+function MyEditor (props) {
     return (
-        <WYSISWYG />
+        <WYSISWYG value={props.value} setValue={props.setValue}/>
     );
-};
+}
 
 export default MyEditor;
