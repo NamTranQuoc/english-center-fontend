@@ -1,4 +1,6 @@
 import {
+    FORGET_PASSWORD,
+    REQUEST_FORGET_PASSWORD,
     RESET_PASSWORD,
     SIGNIN_USER,
     SIGNIN_USER_SUCCESS,
@@ -44,5 +46,25 @@ export const resetPassword = (param) => {
     return {
         type: RESET_PASSWORD,
         payload: param
+    };
+};
+
+export const requestForgetPassword = (email, history) => {
+    return {
+        type: REQUEST_FORGET_PASSWORD,
+        payload: {
+            email: email,
+            history: history
+        }
+    };
+};
+
+export const forgetPassword = (values, history) => {
+    return {
+        type: FORGET_PASSWORD,
+        payload: {
+            values: values,
+            history: history
+        }
     };
 };

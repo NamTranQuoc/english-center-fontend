@@ -55,6 +55,10 @@ const errors = {
         message: <IntlMessages id="notification.confirm_password_incorrect"/>,
         type: "success",
     },
+    check_mail: {
+        message: <IntlMessages id="notification.check_mail"/>,
+        type: "info",
+    },
 };
 
 export function createNotification(message) {

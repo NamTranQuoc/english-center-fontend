@@ -9,6 +9,8 @@ export const HIDE_MESSAGE = 'HIDE_MESSAGE';
 export const ON_SHOW_LOADER = 'ON_SHOW_LOADER';
 export const ON_HIDE_LOADER = 'ON_HIDE_LOADER';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const REQUEST_FORGET_PASSWORD = 'REQUEST_FORGET_PASSWORD';
+export const FORGET_PASSWORD = 'FORGET_PASSWORD';
 
 //Auth const
 export const SIGNUP_USER = 'SIGNUP_USER';
