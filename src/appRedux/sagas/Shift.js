@@ -106,7 +106,7 @@ export function* updateShift() {
 function* updateShiftGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(updateShiftRequest, payload.course);
+        const response = yield call(updateShiftRequest, payload.shift);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {

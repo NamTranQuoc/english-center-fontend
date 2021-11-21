@@ -1,22 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, InputNumber, Menu, Modal, Row, Select, Table} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Table, TimePicker} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addMember,
-    getListMember, getListShift,
+    addShift,
+    getListShift,
     onHideModal,
     onSelectIndex,
     onShowModal,
-    updateMember
+    updateShift
 } from "../../../../appRedux/actions";
-import {getDate, getGender, getImageURL, getMoney} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import Image from "../../../../components/uploadImage";
-import moment from 'moment';
 import "../index.css";
-import DeleteModal from "./deleteModal";
-import ResetPassword from "../ResetPassword";
+import moment from "moment";
+
 let param = {
     page: 1,
     size: 10,
@@ -50,7 +47,7 @@ const ShiftPage = () => {
             page: pagination.current,
             size: pagination.pageSize
         }
-        dispatch(getListMember(param));
+        dispatch(getListShift(param));
     }
 
     function onSearch(e) {
@@ -71,44 +68,33 @@ const ShiftPage = () => {
         return <span><IntlMessages id="table.total.items"/>: {total}</span>;
     }
 
-    function onSubmit(member) {
+    function onSubmit(values) {
+        console.log(moment(values.time[0]).format("HH:mm"));
         if (selectIndex !== -1) {
-            member = {
-                ...member,
-                _id: items[selectIndex]._id,
-                dob: member.dob.unix() * 1000,
-                type: "teacher",
-                avatar: image,
-                certificate: {
-                    type: member.certificateType,
-                    code: member.certificateCode,
-                    score: member.certificateScore
-                }
+            values = {
+                id: items[selectIndex]._id,
+                name: values.name,
+                from: moment(values.time[0]).format("HH:mm"),
+                to: moment(values.time[1]).format("HH:mm"),
             }
-            dispatch(updateMember(member, param));
+            dispatch(updateShift(values, param));
         } else {
-            member = {
-                ...member,
-                dob: member.dob.unix() * 1000,
-                type: "teacher",
-                avatar: image,
-                certificate: {
-                    type: member.certificateType,
-                    code: member.certificateCode,
-                    score: member.certificateScore
-                }
+            values = {
+                name: values.name,
+                from: moment(values.time[0]).format("HH:mm"),
+                to: moment(values.time[1]).format("HH:mm"),
             }
-            dispatch(addMember(member));
+            dispatch(addShift(values));
             param = {
                 ...param,
-                page: 1
+                page: 1,
+                size: 10
             }
         }
     }
 
     function showModal() {
         dispatch(onSelectIndex(-1));
-        setUrlAvatar(null);
         setAction("edit");
         if (hasShowModal) {
             dispatch(onHideModal());
@@ -119,23 +105,16 @@ const ShiftPage = () => {
 
     const getInitValueModal = () => {
         if (selectIndex !== -1 && items != null && items.length > selectIndex) {
-            if (urlAvatar == null) {
-                setUrlAvatar(getImageURL(items[selectIndex].avatar));
-            }
             return {
-                certificateType: items[selectIndex].certificate.type,
-                certificateCode: items[selectIndex].certificate.code,
-                certificateScore: items[selectIndex].certificate.score,
                 name: items[selectIndex].name,
-                gender: items[selectIndex].gender,
-                phone_number: items[selectIndex].phone_number,
-                email: items[selectIndex].email,
-                dob: moment.unix(items[selectIndex].dob / 1000),
-                address: items[selectIndex].address,
-                salary: items[selectIndex].salary
+                time: [
+                    moment(items[selectIndex].from, "HH:mm"),
+                    moment(items[selectIndex].to, "HH:mm"),
+                ],
             };
         } else {
             return {
+
             };
         }
     }
@@ -147,7 +126,6 @@ const ShiftPage = () => {
             dispatch(onShowModal());
         } else if (e.key === 'resetPassword') {
             dispatch(onSelectIndex(index));
-            setResetPassword(!resetPassword);
         } else {
             setAction("edit");
             dispatch(onSelectIndex(index));
@@ -155,7 +133,6 @@ const ShiftPage = () => {
         }
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -166,18 +143,12 @@ const ShiftPage = () => {
                 id="admin.user.form.save"/>}</Button>
         }
         onCancel={showModal}
-        bodyStyle={{overflowY: "scroll", height: "600px"}}
         centered
         width={600}>
         <Form
             onFinish={onSubmit}
             id="add-edit-form"
             initialValues={getInitValueModal()}>
-            <Row justify="center">
-                <Col span={12}>
-                    <Image setImage={setImage} url={urlAvatar} setUrl={setUrlAvatar} disabled={false}/>
-                </Col>
-            </Row>
             <Row>
                 <Col span={24}>
                     <Form.Item
@@ -196,34 +167,19 @@ const ShiftPage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col span={12}>
+                <Col span={24}>
                     <Form.Item
                         label={<IntlMessages id="admin.user.shift.table.from"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="phone_number"
+                        name="time"
                         rules={[
                             {
                                 required: true,
                                 message: <IntlMessages id="admin.shift.form.from"/>,
                             },
                         ]}>
-                        <Input placeholder={"0987654321"}/>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.user.shift.table.to"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="dob"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.shift.form.to"/>,
-                            },
-                        ]}>
-                        <DatePicker style={{width: "100%"}} format={'DD/MM/YYYY'}/>
+                        <TimePicker.RangePicker style={{width: "100%"}} format={"HH:mm"}/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -266,21 +222,21 @@ const ShiftPage = () => {
                                key: "name",
                                title: <IntlMessages id="admin.user.shift.table.name"/>,
                                dataIndex: "name",
-                               width: 250,
+                               width: 200,
                                sorter: true
                            },
                            {
                                key: "from",
                                title: <IntlMessages id="admin.user.shift.table.from"/>,
                                dataIndex: "from",
-                               width: 100,
+                               width: 125,
                                sorter: true,
                            },
                            {
                                key: "to",
                                title: <IntlMessages id="admin.user.shift.table.to"/>,
                                dataIndex: "to",
-                               width: 120,
+                               width: 125,
                                sorter: true
                            },
                            {
