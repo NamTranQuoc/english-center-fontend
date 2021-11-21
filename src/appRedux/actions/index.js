@@ -4,3 +4,4 @@ export * from './Common';
 export * from "./Member"
 export * from "./CourseCategory"
 export * from "./Course"
+export * from "./Shift"

@@ -90,6 +90,11 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                     <span><IntlMessages id="sidebar.managerStudy.course"/></span>
                                 </Link>
                             </Menu.Item>
+                            <Menu.Item key="/admin/shift">
+                                <Link to="/admin/shift">
+                                    <span><IntlMessages id="sidebar.managerStudy.shift"/></span>
+                                </Link>
+                            </Menu.Item>
                         </Menu.SubMenu>
 
                     </Menu>

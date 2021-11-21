@@ -98,5 +98,14 @@
     "admin.course.form.tuition": "Vui lòng điền học phí",
     "admin.categoryCourse.form.name": "Vui lòng nhập tên loại khóa học",
     "admin.categoryCourse.form.status": "Vui lòng chọn trạng thái",
-    "admin.categoryCourse.form.description": "Vui lòng nhập mô tả"
+    "admin.categoryCourse.form.description": "Vui lòng nhập mô tả",
+    "admin.user.form.shift.title": "Thông tin ca học",
+    "admin.user.shift.table.name": "Tên ca học",
+    "admin.shift.form.name": "Vui lòng điền tên ca học",
+    "admin.user.shift.table.from": "Thời gian bắt đầu",
+    "admin.shift.form.from": "Vui lòng chọn thời gian bắt đầu",
+    "admin.user.shift.table.to": "Thời gian kết thúc",
+    "admin.shift.form.to": "Vui lòng chọn thời gian kết thúc",
+    "admin.user.shift.title": "QUẢN LÝ CA HỌC",
+    "sidebar.managerStudy.shift": "Ca học"
 }

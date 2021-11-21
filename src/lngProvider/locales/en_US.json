@@ -98,5 +98,14 @@
     "admin.course.form.tuition": "Please enter tuition",
     "admin.categoryCourse.form.name": "Please enter course category name",
     "admin.categoryCourse.form.status": "Please select status",
-    "admin.categoryCourse.form.description": "Please enter description"
+    "admin.categoryCourse.form.description": "Please enter description",
+    "admin.user.form.shift.title": "Shift information",
+    "admin.user.shift.table.name": "Shift name",
+    "admin.shift.form.name": "Please enter shift name",
+    "admin.user.shift.table.from": "Start time",
+    "admin.shift.form.from": "Please select start time",
+    "admin.user.shift.table.to": "End time",
+    "admin.shift.form.to": "Please select end time",
+    "admin.user.shift.title": "SHIFT MANAGEMENT",
+    "sidebar.managerStudy.shift": "Shift"
 }
