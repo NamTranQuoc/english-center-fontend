@@ -4,7 +4,7 @@ import {
     GET_CURRENT_MEMBER,
     GET_LIST_SUCCESS,
     GET_MEMBER,
-    ON_HIDE_LOADER_TABLE,
+    ON_HIDE_LOADER_TABLE, UPDATE_CURRENT_MEMBER,
     UPDATE_MEMBER
 } from "../../constants/ActionTypes";
 
@@ -60,5 +60,12 @@ export const deleteMember = (id, type, param) => {
 export const getCurrentMember = () => {
     return {
         type: GET_CURRENT_MEMBER
+    };
+};
+
+export const updateCurrentMember = (member) => {
+    return {
+        type: UPDATE_CURRENT_MEMBER,
+        payload: member
     };
 };
