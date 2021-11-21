@@ -1,13 +1,13 @@
 import {
     HIDE_MESSAGE,
-    HIDE_MODAL,
+    HIDE_MODAL, HIDE_UPDATE_MEMBER,
     INIT_URL,
     ON_HIDE_LOADER,
     ON_SHOW_LOADER,
     SELECT_INDEX,
     SET_MEMBER,
     SHOW_MESSAGE,
-    SHOW_MODAL,
+    SHOW_MODAL, SHOW_UPDATE_MEMBER,
 } from '../../constants/ActionTypes'
 
 const INIT_STATE = {
@@ -18,7 +18,8 @@ const INIT_STATE = {
     pathname: '/',
     hasShowModal: false,
     selectIndex: -1,
-    member: null
+    member: null,
+    hasShowUpdateMember: false
 };
 
 const CommonReducer = (state = INIT_STATE, action) => {
@@ -64,6 +65,18 @@ const CommonReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 hasShowModal: false
+            }
+        }
+        case SHOW_UPDATE_MEMBER: {
+            return {
+                ...state,
+                hasShowUpdateMember: true
+            }
+        }
+        case HIDE_UPDATE_MEMBER: {
+            return {
+                ...state,
+                hasShowUpdateMember: false
             }
         }
         case SELECT_INDEX: {
