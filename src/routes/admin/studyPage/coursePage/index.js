@@ -3,26 +3,20 @@ import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Tabl
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    addCourse,
     getAllCourseCategory,
     getListCourse,
-    getListCourseCategory,
     onHideModal,
     onSelectIndex,
     onShowModal,
+    updateCourse,
 } from "../../../../appRedux/actions";
-import {getImageURL, getItemNameById} from "../../../../util/ParseUtils";
+import {getItemNameById} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import moment from 'moment';
 import "../index.css";
 import DeleteModal from "./deleteModal";
 import MyEditor from "../../../../components/editor";
 
-moment.updateLocale('vi', {
-    weekdaysMin: ["Cn", "T2", "T3", "T4", "T5", "T6", "T7"],
-    monthsShort: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
-});
-
-//const {RangePicker} = DatePicker;
 let param = {
     page: 1,
     size: 10,
@@ -38,9 +32,9 @@ const CoursePage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
-    const [urlAvatar, setUrlAvatar] = useState(null);
     const [action, setAction] = useState("edit");
     const {courseCategories} = useSelector(({courseCategory}) => courseCategory);
+    const [desc, setDesc] = useState(null);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -69,6 +63,16 @@ const CoursePage = () => {
         dispatch(getListCourse(param));
     }
 
+    function onFilterType(e) {
+        const types = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            category_courses: types,
+            page: 1
+        }
+        dispatch(getListCourse(param));
+    }
+
     useEffect(() => {
         dispatch(getListCourse(param));
         dispatch(getAllCourseCategory());
@@ -79,45 +83,33 @@ const CoursePage = () => {
         return <span><IntlMessages id="table.total.items"/>: {total}</span>;
     }
 
-    function onFilterGender(e) {
-        const genders = Array.isArray(e) ? e.map((x) => x) : []
-        param = {
-            ...param,
-            genders: genders,
-            page: 1
-        }
-        dispatch(getListCourseCategory(param));
-    }
-
-    function onSubmit(member) {
-        //dispatch(uploadFile(file, "text.doc"));
-        /*if (selectIndex !== -1) {
-            member = {
-                ...member,
-                _id: items[selectIndex]._id,
-                dob: member.dob.unix() * 1000,
-                type: "student",
-                avatar: image
+    function onSubmit(course) {
+        console.log(desc);
+        if (selectIndex !== -1) {
+            course = {
+                ...course,
+                id: items[selectIndex]._id,
+                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
             }
-            dispatch(updateMember(member, param));
+            dispatch(updateCourse(course, param));
         } else {
-            member = {
-                ...member,
-                dob: member.dob.unix() * 1000,
-                type: "student",
-                avatar: image
+
+            course = {
+                ...course,
+                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
             }
-            dispatch(addMember(member));
+            dispatch(addCourse(course));
             param = {
                 ...param,
-                page: 1
+                page: 1,
+                size: 10
             }
-        }*/
+        }
     }
 
     function showModal() {
         dispatch(onSelectIndex(-1));
-        setUrlAvatar(null);
+        setDesc(null);
         setAction("edit");
         if (hasShowModal) {
             dispatch(onHideModal());
@@ -128,31 +120,23 @@ const CoursePage = () => {
 
     const getInitValueModal = () => {
         if (selectIndex !== -1 && items != null && items.length > selectIndex) {
-            if (urlAvatar == null) {
-                getImageURL(items[selectIndex].avatar).then(value => {
-                    if (value !== "") {
-                        setUrlAvatar(value);
-                    }
-                });
+            if (desc === null) {
+                setDesc(items[selectIndex].description);
             }
             return {
                 name: items[selectIndex].name,
-                gender: items[selectIndex].gender,
-                phone_number: items[selectIndex].phone_number,
-                email: items[selectIndex].email,
-                dob: moment.unix(items[selectIndex].dob / 1000),
-                address: items[selectIndex].address
+                tuition: items[selectIndex].tuition,
+                number_of_shift: items[selectIndex].number_of_shift,
+                category_course_id: items[selectIndex].category_course_id,
             };
         } else {
             return {
-                gender: "male",
-                address: "",
-                dob: moment()
             };
         }
     }
 
     const menus = (index) => (<Menu onClick={(e) => {
+        setDesc(null);
         if (e.key === 'delete') {
             setAction("delete");
         } else {
@@ -162,7 +146,6 @@ const CoursePage = () => {
         dispatch(onShowModal());
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -198,7 +181,7 @@ const CoursePage = () => {
                 </Col>
                 <Col span={12}>
                     <Form.Item label={<IntlMessages id="admin.course.table.type"/>}
-                               name="type"
+                               name="category_course_id"
                                labelCol={{span: 24}}
                                wrapperCol={{span: 24}}
                                rules={[
@@ -221,7 +204,7 @@ const CoursePage = () => {
                         label={<IntlMessages id="admin.course.table.numberOfShift"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="name"
+                        name="number_of_shift"
                         rules={[
                             {
                                 required: true,
@@ -236,7 +219,7 @@ const CoursePage = () => {
                         label={<IntlMessages id="admin.course.table.tuition"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="name"
+                        name="tuition"
                         rules={[
                             {
                                 required: true,
@@ -252,9 +235,8 @@ const CoursePage = () => {
                     <Form.Item
                         label={<IntlMessages id="admin.categoryCourse.table.description"/>}
                         labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="address">
-                        <MyEditor />
+                        wrapperCol={{span: 24}}>
+                        <MyEditor value={desc} setValue={setDesc} />
                     </Form.Item>
                 </Col>
             </Row>
@@ -278,7 +260,7 @@ const CoursePage = () => {
                         {placeholder =>
                             <Select mode="multiple"
                                     style={{minWidth: "100px"}}
-                                    onChange={onFilterGender}
+                                    onChange={onFilterType}
                                     placeholder={placeholder}>
                                 {courseCategories.map(item => {
                                     return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
@@ -369,7 +351,7 @@ const CoursePage = () => {
             }/>
             {hasShowModal && modal()}
             {hasShowModal &&
-            <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal} urlAvatar={urlAvatar}
+            <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal}
                          action={action} param={param}/>}
         </Card>
     );
