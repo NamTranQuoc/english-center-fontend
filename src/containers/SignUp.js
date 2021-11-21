@@ -17,7 +17,7 @@ const SignUp = () => {
     const onFinish = member => {
         member = {
             ...member,
-            dob: moment() * 1000,
+            dob: moment().unix() * 1000,
             type: "student",
             image: null
         }
