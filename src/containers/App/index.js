@@ -23,6 +23,8 @@ import {
 } from "../../constants/ThemeSetting";
 import CircularProgress from "../../components/CircularProgress";
 import {getRoleCurrent} from "../../util/ParseUtils";
+import RequestForgetPassword from "../ResquestForgetPassword";
+import ForgetPassword from "../ForgetPassword";
 
 const RestrictedRoute = ({component: Component, location, authUser, ...rest}) =>
     <Route
@@ -115,7 +117,7 @@ const App = () => {
         if (pathname !== location.pathname) {
             dispatch(setInitUrl(location.pathname));
         } else {
-            if (pathname === '/signin' || pathname === '/signup') {
+            if (pathname === '/signin' || pathname === '/signup' || pathname === '/request_forget_password' || pathname.substring(0, 16) === '/forget_password') {
                 history.push(pathname);
             } else if (pathname === '/' || pathname === '' || pathname === '/home') {
                 history.push('/home');
@@ -151,6 +153,8 @@ const App = () => {
                 <Switch>
                     <Route exact path="/signin" component={SignIn}/>
                     <Route exact path="/signup" component={SignUp}/>
+                    <Route exact path="/request_forget_password" component={RequestForgetPassword}/>
+                    <Route path="/forget_password" component={ForgetPassword}/>
                     <RestrictedRoute path="/admin" authUser={authUser} location={location} component={MainApp}/>
                     <Route path="/home" location={location} component={HomeApp}/>
                 </Switch>

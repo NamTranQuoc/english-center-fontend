@@ -1,4 +1,8 @@
 {
+    "form.change.password": "Đổi mật khẩu",
+    "admin.user.oldPassword": "Mật khẩu cũ",
+    "title.forgot.password": "Tạo mật khẩu mới",
+    "notification.check_mail": "Vui lòng kiểm tra email để hoàn thành",
     "admin.user.form.information.title": "Thông tin cá nhân",
     "sidebar.dashboard": "Tổng quan",
     "sidebar.managerUser": "Quản lý người dùng",
@@ -68,7 +72,7 @@
     "notification.success_delete": "Xóa thành công",
     "notification.bad_request": "Lỗi không xác định",
     "admin.user.form.resetPassword": "Khôi phục mật khẩu",
-    "admin.user.form.reset": "Đổi",
+    "admin.user.form.reset": "Khôi phục",
     "admin.user.newPassword": "Mật khẩu mới",
     "admin.user.confirmPassword": "Xác nhận lại mật khẩu",
     "notification.success_reset": "Khôi phục thành công",

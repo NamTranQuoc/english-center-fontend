@@ -1,31 +1,24 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Button, Form, Input} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import {Link, useHistory} from "react-router-dom";
-
-import {userSignIn,} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
-import {getImageURL, getRoleCurrent} from "../util/ParseUtils";
+import {getImageURL} from "../util/ParseUtils";
+import {forgetPassword} from "../appRedux/actions";
+import {useHistory} from "react-router-dom";
 
-const SignIn = () => {
+const ForgetPassword = () => {
     const dispatch = useDispatch();
-    const {authUser} = useSelector(({auth}) => auth);
     const history = useHistory();
-
-    useEffect(() => {
-        if (authUser !== null) {
-            const role = getRoleCurrent();
-            if (role === "admin" || role === "receptionist") {
-                history.push("/admin/dashboard");
-            } else {
-                history.push("/home");
-            }
-        }
-    });
+    const pathname = useSelector(({common}) => common.pathname);
 
     const onFinish = values => {
-        dispatch(userSignIn(values));
+        const token = pathname.substring(17);
+        values = {
+            ...values,
+            token: token
+        }
+        dispatch(forgetPassword(values, history));
     };
 
     return (
@@ -37,7 +30,7 @@ const SignIn = () => {
                             {/*<img src={"https://via.placeholder.com/272x395"} alt='Neature'/>*/}
                         </div>
                         <div className="gx-app-logo-wid">
-                            <h1><IntlMessages id="app.userAuth.signIn"/></h1>
+                            <h1><IntlMessages id="title.forgot.password"/></h1>
                             <a href="/home" style={{color: "#fdfdfd"}}><IntlMessages id="sidebar.home"/></a>
                         </div>
                         <div className="gx-app-logo">
@@ -46,31 +39,22 @@ const SignIn = () => {
                     </div>
                     <div className="gx-app-login-content">
                         <Form
-                            initialValues={{remember: true}}
                             name="basic"
                             onFinish={onFinish}
                             className="gx-signin-form gx-form-row0">
 
                             <Form.Item
-                                rules={[{required: true, message: <IntlMessages id="admin.user.form.email"/>}]} name="email">
-                                <Input placeholder="Email"/>
+                                rules={[{required: true, message: 'Please input your Password!'}]} name="password">
+                                <Input type="password" placeholder="Password"/>
                             </Form.Item>
                             <Form.Item
-                                rules={[{required: true, message: <IntlMessages id="admin.user.form.password"/>}]} name="password">
-                                <Input type="password" placeholder="Password"/>
+                                rules={[{required: true, message: 'Please input confirm Password!'}]} name="confirmPassword">
+                                <Input type="Password" placeholder="Confirm Password"/>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" className="gx-mb-0" htmlType="submit">
-                                    <IntlMessages id="app.userAuth.signIn"/>
+                                    <IntlMessages id="admin.user.form.reset"/>
                                 </Button>
-                                <span><IntlMessages id="app.userAuth.or"/></span> <Link to="/signup"><IntlMessages
-                                id="app.userAuth.signUp"/></Link>
-                            </Form.Item>
-                            <Form.Item name="forgetPassword">
-                                <Link className="gx-login-form-forgot"
-                                      to="/request_forget_password">
-                                    <IntlMessages id="login.forgot.password"/>
-                                </Link>
                             </Form.Item>
                         </Form>
                     </div>
@@ -80,4 +64,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default ForgetPassword;
