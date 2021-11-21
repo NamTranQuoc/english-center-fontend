@@ -4,7 +4,7 @@ import {
     DELETE_MEMBER,
     GET_CURRENT_MEMBER,
     GET_MEMBER,
-    SIGNUP_USER,
+    SIGNUP_USER, UPDATE_CURRENT_MEMBER,
     UPDATE_MEMBER
 } from "../../constants/ActionTypes";
 import axios from "axios";
@@ -18,7 +18,8 @@ import {
     setMember,
     showLoader,
     showMessage,
-    uploadImage
+    uploadImage,
+    getCurrentMember as getCurrentMemberAction, onHideUpdateMember
 } from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
@@ -64,6 +65,7 @@ const updateMemberRequest = async (payload) =>
             name: payload.name,
             gender: payload.gender,
             phone_number: payload.phone_number,
+            type: payload.type,
             address: payload.address,
             dob: payload.dob,
             salary: payload.salary,
@@ -241,6 +243,31 @@ function* signUp({payload}) {
     }
 }
 
+export function* updateMemberCurrent() {
+    yield takeEvery(UPDATE_CURRENT_MEMBER, updateMemberCurrentGenerate);
+}
+
+function* updateMemberCurrentGenerate({payload}) {
+    try {
+        yield put(showLoader());
+        const response = yield call(updateMemberRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(uploadImage(payload.avatar, response.data.payload.avatar));
+            yield put(onHideUpdateMember());
+            yield put(getCurrentMemberAction());
+            yield put(showMessage("success_update"));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         fork(getListMember),
@@ -249,5 +276,6 @@ export default function* rootSaga() {
         fork(deleteMember),
         fork(getCurrentMember),
         fork(signUpUser),
+        fork(updateMemberCurrent),
     ]);
 }
