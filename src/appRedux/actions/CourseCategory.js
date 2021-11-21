@@ -39,7 +39,7 @@ export const updateCourseCategory = (courseCategory, param) => {
     return {
         type: UPDATE_COURSE_CATEGORY,
         payload: {
-            member: courseCategory,
+            courseCategory: courseCategory,
             param: param
         }
     };

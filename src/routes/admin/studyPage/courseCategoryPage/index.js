@@ -2,20 +2,19 @@ import React, {useEffect, useState} from "react";
 import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
-import {getListCourseCategory, onHideModal, onSelectIndex, onShowModal,} from "../../../../appRedux/actions";
-import {getDate, getImageURL, getStatus} from "../../../../util/ParseUtils";
+import {
+    addCourseCategory,
+    getListCourseCategory,
+    onHideModal,
+    onSelectIndex,
+    onShowModal, updateCourseCategory,
+} from "../../../../appRedux/actions";
+import {getDate, getStatus} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import moment from 'moment';
 import "../index.css";
 import DeleteModal from "./deleteModal";
 import MyEditor from "../../../../components/editor";
 
-moment.updateLocale('vi', {
-    weekdaysMin: ["Cn", "T2", "T3", "T4", "T5", "T6", "T7"],
-    monthsShort: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
-});
-
-//const {RangePicker} = DatePicker;
 let param = {
     page: 1,
     size: 10,
@@ -24,19 +23,14 @@ let param = {
         field: "_id"
     },
     keyword: "",
-    genders: []
 }
 
 const CourseCategoryPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
-    // const {locale} = useSelector(({settings}) => settings);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
-    // const [style, setStyle] = useState("150px");
-    // const [image, setImage] = useState(null);
-    const [urlAvatar, setUrlAvatar] = useState(null);
     const [action, setAction] = useState("edit");
-    // const [file, setFile] = useState(null);
+    const [desc, setDesc] = useState(null);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -74,61 +68,33 @@ const CourseCategoryPage = () => {
         return <span><IntlMessages id="table.total.items"/>: {total}</span>;
     }
 
-    // function onFilterDate(dates) {
-    //     if (dates !== null && dates[0] != null && dates[1] != null) {
-    //         setStyle("370px");
-    //         param = {
-    //             ...param,
-    //             from_date: dates[0].unix() * 1000,
-    //             to_date: dates[1].unix() * 1000,
-    //             page: 1
-    //         }
-    //         dispatch(getListCourseCategory(param));
-    //     }
-    // }
-
-    // function onChangeDatePicker(dates) {
-    //     if (dates === null || dates.length === 0) {
-    //         setStyle("150px");
-    //         param = {
-    //             ...param,
-    //             from_date: null,
-    //             to_date: null,
-    //             page: 1
-    //         }
-    //         dispatch(getListCourseCategory(param));
-    //     }
-    // }
-
-    function onSubmit(member) {
-        //dispatch(uploadFile(file, "text.doc"));
-        /*if (selectIndex !== -1) {
-            member = {
-                ...member,
-                _id: items[selectIndex]._id,
-                dob: member.dob.unix() * 1000,
-                type: "student",
-                avatar: image
+    function onSubmit(courseCategory) {
+        console.log(desc);
+        if (selectIndex !== -1) {
+            courseCategory = {
+                ...courseCategory,
+                id: items[selectIndex]._id,
+                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
             }
-            dispatch(updateMember(member, param));
+            dispatch(updateCourseCategory(courseCategory, param));
         } else {
-            member = {
-                ...member,
-                dob: member.dob.unix() * 1000,
-                type: "student",
-                avatar: image
+
+            courseCategory = {
+                ...courseCategory,
+                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
             }
-            dispatch(addMember(member));
+            dispatch(addCourseCategory(courseCategory));
             param = {
                 ...param,
-                page: 1
+                page: 1,
+                size: 10
             }
-        }*/
+        }
     }
 
     function showModal() {
         dispatch(onSelectIndex(-1));
-        setUrlAvatar(null);
+        setDesc(null);
         setAction("edit");
         if (hasShowModal) {
             dispatch(onHideModal());
@@ -139,31 +105,22 @@ const CourseCategoryPage = () => {
 
     const getInitValueModal = () => {
         if (selectIndex !== -1 && items != null && items.length > selectIndex) {
-            if (urlAvatar == null) {
-                getImageURL(items[selectIndex].avatar).then(value => {
-                    if (value !== "") {
-                        setUrlAvatar(value);
-                    }
-                });
+            if (desc === null) {
+                setDesc(items[selectIndex].description);
             }
             return {
                 name: items[selectIndex].name,
-                gender: items[selectIndex].gender,
-                phone_number: items[selectIndex].phone_number,
-                email: items[selectIndex].email,
-                dob: moment.unix(items[selectIndex].dob / 1000),
-                address: items[selectIndex].address
+                status: items[selectIndex].status,
             };
         } else {
             return {
-                gender: "male",
-                address: "",
-                dob: moment()
+                status: "ACTIVE"
             };
         }
     }
 
     const menus = (index) => (<Menu onClick={(e) => {
+        setDesc(null);
         if (e.key === 'delete') {
             setAction("delete");
         } else {
@@ -173,7 +130,6 @@ const CourseCategoryPage = () => {
         dispatch(onShowModal());
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -186,7 +142,7 @@ const CourseCategoryPage = () => {
         onCancel={showModal}
         bodyStyle={{overflowY: "scroll", height: "550px"}}
         centered
-        width={1200}>
+        width={1250}>
         <Form
             onFinish={onSubmit}
             id="add-edit-form"
@@ -201,7 +157,7 @@ const CourseCategoryPage = () => {
                         rules={[
                             {
                                 required: true,
-                                message: <IntlMessages id="admin.user.form.name"/>,
+                                message: <IntlMessages id="admin.categoryCourse.form.name"/>,
                             },
                         ]}>
                         <Input placeholder="Toeic"/>
@@ -215,6 +171,7 @@ const CourseCategoryPage = () => {
                                rules={[
                                    {
                                        required: true,
+                                       message: <IntlMessages id="admin.categoryCourse.form.status"/>,
                                    },
                                ]}>
                         <Select>
@@ -229,9 +186,8 @@ const CourseCategoryPage = () => {
                     <Form.Item
                         label={<IntlMessages id="admin.categoryCourse.table.description"/>}
                         labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="address">
-                        <MyEditor />
+                        wrapperCol={{span: 24}}>
+                        <MyEditor value={desc} setValue={setDesc} />
                     </Form.Item>
                 </Col>
             </Row>
@@ -322,7 +278,7 @@ const CourseCategoryPage = () => {
             }/>
             {hasShowModal && modal()}
             {hasShowModal &&
-            <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal} urlAvatar={urlAvatar}
+            <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal}
                          action={action} param={param}/>}
         </Card>
     );

@@ -91,5 +91,8 @@
     "admin.course.form.name": "Please enter course name",
     "admin.course.form.type": "Please select course category",
     "admin.course.form.numberOfShift": "Please enter number of shift",
-    "admin.course.form.tuition": "Please enter tuition"
+    "admin.course.form.tuition": "Please enter tuition",
+    "admin.categoryCourse.form.name": "Please enter course category name",
+    "admin.categoryCourse.form.status": "Please select status",
+    "admin.categoryCourse.form.description": "Please enter description"
 }

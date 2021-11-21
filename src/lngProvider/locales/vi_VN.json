@@ -91,5 +91,8 @@
     "admin.course.form.name": "Vui lòng nhập tên khóa học",
     "admin.course.form.type": "Vui lòng chọn loại khóa học",
     "admin.course.form.numberOfShift": "Vui lòng điền số buổi học",
-    "admin.course.form.tuition": "Vui lòng điền học phí"
+    "admin.course.form.tuition": "Vui lòng điền học phí",
+    "admin.categoryCourse.form.name": "Vui lòng nhập tên loại khóa học",
+    "admin.categoryCourse.form.status": "Vui lòng chọn trạng thái",
+    "admin.categoryCourse.form.description": "Vui lòng nhập mô tả"
 }
