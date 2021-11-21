@@ -1,5 +1,6 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
+    CHANGE_PASSWORD,
     FORGET_PASSWORD,
     REQUEST_FORGET_PASSWORD,
     RESET_PASSWORD,
@@ -7,7 +8,7 @@ import {
     SIGNOUT_USER,
 } from "../../constants/ActionTypes";
 import {
-    hideLoader,
+    hideLoader, onHideChangePassword,
     setInitUrl,
     setMember,
     showLoader,
@@ -154,7 +155,7 @@ function* forgetPassword({payload}) {
     try {
         const {values, history} = payload;
         yield put(showLoader());
-        const response = yield call(forgetPasswordPasswordRequest, values);
+        const response = yield call(forgetPasswordRequest, values);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
@@ -170,7 +171,7 @@ function* forgetPassword({payload}) {
     }
 }
 
-const forgetPasswordPasswordRequest = async (payload) =>
+const forgetPasswordRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/forget_password`,
@@ -184,11 +185,50 @@ const forgetPasswordPasswordRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* changePasswordUser() {
+    yield takeEvery(CHANGE_PASSWORD, changePassword);
+}
+
+function* changePassword({payload}) {
+    try {
+        yield put(showLoader());
+        const response = yield call(changePasswordRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(showMessage("success_update"));
+            yield put(onHideChangePassword());
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const changePasswordRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/change_password`,
+        data: {
+            old_password: payload.oldPassword,
+            confirm_password: payload.confirmPassword,
+            new_password: payload.newPassword,
+        },
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([fork(signInUser),
         fork(signOutUser),
         fork(resetPasswordUser),
         fork(requestForgetPasswordUser),
-        fork(forgetPasswordUser)
+        fork(forgetPasswordUser),
+        fork(changePasswordUser)
     ]);
 }

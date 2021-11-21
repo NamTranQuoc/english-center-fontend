@@ -1,5 +1,5 @@
 import {
-    ADD_MEMBER,
+    ADD_MEMBER, CHANGE_PASSWORD,
     DELETE_MEMBER,
     GET_CURRENT_MEMBER,
     GET_LIST_SUCCESS,
@@ -67,5 +67,12 @@ export const updateCurrentMember = (member) => {
     return {
         type: UPDATE_CURRENT_MEMBER,
         payload: member
+    };
+};
+
+export const changePassword = (values) => {
+    return {
+        type: CHANGE_PASSWORD,
+        payload: values
     };
 };

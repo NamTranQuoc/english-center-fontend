@@ -1,4 +1,6 @@
 {
+    "form.change.password": "Đổi mật khẩu",
+    "admin.user.oldPassword": "Mật khẩu cũ",
     "title.forgot.password": "Tạo mật khẩu mới",
     "notification.check_mail": "Vui lòng kiểm tra email để hoàn thành",
     "admin.user.form.information.title": "Thông tin cá nhân",

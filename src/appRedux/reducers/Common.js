@@ -1,11 +1,12 @@
 import {
+    HIDE_CHANGE_PASSWORD,
     HIDE_MESSAGE,
     HIDE_MODAL, HIDE_UPDATE_MEMBER,
     INIT_URL,
     ON_HIDE_LOADER,
     ON_SHOW_LOADER,
     SELECT_INDEX,
-    SET_MEMBER,
+    SET_MEMBER, SHOW_CHANGE_PASSWORD,
     SHOW_MESSAGE,
     SHOW_MODAL, SHOW_UPDATE_MEMBER,
 } from '../../constants/ActionTypes'
@@ -19,7 +20,8 @@ const INIT_STATE = {
     hasShowModal: false,
     selectIndex: -1,
     member: null,
-    hasShowUpdateMember: false
+    hasShowUpdateMember: false,
+    hasShowChangePassword: false,
 };
 
 const CommonReducer = (state = INIT_STATE, action) => {
@@ -77,6 +79,18 @@ const CommonReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 hasShowUpdateMember: false
+            }
+        }
+        case SHOW_CHANGE_PASSWORD: {
+            return {
+                ...state,
+                hasShowChangePassword: true
+            }
+        }
+        case HIDE_CHANGE_PASSWORD: {
+            return {
+                ...state,
+                hasShowChangePassword: false
             }
         }
         case SELECT_INDEX: {
