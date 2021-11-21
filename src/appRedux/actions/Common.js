@@ -1,12 +1,12 @@
 import {
-    CLEAR_ITEMS,
+    CLEAR_ITEMS, HIDE_CHANGE_PASSWORD,
     HIDE_MESSAGE,
     HIDE_MODAL, HIDE_UPDATE_MEMBER,
     INIT_URL,
     ON_HIDE_LOADER,
     ON_SHOW_LOADER,
     SELECT_INDEX,
-    SET_MEMBER,
+    SET_MEMBER, SHOW_CHANGE_PASSWORD,
     SHOW_MESSAGE,
     SHOW_MODAL, SHOW_UPDATE_MEMBER,
     UPLOAD_IMAGE,
@@ -81,6 +81,18 @@ export const onShowUpdateMember = () => {
 export const onHideUpdateMember = () => {
     return {
         type: HIDE_UPDATE_MEMBER
+    }
+}
+
+export const onShowChangePassword = () => {
+    return {
+        type: SHOW_CHANGE_PASSWORD
+    }
+}
+
+export const onHideChangePassword = () => {
+    return {
+        type: HIDE_CHANGE_PASSWORD
     }
 }
 
