@@ -14,11 +14,11 @@ export const addCourse = (param) => {
     };
 };
 
-export const updateCourse = (courseCategory, param) => {
+export const updateCourse = (course, param) => {
     return {
         type: UPDATE_COURSE,
         payload: {
-            member: courseCategory,
+            course: course,
             param: param
         }
     };
