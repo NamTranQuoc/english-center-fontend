@@ -69,7 +69,6 @@ const CourseCategoryPage = () => {
     }
 
     function onSubmit(courseCategory) {
-        console.log(desc);
         if (selectIndex !== -1) {
             courseCategory = {
                 ...courseCategory,

@@ -1,7 +1,7 @@
 import {
     CLEAR_ITEMS,
     GET_COURSE,
-    GET_COURSE_CATEGORY,
+    GET_COURSE_CATEGORY, GET_DOCUMENT,
     GET_LIST_SUCCESS,
     GET_MEMBER, GET_ROOM, GET_SHIFT,
     ON_HIDE_LOADER_TABLE,
@@ -15,6 +15,7 @@ const INIT_STATE = {
 
 const GetListReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
+    	case GET_DOCUMENT:
         case GET_ROOM:
         case GET_SHIFT:
         case GET_COURSE:

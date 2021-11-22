@@ -6,6 +6,7 @@ import Common from "./Common";
 import GetList from "./GetList";
 import CourseCategory from "./CourseCategory"
 import Shift from "./Shift";
+import Course from "./Course";
 
 
 const createRootReducer = (history) => combineReducers({
@@ -15,7 +16,8 @@ const createRootReducer = (history) => combineReducers({
     common: Common,
     getList: GetList,
     courseCategory: CourseCategory,
-    shift: Shift
+    shift: Shift,
+    course: Course,
 });
 
 export default createRootReducer

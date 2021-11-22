@@ -8,7 +8,7 @@ import {
     SELECT_INDEX,
     SET_MEMBER, SHOW_CHANGE_PASSWORD,
     SHOW_MESSAGE,
-    SHOW_MODAL, SHOW_UPDATE_MEMBER,
+    SHOW_MODAL, SHOW_UPDATE_MEMBER, UPLOAD_FILE,
     UPLOAD_IMAGE,
 } from "../../constants/ActionTypes";
 
@@ -55,6 +55,16 @@ export const uploadImage = (image, path) => {
         type: UPLOAD_IMAGE,
         payload: {
             image: image,
+            path: path
+        }
+    }
+}
+
+export const uploadFile = (file, path) => {
+    return {
+        type: UPLOAD_FILE,
+        payload: {
+            file: file,
             path: path
         }
     }
