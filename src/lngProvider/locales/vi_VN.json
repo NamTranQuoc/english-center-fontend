@@ -107,5 +107,14 @@
     "admin.user.shift.table.to": "Thời gian kết thúc",
     "admin.shift.form.to": "Vui lòng chọn thời gian kết thúc",
     "admin.user.shift.title": "QUẢN LÝ CA HỌC",
-    "sidebar.managerStudy.shift": "Ca học"
+    "sidebar.managerStudy.shift": "Ca học",
+    "admin.user.form.room.title": "Thông tin phòng học",
+    "admin.user.room.table.name": "Tên phòng học",
+    "admin.room.form.name": "Vui lòng nhập tên phòng học",
+    "admin.user.room.table.capacity": "Sức chứa",
+    "admin.room.form.capacity": "Vui lòng nhập sức chứa",
+    "admin.user.room.title": "QUẢN LÝ PHÒNG HỌC",
+    "sidebar.managerStudy.room": "Phòng học",
+    "notification.shift_not_exist": "Ca học không tồn tại",
+    "notification.room_not_exist": "Phòng học không tồn tại"
 }
