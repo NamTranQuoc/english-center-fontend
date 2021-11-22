@@ -1,5 +1,5 @@
 import {all, fork, put, takeEvery} from "redux-saga/effects";
-import {INIT_URL, SHOW_MESSAGE, SWITCH_LANGUAGE, UPLOAD_IMAGE} from "../../constants/ActionTypes";
+import {INIT_URL, SHOW_MESSAGE, SWITCH_LANGUAGE, UPLOAD_FILE, UPLOAD_IMAGE} from "../../constants/ActionTypes";
 import {createNotification} from "../../components/Notification";
 import {clearItems, userSignOut} from "../actions";
 import {storage} from "../../firebase/firebase";
@@ -37,11 +37,23 @@ export function* uploadImage() {
     yield takeEvery(UPLOAD_IMAGE, uploadImageGenerate);
 }
 
+export function* uploadFile() {
+    yield takeEvery(UPLOAD_FILE, uploadFileGenerate);
+}
+
+function* uploadFileGenerate({payload}) {
+    if (payload.file != null) {
+        console.log(payload.file);
+        yield storage.ref(`documents/${payload.path}`).put(payload.file, {contentType: payload.file.type});
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         fork(showNotification),
         fork(setInitUrl),
         fork(setLocale),
-        fork(uploadImage)
+        fork(uploadImage),
+        fork(uploadFile)
     ]);
 }
