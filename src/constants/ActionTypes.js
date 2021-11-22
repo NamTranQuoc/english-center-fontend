@@ -68,3 +68,8 @@ export const DELETE_SHIFT = 'DELETE_SHIFT';
 
 export const GET_ALL_SHIFT = 'GET_ALL_SHIFT';
 export const GET_ALL_SHIFT_SUCCESS = 'GET_ALL_SHIFT_SUCCESS';
+
+export const GET_ROOM = 'GET_ROOM';
+export const ADD_ROOM = 'ADD_ROOM';
+export const UPDATE_ROOM = 'UPDATE_ROOM';
+export const DELETE_ROOM = 'DELETE_ROOM';

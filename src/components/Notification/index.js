@@ -63,6 +63,14 @@ const errors = {
         message: <IntlMessages id="notification.check_mail"/>,
         type: "info",
     },
+    shift_not_exist: {
+        message: <IntlMessages id="notification.shift_not_exist"/>,
+        type: "warning",
+    },
+    room_not_exist: {
+        message: <IntlMessages id="notification.room_not_exist"/>,
+        type: "warning",
+    },
 };
 
 export function createNotification(message) {
