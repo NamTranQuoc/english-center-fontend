@@ -3,6 +3,10 @@ import {NotificationManager} from "react-notifications";
 import IntlMessages from "../../util/IntlMessages";
 
 const errors = {
+    document_extension_not_match: {
+        message: <IntlMessages id="notification.document_extension_not_match"/>,
+        type: "error",
+    },
     param_not_null: {
         message: <IntlMessages id="notification.param_not_null"/>,
         type: "warning",
@@ -58,6 +62,14 @@ const errors = {
     check_mail: {
         message: <IntlMessages id="notification.check_mail"/>,
         type: "info",
+    },
+    shift_not_exist: {
+        message: <IntlMessages id="notification.shift_not_exist"/>,
+        type: "warning",
+    },
+    room_not_exist: {
+        message: <IntlMessages id="notification.room_not_exist"/>,
+        type: "warning",
     },
 };
 

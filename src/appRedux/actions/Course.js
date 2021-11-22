@@ -1,8 +1,28 @@
-import {ADD_COURSE, DELETE_COURSE, GET_COURSE, UPDATE_COURSE} from "../../constants/ActionTypes";
+import {
+    ADD_COURSE,
+    DELETE_COURSE,
+    GET_ALL_COURSE,
+    GET_ALL_COURSE_SUCCESS,
+    GET_COURSE,
+    UPDATE_COURSE
+} from "../../constants/ActionTypes";
 
 export const getListCourse = (param) => {
     return {
         type: GET_COURSE,
+        payload: param
+    };
+};
+
+export const getAllCourse = () => {
+    return {
+        type: GET_ALL_COURSE
+    };
+};
+
+export const getAllSuccessCategory = (param) => {
+    return {
+        type: GET_ALL_COURSE_SUCCESS,
         payload: param
     };
 };

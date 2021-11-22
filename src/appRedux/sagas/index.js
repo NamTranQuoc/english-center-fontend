@@ -5,6 +5,9 @@ import memberSagas from "./Member";
 import courseCategorySagas from "./CourseCategory";
 import courseSagas from "./Course";
 import shift from "./Shift";
+import room from "./Room";
+import shiftSagas from "./Shift";
+import documentSagas from "./Document";
 
 export default function* rootSaga(getState) {
     yield all([
@@ -14,5 +17,8 @@ export default function* rootSaga(getState) {
         courseCategorySagas(),
         courseSagas(),
         shift(),
+        room(),
+        shiftSagas(),
+        documentSagas(),
     ]);
 }

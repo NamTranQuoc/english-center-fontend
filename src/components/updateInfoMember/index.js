@@ -22,7 +22,6 @@ const ModalUpdateMember = () => {
                 setUrlAvatar(getImageURL(member.avatar));
             }
             if (memberType === "teacher") {
-                console.log(memberType);
                 return {
                     certificateType: member.certificate.type,
                     certificateCode: member.certificate.code,

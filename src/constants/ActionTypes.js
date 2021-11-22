@@ -1,3 +1,11 @@
+export const UPLOAD_FILE = 'UPLOAD_FILE';
+export const GET_ALL_COURSE_SUCCESS = 'GET_ALL_COURSE_SUCCESS';
+export const GET_ALL_COURSE = 'GET_ALL_COURSE';
+export const GET_DOCUMENT = 'GET_DOCUMENT';
+export const ADD_DOCUMENT  = 'ADD_DOCUMENT';
+export const UPDATE_DOCUMENT  = 'UPDATE_DOCUMENT';
+export const DELETE_DOCUMENT  = 'DELETE_DOCUMENT';
+
 // Customizer const
 export const TOGGLE_COLLAPSED_NAV = 'TOGGLE_COLLAPSE_MENU';
 export const WINDOW_WIDTH = 'WINDOW-WIDTH';
@@ -60,3 +68,8 @@ export const DELETE_SHIFT = 'DELETE_SHIFT';
 
 export const GET_ALL_SHIFT = 'GET_ALL_SHIFT';
 export const GET_ALL_SHIFT_SUCCESS = 'GET_ALL_SHIFT_SUCCESS';
+
+export const GET_ROOM = 'GET_ROOM';
+export const ADD_ROOM = 'ADD_ROOM';
+export const UPDATE_ROOM = 'UPDATE_ROOM';
+export const DELETE_ROOM = 'DELETE_ROOM';

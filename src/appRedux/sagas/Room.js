@@ -1,10 +1,12 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_COURSE, GET_ALL_COURSE, GET_COURSE, UPDATE_COURSE,} from "../../constants/ActionTypes";
 import {
-    getAllSuccessCategory,
-    getListCourse as getListCourseAction,
-    getListSuccess,
-    hideLoader,
+    ADD_ROOM,
+    GET_ROOM,
+    UPDATE_ROOM
+} from "../../constants/ActionTypes";
+import {
+    getListRoom as getListRoomAction,
+    getListSuccess, hideLoader,
     hideLoaderTable,
     onHideModal,
     showLoader,
@@ -13,15 +15,15 @@ import {
 import axios from "axios";
 import {host} from "../store/Host";
 
-const INSTRUCTOR_API_URL = `${host}/course`;
+const INSTRUCTOR_API_URL = `${host}/room`;
 
-export function* getListCourse() {
-    yield takeEvery(GET_COURSE, getListCourseGenerate);
+export function* getListRoom() {
+    yield takeEvery(GET_ROOM, getListRoomGenerate);
 }
 
-function* getListCourseGenerate({payload}) {
+function* getListRoomGenerate({payload}) {
     try {
-        const response = yield call(getListCourseRequest, payload);
+        const response = yield call(getListRoomRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
@@ -36,16 +38,13 @@ function* getListCourseGenerate({payload}) {
     }
 }
 
-const getListCourseRequest = async (payload) =>
+const getListRoomRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/get_list?page=` + payload.page + `&size=` + payload.size,
         data: {
             sort: payload.sort,
-            category_courses: payload.category_courses,
             keyword: payload.keyword,
-            from_date: payload.from_date,
-            to_date: payload.to_date,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -54,21 +53,21 @@ const getListCourseRequest = async (payload) =>
         .catch(error => error)
 
 
-export function* addCourse() {
-    yield takeEvery(ADD_COURSE, addCourseGenerate);
+export function* addRoom() {
+    yield takeEvery(ADD_ROOM, addRoomGenerate);
 }
 
-function* addCourseGenerate({payload}) {
+function* addRoomGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(addCourseRequest, payload);
+        const response = yield call(addRoomRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
-            yield put(getListCourseAction({
+            yield put(getListRoomAction({
                 page: 1,
                 size: 10,
                 sort: {
@@ -85,16 +84,14 @@ function* addCourseGenerate({payload}) {
     }
 }
 
-const addCourseRequest = async (payload) =>
+const addRoomRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/add`,
         data: {
             name: payload.name,
-            category_course_id: payload.category_course_id,
-            tuition: payload.tuition,
-            number_of_shift: payload.number_of_shift,
-            description: payload.description,
+            capacity: payload.capacity,
+            status: payload.status,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -102,21 +99,21 @@ const addCourseRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
-export function* updateCourse() {
-    yield takeEvery(UPDATE_COURSE, updateCourseGenerate);
+export function* updateRoom() {
+    yield takeEvery(UPDATE_ROOM, updateRoomGenerate);
 }
 
-function* updateCourseGenerate({payload}) {
+function* updateRoomGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(updateCourseRequest, payload.course);
+        const response = yield call(updateRoomRequest, payload.room);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
-            yield put(getListCourseAction(payload.param));
+            yield put(getListRoomAction(payload.param));
             yield put(showMessage("success_update"));
         }
     } catch (error) {
@@ -126,17 +123,15 @@ function* updateCourseGenerate({payload}) {
     }
 }
 
-const updateCourseRequest = async (payload) =>
+const updateRoomRequest = async (payload) =>
     await axios({
         method: "PUT",
         url: `${INSTRUCTOR_API_URL}/update`,
         data: {
             id: payload.id,
             name: payload.name,
-            category_course_id: payload.category_course_id,
-            tuition: payload.tuition,
-            number_of_shift: payload.number_of_shift,
-            description: payload.description,
+            capacity: payload.capacity,
+            status: payload.status,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -144,37 +139,10 @@ const updateCourseRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
-export function* getAllCourse() {
-    yield takeEvery(GET_ALL_COURSE, getAllCourseGenerate);
-}
-
-function* getAllCourseGenerate({payload}) {
-    try {
-        const response = yield call(getAllCourseRequest, payload);
-        if (response.status !== 200) {
-            yield put(showMessage("bad_request"));
-        } else if (response.data.code !== 9999) {
-            yield put(showMessage(response.data.message));
-        } else {
-            yield put(getAllSuccessCategory(response.data.payload));
-        }
-    } catch (error) {
-        yield put(showMessage(error));
-    }
-}
-
-const getAllCourseRequest = async (payload) =>
-    await axios({
-        method: "GET",
-        url: `${INSTRUCTOR_API_URL}/get_all`,
-    }).then(response => response)
-        .catch(error => error)
-
 export default function* rootSaga() {
     yield all([
-        fork(getListCourse),
-        fork(addCourse),
-        fork(updateCourse),
-        fork(getAllCourse),
+        fork(getListRoom),
+        fork(addRoom),
+        fork(updateRoom),
     ]);
 }
