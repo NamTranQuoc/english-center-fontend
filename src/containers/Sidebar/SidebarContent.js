@@ -96,7 +96,12 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 </Link>
                             </Menu.Item>
                         </Menu.SubMenu>
-
+                        <Menu.Item key="/admin/document">
+                            <Link to="/admin/document">
+                                <i className="icon icon-folder-o"/>
+                                <span><IntlMessages id="sidebar.document"/></span>
+                            </Link>
+                        </Menu.Item>
                     </Menu>
                 </CustomScrollbars>
             </div>

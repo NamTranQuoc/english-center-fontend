@@ -69,7 +69,6 @@ const ShiftPage = () => {
     }
 
     function onSubmit(values) {
-        console.log(moment(values.time[0]).format("HH:mm"));
         if (selectIndex !== -1) {
             values = {
                 id: items[selectIndex]._id,

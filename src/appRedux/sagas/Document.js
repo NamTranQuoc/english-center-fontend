@@ -1,27 +1,27 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_COURSE, GET_ALL_COURSE, GET_COURSE, UPDATE_COURSE,} from "../../constants/ActionTypes";
+import {ADD_DOCUMENT, DELETE_MEMBER, GET_DOCUMENT, UPDATE_DOCUMENT,} from "../../constants/ActionTypes";
 import {
-    getAllSuccessCategory,
-    getListCourse as getListCourseAction,
+    getListDocument as getListDocumentAction,
     getListSuccess,
     hideLoader,
     hideLoaderTable,
     onHideModal,
     showLoader,
-    showMessage
+    showMessage,
+    uploadFile,
 } from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
 
-const INSTRUCTOR_API_URL = `${host}/course`;
+const INSTRUCTOR_API_URL = `${host}/document`;
 
-export function* getListCourse() {
-    yield takeEvery(GET_COURSE, getListCourseGenerate);
+export function* getListDocument() {
+    yield takeEvery(GET_DOCUMENT, getListDocumentGenerate);
 }
 
-function* getListCourseGenerate({payload}) {
+function* getListDocumentGenerate({payload}) {
     try {
-        const response = yield call(getListCourseRequest, payload);
+        const response = yield call(getListDocumentRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
@@ -36,16 +36,17 @@ function* getListCourseGenerate({payload}) {
     }
 }
 
-const getListCourseRequest = async (payload) =>
+const getListDocumentRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/get_list?page=` + payload.page + `&size=` + payload.size,
         data: {
             sort: payload.sort,
-            category_courses: payload.category_courses,
             keyword: payload.keyword,
             from_date: payload.from_date,
             to_date: payload.to_date,
+            types: payload.types,
+            course_ids: payload.course_ids
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -53,22 +54,22 @@ const getListCourseRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
-
-export function* addCourse() {
-    yield takeEvery(ADD_COURSE, addCourseGenerate);
+export function* addDocument() {
+    yield takeEvery(ADD_DOCUMENT, addDocumentGenerate);
 }
 
-function* addCourseGenerate({payload}) {
+function* addDocumentGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(addCourseRequest, payload);
+        const response = yield call(addDocumentRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
-            yield put(getListCourseAction({
+            yield put(uploadFile(payload.file, response.data.payload.path));
+            yield put(getListDocumentAction({
                 page: 1,
                 size: 10,
                 sort: {
@@ -85,16 +86,15 @@ function* addCourseGenerate({payload}) {
     }
 }
 
-const addCourseRequest = async (payload) =>
+const addDocumentRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/add`,
         data: {
             name: payload.name,
-            category_course_id: payload.category_course_id,
-            tuition: payload.tuition,
-            number_of_shift: payload.number_of_shift,
-            description: payload.description,
+            type: payload.type,
+            path: payload.path,
+            course_ids: payload.course_ids,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -102,21 +102,22 @@ const addCourseRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
-export function* updateCourse() {
-    yield takeEvery(UPDATE_COURSE, updateCourseGenerate);
+export function* updateDocument() {
+    yield takeEvery(UPDATE_DOCUMENT, updateDocumentGenerate);
 }
 
-function* updateCourseGenerate({payload}) {
+function* updateDocumentGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(updateCourseRequest, payload.course);
+        const response = yield call(updateDocumentRequest, payload.document);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
-            yield put(getListCourseAction(payload.param));
+            yield put(uploadFile(payload.document.file, response.data.payload.path));
+            yield put(getListDocumentAction(payload.param));
             yield put(showMessage("success_update"));
         }
     } catch (error) {
@@ -126,17 +127,15 @@ function* updateCourseGenerate({payload}) {
     }
 }
 
-const updateCourseRequest = async (payload) =>
+const updateDocumentRequest = async (payload) =>
     await axios({
         method: "PUT",
         url: `${INSTRUCTOR_API_URL}/update`,
         data: {
-            id: payload.id,
+            id: payload._id,
             name: payload.name,
-            category_course_id: payload.category_course_id,
-            tuition: payload.tuition,
-            number_of_shift: payload.number_of_shift,
-            description: payload.description,
+            path: payload.path,
+            course_ids: payload.course_ids,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -144,37 +143,45 @@ const updateCourseRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
-export function* getAllCourse() {
-    yield takeEvery(GET_ALL_COURSE, getAllCourseGenerate);
+export function* deleteDocument() {
+    yield takeEvery(DELETE_MEMBER, deleteDocumentGenerate);
 }
 
-function* getAllCourseGenerate({payload}) {
+function* deleteDocumentGenerate({payload}) {
+    yield put(showLoader());
     try {
-        const response = yield call(getAllCourseRequest, payload);
+        const response = yield call(deleteDocumentRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
-            yield put(getAllSuccessCategory(response.data.payload));
+            yield put(onHideModal());
+            yield put(getListDocumentAction(payload.param));
+            yield put(showMessage("success_delete"));
         }
     } catch (error) {
         yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
     }
 }
 
-const getAllCourseRequest = async (payload) =>
+const deleteDocumentRequest = async (payload) =>
     await axios({
-        method: "GET",
-        url: `${INSTRUCTOR_API_URL}/get_all`,
+        method: "DELETE",
+        url: `${INSTRUCTOR_API_URL}/delete/` + payload.id,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
     }).then(response => response)
         .catch(error => error)
 
 export default function* rootSaga() {
     yield all([
-        fork(getListCourse),
-        fork(addCourse),
-        fork(updateCourse),
-        fork(getAllCourse),
+        fork(updateDocument),
+        fork(addDocument),
+        fork(getListDocument),
+        fork(deleteDocument),
     ]);
 }

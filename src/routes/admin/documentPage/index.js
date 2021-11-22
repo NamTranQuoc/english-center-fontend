@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table} from "antd";
-import IntlMessages from "../../../../util/IntlMessages";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
+import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addCourse,
-    getAllCourseCategory,
-    getListCourse,
+    addDocument,
+    getAllCourse,
+    getListDocument,
     onHideModal,
     onSelectIndex,
     onShowModal,
-    updateCourse,
-} from "../../../../appRedux/actions";
-import {getItemNameById} from "../../../../util/ParseUtils";
+    updateDocument,
+} from "../../../appRedux/actions";
+import {getFileURL, getItemNameById, getType} from "../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import "../index.css";
+import "./index.css";
 import DeleteModal from "./deleteModal";
-import MyEditor from "../../../../components/editor";
+import Document from "../../../components/uploadFile";
 
 let param = {
     page: 1,
@@ -25,16 +25,17 @@ let param = {
         field: "_id"
     },
     keyword: "",
-    genders: []
+    types: null,
 }
 
-const CoursePage = () => {
+const CourseCategoryPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
     const [action, setAction] = useState("edit");
-    const {courseCategories} = useSelector(({courseCategory}) => courseCategory);
-    const [desc, setDesc] = useState(null);
+    const {courses} = useSelector(({course}) => course);
+    const [file, setFile] = useState(null);
+    const [initFile, setInitFile] = useState(null);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -51,7 +52,7 @@ const CoursePage = () => {
             page: pagination.current,
             size: pagination.pageSize
         }
-        dispatch(getListCourse(param));
+        dispatch(getListDocument(param));
     }
 
     function onSearch(e) {
@@ -60,22 +61,12 @@ const CoursePage = () => {
             keyword: e.target.value,
             page: 1
         }
-        dispatch(getListCourse(param));
-    }
-
-    function onFilterType(e) {
-        const types = Array.isArray(e) ? e.map((x) => x) : []
-        param = {
-            ...param,
-            category_courses: types,
-            page: 1
-        }
-        dispatch(getListCourse(param));
+        dispatch(getListDocument(param));
     }
 
     useEffect(() => {
-        dispatch(getListCourse(param));
-        dispatch(getAllCourseCategory());
+        dispatch(getListDocument(param));
+        dispatch(getAllCourse());
         // eslint-disable-next-line
     }, []);
 
@@ -83,21 +74,22 @@ const CoursePage = () => {
         return <span><IntlMessages id="table.total.items"/>: {total}</span>;
     }
 
-    function onSubmit(course) {
+    function onSubmit(values) {
         if (selectIndex !== -1) {
-            course = {
-                ...course,
-                id: items[selectIndex]._id,
-                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
+            values = {
+                ...values,
+                _id: items[selectIndex]._id,
+                file: file == null ? null : file.originFileObj,
+                path: file == null ? initFile.name : file.name,
             }
-            dispatch(updateCourse(course, param));
+            dispatch(updateDocument(values, param));
         } else {
-
-            course = {
-                ...course,
-                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
+            values = {
+                ...values,
+                file: file == null ? null : file.originFileObj,
+                path: file == null ? initFile.name : file.name,
             }
-            dispatch(addCourse(course));
+            dispatch(addDocument(values));
             param = {
                 ...param,
                 page: 1,
@@ -108,8 +100,9 @@ const CoursePage = () => {
 
     function showModal() {
         dispatch(onSelectIndex(-1));
-        setDesc(null);
+        setInitFile(null);
         setAction("edit");
+        setFile(null);
         if (hasShowModal) {
             dispatch(onHideModal());
         } else {
@@ -119,23 +112,30 @@ const CoursePage = () => {
 
     const getInitValueModal = () => {
         if (selectIndex !== -1 && items != null && items.length > selectIndex) {
-            if (desc === null) {
-                setDesc(items[selectIndex].description);
+            if (initFile == null) {
+                setInitFile({
+                    uid: '1',
+                    name: items[selectIndex].path,
+                    status: 'done',
+                    url: getFileURL(items[selectIndex].path),
+                })
             }
             return {
+                course_ids: items[selectIndex].course_ids,
+                type: items[selectIndex].type,
                 name: items[selectIndex].name,
-                tuition: items[selectIndex].tuition,
-                number_of_shift: items[selectIndex].number_of_shift,
-                category_course_id: items[selectIndex].category_course_id,
             };
         } else {
             return {
+                course_ids: [],
+                type: "doc"
             };
         }
     }
 
     const menus = (index) => (<Menu onClick={(e) => {
-        setDesc(null);
+        setInitFile(null);
+        setFile(null);
         if (e.key === 'delete') {
             setAction("delete");
         } else {
@@ -148,16 +148,15 @@ const CoursePage = () => {
     </Menu>);
 
     const modal = () => (<Modal
-        title={<IntlMessages id="admin.user.form.course.title"/>}
+        title={<IntlMessages id="admin.user.document.info"/>}
         visible={hasShowModal && action !== "delete"}
         footer={
             <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
                 id="admin.user.form.save"/>}</Button>
         }
         onCancel={showModal}
-        bodyStyle={{overflowY: "scroll", height: "550px"}}
         centered
-        width={1200}>
+        width={600}>
         <Form
             onFinish={onSubmit}
             id="add-edit-form"
@@ -165,85 +164,94 @@ const CoursePage = () => {
             <Row>
                 <Col span={12}>
                     <Form.Item
-                        label={<IntlMessages id="admin.course.table.name"/>}
+                        label={<IntlMessages id="admin.document.table.name"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
                         name="name"
                         rules={[
                             {
                                 required: true,
-                                message: <IntlMessages id="admin.course.form.name"/>,
+                                message: <IntlMessages id="admin.document.form.name"/>,
                             },
                         ]}>
-                        <Input placeholder="Toeic 600+"/>
+                        <Input placeholder="ETS LC"/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item label={<IntlMessages id="admin.course.table.type"/>}
-                               name="category_course_id"
+                    <Form.Item label={<IntlMessages id="admin.document.table.type"/>}
+                               name="type"
                                labelCol={{span: 24}}
                                wrapperCol={{span: 24}}
                                rules={[
                                    {
                                        required: true,
-                                       message: <IntlMessages id="admin.course.form.type"/>,
+                                       message: <IntlMessages id="admin.document.form.type"/>,
                                    },
                                ]}>
-                        <Select>
-                            {courseCategories.map(item => {
-                                return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
-                            })}
+                        <Select disabled={selectIndex !== -1}>
+                            <Select.Option value="image">{getType("image")}</Select.Option>
+                            <Select.Option value="doc">{getType("doc")}</Select.Option>
                         </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={12}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.course.table.numberOfShift"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="number_of_shift"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.course.form.numberOfShift"/>,
-                            },
-                        ]}>
-                        <Input placeholder="60"/>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.course.table.tuition"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="tuition"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.course.form.tuition"/>,
-                            },
-                        ]}>
-                        <Input placeholder="2000000"/>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
                 <Col span={24}>
                     <Form.Item
-                        label={<IntlMessages id="admin.categoryCourse.table.description"/>}
+                        label={<IntlMessages id="admin.categoryCourse.table.path"/>}
                         labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}>
-                        <MyEditor value={desc} setValue={setDesc} />
+                        wrapperCol={{span: 24}}
+                        rules={[
+                            {
+                                required: file === null && initFile === null,
+                                message: <IntlMessages id="admin.document.form.path"/>,
+                            },
+                        ]}
+                        name="path">
+                        <Document setFile={setFile} initFile={initFile}/>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.categoryCourse.table.courseIds"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="course_ids">
+                        <Select mode={"multiple"} placeholder={"Select"}>
+                            {courses.map(item => {
+                                return <Select.Option value={item._id}>{item.name}</Select.Option>
+                            })}
+                        </Select>
                     </Form.Item>
                 </Col>
             </Row>
         </Form>
     </Modal>);
 
+    function onFilterCourses(e) {
+        const course_ids = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            course_ids: course_ids,
+            page: 1
+        }
+        dispatch(getListDocument(param));
+    }
+
+    function onFilterType(e) {
+        const types = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            types: types,
+            page: 1
+        }
+        dispatch(getListDocument(param));
+    }
+
     return (
-        <Card title={<h2><IntlMessages id="admin.user.course.title"/></h2>}
+        <Card title={<h2><IntlMessages id="admin.user.document.title"/></h2>}
               extra={<Button type="primary"
                              shape="circle"
                              icon={<PlusOutlined/>}
@@ -252,18 +260,33 @@ const CoursePage = () => {
                              onClick={showModal}/>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
-                <Form.Item label={<IntlMessages id="admin.course.table.type"/>}
+                <Form.Item label={<IntlMessages id="admin.categoryCourse.table.courseIds"/>}
                            name="genders"
                            style={{marginLeft: "10px", marginRight: "10px"}}>
                     <IntlMessages id="filter.select">
                         {placeholder =>
                             <Select mode="multiple"
                                     style={{minWidth: "100px"}}
-                                    onChange={onFilterType}
+                                    onChange={onFilterCourses}
                                     placeholder={placeholder}>
-                                {courseCategories.map(item => {
+                                {courses.map(item => {
                                     return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
                                 })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.document.table.type"/>}
+                           name="genders"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "130px"}}
+                                    onChange={onFilterType}
+                                    placeholder={placeholder}>
+                                <Select.Option value="image">{getType("image")}</Select.Option>
+                                <Select.Option value="doc">{getType("doc")}</Select.Option>
                             </Select>
                         }
                     </IntlMessages>
@@ -294,31 +317,31 @@ const CoursePage = () => {
                            },
                            {
                                key: "name",
-                               title: <IntlMessages id="admin.course.table.name"/>,
+                               title: <IntlMessages id="admin.categoryCourse.table.name"/>,
                                dataIndex: "name",
-                               width: 200,
+                               width: 250,
                                sorter: true
                            },
                            {
-                               key: "category_course_id",
-                               title: <IntlMessages id="admin.course.table.type"/>,
-                               dataIndex: "category_course_id",
-                               render: (category_course_id) => getItemNameById(courseCategories, category_course_id),
-                               width: 150,
+                               key: "type",
+                               title: <IntlMessages id="admin.categoryCourse.table.type"/>,
+                               dataIndex: "type",
+                               render: (type) => <Tag color={type === "doc" ? "blue" : "green"}>{getType(type)}</Tag>,
+                               width: 200,
                                sorter: true,
                            },
                            {
-                               key: "number_of_shift",
-                               title: <IntlMessages id="admin.course.table.numberOfShift"/>,
-                               dataIndex: "number_of_shift",
-                               width: 120,
-                               sorter: true
-                           },
-                           {
-                               key: "tuition",
-                               title: <IntlMessages id="admin.course.table.tuition"/>,
-                               dataIndex: "tuition",
-                               width: 120,
+                               key: "course_ids",
+                               title: <IntlMessages id="admin.user.student.table.course_ids"/>,
+                               dataIndex: "course_ids",
+                               render: (course_ids) => (
+                                   <div>
+                                       {course_ids.map(item => {
+                                           return <Tag color={"yellow"}>{getItemNameById(courses, item)}</Tag>
+                                       })}
+                                   </div>
+                               ),
+                               width: 300,
                                sorter: true
                            },
                            {
@@ -356,4 +379,4 @@ const CoursePage = () => {
     );
 };
 
-export default CoursePage;
+export default CourseCategoryPage;

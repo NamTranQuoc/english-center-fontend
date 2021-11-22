@@ -3,6 +3,10 @@ import {NotificationManager} from "react-notifications";
 import IntlMessages from "../../util/IntlMessages";
 
 const errors = {
+    document_extension_not_match: {
+        message: <IntlMessages id="notification.document_extension_not_match"/>,
+        type: "error",
+    },
     param_not_null: {
         message: <IntlMessages id="notification.param_not_null"/>,
         type: "warning",

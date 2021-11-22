@@ -32,6 +32,14 @@ export function getImageURL(path) {
     return "";
 }
 
+export function getFileURL(path) {
+    const url = "https://firebasestorage.googleapis.com/v0/b/englishcenter-2021.appspot.com/o/documents%2F" + path;
+    if (imageExists(url)) {
+        return url + "?alt=media";
+    }
+    return "";
+}
+
 export function getMoney(value) {
     return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
@@ -59,6 +67,13 @@ export function getStatus(status) {
         return "-"
     }
     return <IntlMessages id={`admin.categoryCourse.table.${status}`}/>
+}
+
+export function getType(type) {
+    if (type === null) {
+        return "-"
+    }
+    return <IntlMessages id={`admin.document.type.${type}`}/>
 }
 
 export function getItemNameById(listItem, id) {
