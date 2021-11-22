@@ -107,5 +107,14 @@
     "admin.user.shift.table.to": "End time",
     "admin.shift.form.to": "Please select end time",
     "admin.user.shift.title": "SHIFT MANAGEMENT",
-    "sidebar.managerStudy.shift": "Shift"
+    "sidebar.managerStudy.shift": "Shift",
+    "admin.user.form.room.title": "Room information",
+    "admin.user.room.table.name": "Room name",
+    "admin.room.form.name": "Please enter room name",
+    "admin.user.room.table.capacity": "Capacity",
+    "admin.room.form.capacity": "Please enter capacity",
+    "admin.user.room.title": "ROOM MANAGEMENT",
+    "sidebar.managerStudy.room": "Room",
+    "notification.shift_not_exist": "Shift not found",
+    "notification.room_not_exist": "Room not found"
 }
