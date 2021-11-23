@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table} from "antd";
+import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -15,7 +15,7 @@ import {
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import moment from "moment";
-import {getDOW} from "../../../../util/ParseUtils";
+import {getDate, getDOW, getItemNameById} from "../../../../util/ParseUtils";
 
 let param = {
     page: 1,
@@ -40,9 +40,11 @@ const ClassPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
+    const {locale} = useSelector(({settings}) => settings);
     const [action, setAction] = useState("edit");
     const {courses} = useSelector(({course}) => course);
     const {shifts} = useSelector(({shift}) => shift);
+    const [style, setStyle] = useState("150px");
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -72,7 +74,7 @@ const ClassPage = () => {
     }
 
     useEffect(() => {
-        // dispatch(getListClass(param));
+        dispatch(getListClass(param));
         dispatch(getAllShift());
         dispatch(getAllCourse());
         // eslint-disable-next-line
@@ -82,6 +84,62 @@ const ClassPage = () => {
         return <span><IntlMessages id="table.total.items"/>: {total}</span>;
     }
 
+    function onFilterDate(dates) {
+        if (dates !== null && dates[0] != null && dates[1] != null) {
+            setStyle("370px");
+            param = {
+                ...param,
+                start_from_date: dates[0].unix() * 1000,
+                start_to_date: dates[1].unix() * 1000,
+                page: 1
+            }
+            dispatch(getListClass(param));
+        }
+    }
+
+    function onChangeDatePicker(dates) {
+        if (dates === null || dates.length === 0) {
+            setStyle("150px");
+            param = {
+                ...param,
+                start_from_date: null,
+                start_to_date: null,
+                page: 1
+            }
+            dispatch(getListClass(param));
+        }
+    }
+
+    function onFilterCourse(e) {
+        const values = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            course_ids: values,
+            page: 1
+        }
+        dispatch(getListClass(param));
+    }
+
+    function onFilterShift(e) {
+        const values = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            shift_ids: values,
+            page: 1
+        }
+        dispatch(getListClass(param));
+    }
+
+    function onFilterDOW(e) {
+        const values = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            dow: values,
+            page: 1
+        }
+        dispatch(getListClass(param));
+    }
+
     function onSubmit(values) {
         if (selectIndex !== -1) {
             values = {
@@ -89,7 +147,7 @@ const ClassPage = () => {
                 _id: items[selectIndex]._id,
                 start_date: values.start_date.unix() * 1000,
             }
-            dispatch(updateClass(values));
+            dispatch(updateClass(values, param));
         } else {
             values = {
                 ...values,
@@ -121,7 +179,7 @@ const ClassPage = () => {
                 max_student: items[selectIndex].max_student,
                 dow: items[selectIndex].dow,
                 course_id: items[selectIndex].course_id,
-                start_date: items[selectIndex].start_date,
+                start_date: moment.unix(items[selectIndex].start_date / 1000),
                 shift_id: items[selectIndex].shift_id
             };
         } else {
@@ -267,7 +325,7 @@ const ClassPage = () => {
     </Modal>);
 
     return (
-        <Card title={<h2><IntlMessages id="admin.user.shift.title"/></h2>}
+        <Card title={<h2><IntlMessages id="admin.user.classroom.title"/></h2>}
               extra={<Button type="primary"
                              shape="circle"
                              icon={<PlusOutlined/>}
@@ -275,6 +333,64 @@ const ClassPage = () => {
                              style={{float: "right"}}
                              onClick={showModal}/>}
               className="gx-card">
+            <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
+                <Form.Item label={<IntlMessages id="admin.user.class.table.course"/>}
+                           name="course_ids"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterCourse}
+                                    placeholder={placeholder}>
+                                {courses.map(item => {
+                                    return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.class.table.shift"/>}
+                           name="shift_ids"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterShift}
+                                    placeholder={placeholder}>
+                                {shifts.map(item => {
+                                    return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.class.table.dow"/>}
+                           name="dow"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterDOW}
+                                    placeholder={placeholder}>
+                                {MyDOW.map(item => {
+                                    return <Select.Option key={item} value={item}>{getDOW(item)}</Select.Option>
+                                })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.class.table.startDate"/>}
+                           name="createdDate">
+                    <DatePicker.RangePicker showTime style={{width: style}}
+                                            onOk={onFilterDate}
+                                            onChange={onChangeDatePicker}
+                                            placeholder={locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
+                    />
+                </Form.Item>
+            </Form>
             <IntlMessages id="table.search">
                 {placeholder => <Input
                     placeholder={placeholder}
@@ -309,13 +425,14 @@ const ClassPage = () => {
                                key: "max_student",
                                title: <IntlMessages id="admin.user.class.table.max_student"/>,
                                dataIndex: "max_student",
-                               width: 200,
+                               width: 130,
                                sorter: true
                            },
                            {
                                key: "course_id",
                                title: <IntlMessages id="admin.user.class.table.course"/>,
                                dataIndex: "course_id",
+                               render: (course_id) => getItemNameById(courses, course_id),
                                width: 200,
                                sorter: true
                            },
@@ -323,13 +440,21 @@ const ClassPage = () => {
                                key: "dow",
                                title: <IntlMessages id="admin.user.class.table.dow"/>,
                                dataIndex: "dow",
-                               width: 200,
+                               render: (dow) => (
+                                   <div>
+                                       {dow.map(item => {
+                                           return <Tag color={"green"}>{getDOW(item)}</Tag>
+                                       })}
+                                   </div>
+                               ),
+                               width: 300,
                                sorter: true
                            },
                            {
                                key: "shift_id",
                                title: <IntlMessages id="admin.user.class.table.shift"/>,
                                dataIndex: "shift_id",
+                               render: (shift_id) => getItemNameById(shifts, shift_id),
                                width: 200,
                                sorter: true
                            },
@@ -337,6 +462,7 @@ const ClassPage = () => {
                                key: "start_date",
                                title: <IntlMessages id="admin.user.class.table.startDate"/>,
                                dataIndex: "start_date",
+                               render: (start_date) => getDate(start_date),
                                width: 200,
                                sorter: true
                            },

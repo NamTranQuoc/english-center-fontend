@@ -1,4 +1,8 @@
 {
+    "notification.start_date_not_allow": "Ngày bắt đầu không hợp lệ",
+    "notification.classroom_not_exist": "Lớp học không tồn tại",
+    "admin.user.form.classroom.title": "Thông tin lớp học",
+    "admin.user.classroom.title": "QUẢN LÝ LỚP HỌC",
     "admin.class.dow.2": "Thứ 2",
     "admin.class.dow.3": "Thứ 3",
     "admin.class.dow.4": "Thứ 4",
