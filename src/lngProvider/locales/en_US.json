@@ -1,4 +1,6 @@
 {
+    "table.download.document": "Download document",
+    "table.copy.url.document": "Copy url",
     "notification.document_extension_not_match": "Document extension not match",
     "admin.document.type.doc": "Study document",
     "admin.document.type.image": "Image",
