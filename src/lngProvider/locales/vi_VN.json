@@ -1,4 +1,6 @@
 {
+    "table.download.document": "Tải tài liệu",
+    "table.copy.url.document": "Sao chép đường dẫn",
     "notification.document_extension_not_match": "Loại tài liệu không đúng định dạng",
     "admin.document.type.doc": "Tài liệu học",
     "admin.document.type.image": "Ảnh",
