@@ -1,1 +1,0 @@
-(this["webpackJsonpwieldy-hook"]=this["webpackJsonpwieldy-hook"]||[]).push([[10],{795:function(e,i,t){"use strict";t.r(i);t(0);var c=t(1);i.default=function(){return Object(c.jsx)("div",{children:Object(c.jsx)("h4",{children:"HomePage"})})}}}]);

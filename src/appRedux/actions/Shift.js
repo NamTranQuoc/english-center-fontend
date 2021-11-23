@@ -1,6 +1,8 @@
 import {
     ADD_SHIFT,
     DELETE_SHIFT,
+    GET_ALL_SHIFT,
+    GET_ALL_SHIFT_SUCCESS,
     GET_SHIFT,
     UPDATE_SHIFT
 } from "../../constants/ActionTypes";
@@ -36,5 +38,18 @@ export const deleteShift = (id, param) => {
             id: id,
             param: param
         }
+    };
+};
+
+export const getAllShift = () => {
+    return {
+        type: GET_ALL_SHIFT
+    };
+};
+
+export const getAllSuccessShift = (param) => {
+    return {
+        type: GET_ALL_SHIFT_SUCCESS,
+        payload: param
     };
 };

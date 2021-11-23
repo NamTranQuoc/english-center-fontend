@@ -1,3 +1,6 @@
+export const GET_CLASS = 'GET_CLASS';
+export const ADD_CLASS = 'ADD_CLASS';
+export const UPDATE_CLASS = 'UPDATE_CLASS';
 export const UPLOAD_FILE = 'UPLOAD_FILE';
 export const GET_ALL_COURSE_SUCCESS = 'GET_ALL_COURSE_SUCCESS';
 export const GET_ALL_COURSE = 'GET_ALL_COURSE';
