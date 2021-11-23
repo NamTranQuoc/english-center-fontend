@@ -1,4 +1,8 @@
 {
+    "notification.start_date_not_allow": "Invalid start date",
+    "notification.classroom_not_exist": "Class not found",
+    "admin.user.form.classroom.title": "Class information",
+    "admin.user.classroom.title": "CLASS MANAGEMENT",
     "admin.class.dow.2": "Monday",
     "admin.class.dow.3": "Tuesday",
     "admin.class.dow.4": "Wednesday",
