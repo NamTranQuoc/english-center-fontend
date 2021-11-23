@@ -1,12 +1,11 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
-    ADD_SHIFT, GET_ALL_SHIFT,
-    GET_SHIFT,
-    UPDATE_SHIFT,
+    ADD_CLASS,
+    GET_CLASS,
+    UPDATE_CLASS,
 } from "../../constants/ActionTypes";
 import {
-    getAllSuccessShift,
-    getListShift as getListShiftAction,
+    getListClass as getListClassAction,
     getListSuccess, hideLoader,
     hideLoaderTable,
     onHideModal,
@@ -16,15 +15,15 @@ import {
 import axios from "axios";
 import {host} from "../store/Host";
 
-const INSTRUCTOR_API_URL = `${host}/shift`;
+const INSTRUCTOR_API_URL = `${host}/class`;
 
-export function* getListShift() {
-    yield takeEvery(GET_SHIFT, getListShiftGenerate);
+export function* getListClass() {
+    yield takeEvery(GET_CLASS, getListClassGenerate);
 }
 
-function* getListShiftGenerate({payload}) {
+function* getListClassGenerate({payload}) {
     try {
-        const response = yield call(getListShiftRequest, payload);
+        const response = yield call(getListClassRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
@@ -39,13 +38,17 @@ function* getListShiftGenerate({payload}) {
     }
 }
 
-const getListShiftRequest = async (payload) =>
+const getListClassRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/get_list?page=` + payload.page + `&size=` + payload.size,
         data: {
             sort: payload.sort,
             keyword: payload.keyword,
+            shift_ids: payload.shift_ids,
+            dow: payload.dow,
+            start_from_date: payload.start_from_date,
+            start_to_date: payload.start_to_date
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -54,21 +57,21 @@ const getListShiftRequest = async (payload) =>
         .catch(error => error)
 
 
-export function* addShift() {
-    yield takeEvery(ADD_SHIFT, addShiftGenerate);
+export function* addClass() {
+    yield takeEvery(ADD_CLASS, addClassGenerate);
 }
 
-function* addShiftGenerate({payload}) {
+function* addClassGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(addShiftRequest, payload);
+        const response = yield call(addClassRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
-            yield put(getListShiftAction({
+            yield put(getListClassAction({
                 page: 1,
                 size: 10,
                 sort: {
@@ -85,14 +88,17 @@ function* addShiftGenerate({payload}) {
     }
 }
 
-const addShiftRequest = async (payload) =>
+const addClassRequest = async (payload) =>
     await axios({
         method: "POST",
         url: `${INSTRUCTOR_API_URL}/add`,
         data: {
             name: payload.name,
-            from: payload.from,
-            to: payload.to,
+            max_student: payload.max_student,
+            dow: payload.dow,
+            course_id: payload.course_id,
+            start_date: payload.start_date,
+            shift_id: payload.shift_id
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -100,21 +106,21 @@ const addShiftRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
-export function* updateShift() {
-    yield takeEvery(UPDATE_SHIFT, updateShiftGenerate);
+export function* updateClass() {
+    yield takeEvery(UPDATE_CLASS, updateClassGenerate);
 }
 
-function* updateShiftGenerate({payload}) {
+function* updateClassGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(updateShiftRequest, payload.shift);
+        const response = yield call(updateClassRequest, payload.values);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(onHideModal());
-            yield put(getListShiftAction(payload.param));
+            yield put(getListClassAction(payload.param));
             yield put(showMessage("success_update"));
         }
     } catch (error) {
@@ -124,59 +130,26 @@ function* updateShiftGenerate({payload}) {
     }
 }
 
-const updateShiftRequest = async (payload) =>
+const updateClassRequest = async (payload) =>
     await axios({
         method: "PUT",
         url: `${INSTRUCTOR_API_URL}/update`,
         data: {
-            id: payload.id,
+            id: payload._id,
             name: payload.name,
-            from: payload.from,
-            to: payload.to,
+            max_student: payload.max_student,
+            start_date: payload.start_date
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
         },
     }).then(response => response)
         .catch(error => error)
-
-export function* getAllShift() {
-    yield takeEvery(GET_ALL_SHIFT, getAllShiftGenerate);
-}
-
-function* getAllShiftGenerate() {
-    try {
-        const response = yield call(getAllShiftRequest);
-        if (response.status !== 200) {
-            yield put(showMessage("bad_request"));
-        } else if (response.data.code !== 9999) {
-            yield put(showMessage(response.data.message));
-        } else {
-            yield put(getAllSuccessShift(response.data.payload));
-        }
-    } catch (error) {
-        yield put(showMessage(error));
-    } finally {
-        yield put(hideLoaderTable());
-    }
-}
-
-const getAllShiftRequest = async () =>
-    await axios({
-        method: "GET",
-        url: `${INSTRUCTOR_API_URL}/get_all`,
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem('token'),
-        }
-    }).then(response => response)
-        .catch(error => error)
-
 
 export default function* rootSaga() {
     yield all([
-        fork(getListShift),
-        fork(addShift),
-        fork(updateShift),
-        fork(getAllShift),
+        fork(getListClass),
+        fork(addClass),
+        fork(updateClass),
     ]);
 }

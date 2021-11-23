@@ -1,5 +1,5 @@
 import {
-    CLEAR_ITEMS,
+    CLEAR_ITEMS, GET_CLASS,
     GET_COURSE,
     GET_COURSE_CATEGORY, GET_DOCUMENT,
     GET_LIST_SUCCESS,
@@ -15,6 +15,7 @@ const INIT_STATE = {
 
 const GetListReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
+        case GET_CLASS:
     	case GET_DOCUMENT:
         case GET_ROOM:
         case GET_SHIFT:
