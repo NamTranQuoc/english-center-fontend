@@ -14,7 +14,6 @@ import {
 import {getFileURL, getItemNameById, getType} from "../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "./index.css";
-import DeleteModal from "./deleteModal";
 import Document from "../../../components/uploadFile";
 
 let param = {
@@ -134,17 +133,25 @@ const CourseCategoryPage = () => {
     }
 
     const menus = (index) => (<Menu onClick={(e) => {
-        setInitFile(null);
-        setFile(null);
-        if (e.key === 'delete') {
-            setAction("delete");
+        if (e.key === "download") {
+            window.open(getFileURL(items[index].path), "_blank");
+        } else if(e.key === "copy") {
+            navigator.clipboard.writeText(getFileURL(items[index].path));
         } else {
-            setAction("edit");
+            setInitFile(null);
+            setFile(null);
+            if (e.key === 'delete') {
+                setAction("delete");
+            } else {
+                setAction("edit");
+            }
+            dispatch(onSelectIndex(index));
+            dispatch(onShowModal());
         }
-        dispatch(onSelectIndex(index));
-        dispatch(onShowModal());
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
+        <Menu.Item key="download"><IntlMessages id="table.download.document"/></Menu.Item>
+        <Menu.Item key="copy"><IntlMessages id="table.copy.url.document"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -372,9 +379,6 @@ const CourseCategoryPage = () => {
                 }
             }/>
             {hasShowModal && modal()}
-            {hasShowModal &&
-            <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal}
-                         action={action} param={param}/>}
         </Card>
     );
 };
