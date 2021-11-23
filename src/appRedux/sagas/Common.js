@@ -43,7 +43,6 @@ export function* uploadFile() {
 
 function* uploadFileGenerate({payload}) {
     if (payload.file != null) {
-        console.log(payload.file);
         yield storage.ref(`documents/${payload.path}`).put(payload.file, {contentType: payload.file.type});
     }
 }

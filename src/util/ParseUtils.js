@@ -2,6 +2,13 @@ import IntlMessages from "./IntlMessages";
 import React from "react";
 import jwt from 'jwt-decode';
 
+export function getDOW(value) {
+    if (value === null) {
+        return "-"
+    }
+    return <IntlMessages id={`admin.class.dow.${value}`}/>
+}
+
 export function getDate(timestamp) {
     const date = new Date(timestamp);
     return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();

@@ -15,7 +15,6 @@ import {getFileURL, getItemNameById, getType} from "../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "./index.css";
 import Document from "../../../components/uploadFile";
-import {Link} from "react-router-dom";
 
 let param = {
     page: 1,
