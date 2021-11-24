@@ -46,6 +46,7 @@ const getListClassRequest = async (payload) =>
             sort: payload.sort,
             keyword: payload.keyword,
             shift_ids: payload.shift_ids,
+            course_ids: payload.course_ids,
             dow: payload.dow,
             start_from_date: payload.start_from_date,
             start_to_date: payload.start_to_date
