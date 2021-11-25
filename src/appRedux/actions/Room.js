@@ -1,7 +1,7 @@
 import {
     ADD_ROOM,
     DELETE_ROOM,
-    GET_ROOM,
+    GET_ROOM, GET_ROOMS, GET_ROOMS_SUCCESS,
     UPDATE_ROOM
 } from "../../constants/ActionTypes";
 
@@ -15,6 +15,20 @@ export const getListRoom = (param) => {
 export const addRoom = (param) => {
     return {
         type: ADD_ROOM,
+        payload: param
+    };
+};
+
+export const getRooms = (param) => {
+    return {
+        type: GET_ROOMS,
+        payload: param
+    };
+};
+
+export const getRoomsSuccess = (param) => {
+    return {
+        type: GET_ROOMS_SUCCESS,
         payload: param
     };
 };

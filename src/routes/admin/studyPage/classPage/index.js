@@ -3,10 +3,10 @@ import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, 
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addClass,
+    addClass, generateSchedule,
     getAllCourse,
     getAllShift,
-    getListClass,
+    getListClass, getRooms,
     onHideModal,
     onSelectIndex,
     onShowModal,
@@ -15,7 +15,7 @@ import {
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import moment from "moment";
-import {getDate, getDOW, getItemNameById} from "../../../../util/ParseUtils";
+import {getDate, getDOW, getItemNameById, getStatus} from "../../../../util/ParseUtils";
 
 let param = {
     page: 1,
@@ -34,17 +34,19 @@ moment.updateLocale('vi', {
     monthsShort: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
 });
 
-const MyDOW = [2, 3, 4, 5, 6, 7, 8];
+const MyDOW = [2, 3, 4, 5, 6, 7, 1];
 
 const ClassPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
+    const {rooms, } = useSelector(({room}) => room);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
     const {locale} = useSelector(({settings}) => settings);
     const [action, setAction] = useState("edit");
     const {courses} = useSelector(({course}) => course);
     const {shifts} = useSelector(({shift}) => shift);
     const [style, setStyle] = useState("150px");
+    const [showGenerateModal, setShowGenerateModal] = useState(false);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -162,6 +164,16 @@ const ClassPage = () => {
         }
     }
 
+    function onSubmitGenerate(values) {
+        console.log(values);
+        values = {
+            ...values,
+            classroom_id: items[selectIndex]._id
+        }
+        dispatch(generateSchedule(values));
+        showModalGenerate();
+    }
+
     function showModal() {
         dispatch(onSelectIndex(-1));
         setAction("edit");
@@ -188,19 +200,91 @@ const ClassPage = () => {
     }
 
     const menus = (index) => (<Menu onClick={(e) => {
-        if (e.key === 'delete') {
-            setAction("delete");
+        if (e.key === "generate") {
+            dispatch(onSelectIndex(index));
+            showModalGenerate()
         } else {
-            setAction("edit");
+            if (e.key === 'delete') {
+                setAction("delete");
+            } else {
+                setAction("edit");
+            }
+            dispatch(onSelectIndex(index));
+            dispatch(onShowModal());
         }
-        dispatch(onSelectIndex(index));
-        dispatch(onShowModal());
+
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
+        <Menu.Item key="generate"><IntlMessages id="admin.user.form.generate"/></Menu.Item>
     </Menu>);
 
+    function showModalGenerate() {
+        if (!showGenerateModal) {
+            dispatch(getRooms({}))
+        }
+        setShowGenerateModal(!showGenerateModal);
+    }
+
+    const modalGenerate = () => (
+        <Modal
+            title={<IntlMessages id="admin.user.form.generate.title"/>}
+            visible={showGenerateModal}
+            footer={
+                <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
+                    id="admin.user.form.create"/>}</Button>
+            }
+            onCancel={showModalGenerate}
+            centered
+            width={500}>
+            <Form
+                onFinish={onSubmitGenerate}
+                id="add-edit-form"
+                initialValues={{
+                    name: items[selectIndex].name
+                }}>
+                <Row>
+                    <Col span={24}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.room.table.name"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="name">
+                            <Input disabled={true}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.room.table.room"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="room_id">
+                            <Select>
+                                {rooms.map(item => {
+                                    return <Select.Option value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                                   name="status"
+                                   labelCol={{span: 24}}
+                                   wrapperCol={{span: 24}}>
+                            <Select>
+                                <Select.Option value="ACTIVE">{getStatus("ACTIVE")}</Select.Option>
+                                <Select.Option value="INACTIVE">{getStatus("INACTIVE")}</Select.Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+        </Modal>
+    )
+
     const modal = () => (<Modal
-        title={<IntlMessages id="admin.user.form.shift.title"/>}
+        title={<IntlMessages id="admin.user.form.class.title"/>}
         visible={hasShowModal && action !== "delete"}
         footer={
             <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
@@ -494,6 +578,7 @@ const ClassPage = () => {
                 }
             }/>
             {hasShowModal && modal()}
+            {showGenerateModal && modalGenerate()}
         </Card>
     );
 };

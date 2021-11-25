@@ -7,7 +7,8 @@ import GetList from "./GetList";
 import CourseCategory from "./CourseCategory"
 import Shift from "./Shift";
 import Course from "./Course";
-
+import Schedule from "./Schedule";
+import Room from "./Room";
 
 const createRootReducer = (history) => combineReducers({
     router: connectRouter(history),
@@ -18,6 +19,8 @@ const createRootReducer = (history) => combineReducers({
     courseCategory: CourseCategory,
     shift: Shift,
     course: Course,
+    schedule: Schedule,
+    room: Room,
 });
 
 export default createRootReducer
