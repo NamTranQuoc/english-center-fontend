@@ -1,11 +1,5 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {
-    ADD_DOCUMENT,
-    DELETE_DOCUMENT,
-    DELETE_MEMBER,
-    GET_DOCUMENT,
-    UPDATE_DOCUMENT,
-} from "../../constants/ActionTypes";
+import {ADD_DOCUMENT, DELETE_DOCUMENT, GET_DOCUMENT, UPDATE_DOCUMENT,} from "../../constants/ActionTypes";
 import {
     getListDocument as getListDocumentAction,
     getListSuccess,
