@@ -1,5 +1,11 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_DOCUMENT, DELETE_MEMBER, GET_DOCUMENT, UPDATE_DOCUMENT,} from "../../constants/ActionTypes";
+import {
+    ADD_DOCUMENT,
+    DELETE_DOCUMENT,
+    DELETE_MEMBER,
+    GET_DOCUMENT,
+    UPDATE_DOCUMENT,
+} from "../../constants/ActionTypes";
 import {
     getListDocument as getListDocumentAction,
     getListSuccess,
@@ -144,7 +150,7 @@ const updateDocumentRequest = async (payload) =>
         .catch(error => error)
 
 export function* deleteDocument() {
-    yield takeEvery(DELETE_MEMBER, deleteDocumentGenerate);
+    yield takeEvery(DELETE_DOCUMENT, deleteDocumentGenerate);
 }
 
 function* deleteDocumentGenerate({payload}) {
