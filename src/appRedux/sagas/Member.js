@@ -2,24 +2,28 @@ import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
     ADD_MEMBER,
     DELETE_MEMBER,
+    GET_ALL_TEACHERS,
     GET_CURRENT_MEMBER,
     GET_MEMBER,
-    SIGNUP_USER, UPDATE_CURRENT_MEMBER,
+    SIGNUP_USER,
+    UPDATE_CURRENT_MEMBER,
     UPDATE_MEMBER
 } from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
 import {
+    getAllTeachersSuccess,
+    getCurrentMember as getCurrentMemberAction,
     getListMember as getListMemberAction,
     getListSuccess,
     hideLoader,
     hideLoaderTable,
     onHideModal,
+    onHideUpdateMember,
     setMember,
     showLoader,
     showMessage,
-    uploadImage,
-    getCurrentMember as getCurrentMemberAction, onHideUpdateMember
+    uploadImage
 } from "../actions";
 
 const INSTRUCTOR_API_URL = `${host}/member`;
@@ -268,6 +272,35 @@ function* updateMemberCurrentGenerate({payload}) {
     }
 }
 
+export function* getTeachers() {
+    yield takeEvery(GET_ALL_TEACHERS, getTeachersGenerate);
+}
+
+function* getTeachersGenerate() {
+    try {
+        const response = yield call(getTeachersRequest);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getAllTeachersSuccess(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const getTeachersRequest = async () =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/get_all`,
+        data: {
+            types: ["teacher"]
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getListMember),
@@ -277,5 +310,6 @@ export default function* rootSaga() {
         fork(getCurrentMember),
         fork(signUpUser),
         fork(updateMemberCurrent),
+        fork(getTeachers),
     ]);
 }
