@@ -1,10 +1,14 @@
 import {
-    ADD_MEMBER, CHANGE_PASSWORD,
+    ADD_MEMBER,
+    CHANGE_PASSWORD,
     DELETE_MEMBER,
+    GET_ALL_TEACHERS,
+    GET_ALL_TEACHERS_SUCCESS,
     GET_CURRENT_MEMBER,
     GET_LIST_SUCCESS,
     GET_MEMBER,
-    ON_HIDE_LOADER_TABLE, UPDATE_CURRENT_MEMBER,
+    ON_HIDE_LOADER_TABLE,
+    UPDATE_CURRENT_MEMBER,
     UPDATE_MEMBER
 } from "../../constants/ActionTypes";
 
@@ -74,5 +78,21 @@ export const changePassword = (values) => {
     return {
         type: CHANGE_PASSWORD,
         payload: values
+    };
+};
+
+export const getAllTeachers = () => {
+    return {
+        type: GET_ALL_TEACHERS,
+        payload: {
+            types: ["teacher"]
+        }
+    };
+};
+
+export const getAllTeachersSuccess = (param) => {
+    return {
+        type: GET_ALL_TEACHERS_SUCCESS,
+        payload: param
     };
 };

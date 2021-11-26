@@ -79,6 +79,22 @@ const errors = {
         message: <IntlMessages id="notification.start_date_not_allow"/>,
         type: "warning",
     },
+    generate_success: {
+        message: <IntlMessages id="notification.generate_success"/>,
+        type: "success",
+    },
+    schedule_not_exist: {
+        message: <IntlMessages id="notification.schedule_not_exist"/>,
+        type: "warning",
+    },
+    teacher_not_available: {
+        message: <IntlMessages id="notification.teacher_not_available"/>,
+        type: "warning",
+    },
+    room_not_empty: {
+        message: <IntlMessages id="notification.room_not_empty"/>,
+        type: "warning",
+    },
 };
 
 export function createNotification(message) {
