@@ -1,12 +1,9 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {
-    ADD_CLASS,
-    GET_CLASS,
-    UPDATE_CLASS,
-} from "../../constants/ActionTypes";
+import {ADD_CLASS, GET_CLASS, UPDATE_CLASS,} from "../../constants/ActionTypes";
 import {
     getListClass as getListClassAction,
-    getListSuccess, hideLoader,
+    getListSuccess,
+    hideLoader,
     hideLoaderTable,
     onHideModal,
     showLoader,

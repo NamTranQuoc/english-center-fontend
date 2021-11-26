@@ -12,3 +12,4 @@ export * from "./CourseCategory";
 export * from "./Course";
 export * from "./Shift";
 export * from "./Document";
+export * from "./Schedule";
