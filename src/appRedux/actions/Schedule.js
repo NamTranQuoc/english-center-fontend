@@ -1,4 +1,4 @@
-import {GENERATE_SCHEDULE, GET_SCHEDULE, GET_SCHEDULE_SUCCESS} from "../../constants/ActionTypes";
+import {GENERATE_SCHEDULE, GET_SCHEDULE, GET_SCHEDULE_SUCCESS, UPDATE_SCHEDULE} from "../../constants/ActionTypes";
 
 export const getSchedule = (param) => {
     return {
@@ -18,5 +18,15 @@ export const generateSchedule = (param) => {
     return {
         type: GENERATE_SCHEDULE,
         payload: param
+    };
+};
+
+export const updateSchedule = (values, param) => {
+    return {
+        type: UPDATE_SCHEDULE,
+        payload: {
+            values: values,
+            param: param
+        }
     };
 };

@@ -1,8 +1,7 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {GENERATE_SCHEDULE, GET_ALL_COURSE, GET_SCHEDULE} from "../../constants/ActionTypes";
-import {getAllSuccessCategory, getScheduleSuccess, hideLoader, showLoader, showMessage} from "../actions";
+import {GENERATE_SCHEDULE, GET_SCHEDULE, UPDATE_SCHEDULE} from "../../constants/ActionTypes";
+import {getScheduleSuccess, hideLoader, showLoader, showMessage, getSchedule as getScheduleAction} from "../actions";
 import axios from "axios";
-import {addCourse, getListCourse, updateCourse} from "./Course";
 import {host} from "../store/Host";
 
 const INSTRUCTOR_API_URL = `${host}/schedule`;
@@ -13,6 +12,7 @@ export function* getsSchedule() {
 
 function* getsScheduleGenerate({payload}) {
     try {
+        yield put(showLoader());
         const response = yield call(getsScheduleRequest, payload);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
@@ -21,6 +21,9 @@ function* getsScheduleGenerate({payload}) {
         } else {
             yield put(getScheduleSuccess(response.data.payload.map(item => {
                 return {
+                    id: item.id,
+                    teacher_id: item.teacher_id,
+                    room_id: item.room_id,
                     title: item.title,
                     start: new Date(item.start),
                     end: new Date(item.end),
@@ -29,6 +32,8 @@ function* getsScheduleGenerate({payload}) {
         }
     } catch (error) {
         yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
     }
 }
 
@@ -83,9 +88,48 @@ const generateScheduleRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* updateSchedule() {
+    yield takeEvery(UPDATE_SCHEDULE, updateScheduleGenerate);
+}
+
+function* updateScheduleGenerate({payload}) {
+    try {
+        yield put(showLoader());
+        const response = yield call(updateScheduleRequest, payload.values);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(showMessage("success_update"));
+            yield put(getScheduleAction(payload.param))
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const updateScheduleRequest = async (payload) =>
+    await axios({
+        method: "PUT",
+        data: {
+            id: payload.id,
+            teacher_id: payload.teacher_id,
+            room_id: payload.room_id
+        },
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+        url: `${INSTRUCTOR_API_URL}/update`,
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getsSchedule),
         fork(generateSchedule),
+        fork(updateSchedule),
     ]);
 }

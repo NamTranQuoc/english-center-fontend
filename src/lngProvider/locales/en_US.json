@@ -1,4 +1,12 @@
 {
+    "notification.schedule_not_exist": "Schedule not found",
+    "notification.room_not_empty": "Room invalid",
+    "notification.teacher_not_available": "Teacher invalid",
+    "notification.generate_success": "Generate success",
+    "admin.user.form.schedule.detail": "Schedule detail",
+    "admin.user.schedule.table.start": "Start time",
+    "admin.user.schedule.table.end": "End time",
+    "admin.user.schedule.table.title": "Schedule",
     "admin.user.room.table.room": "Room",
     "admin.user.form.create": "Create",
     "admin.user.form.generate.title": "Generate schedule",

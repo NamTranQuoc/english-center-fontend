@@ -1,12 +1,10 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
+import {ADD_ROOM, GET_ALL_ROOMS, GET_ROOM, UPDATE_ROOM} from "../../constants/ActionTypes";
 import {
-    ADD_ROOM,
-    GET_ROOM, GET_ROOMS,
-    UPDATE_ROOM
-} from "../../constants/ActionTypes";
-import {
+    getAllRoomsSuccess,
     getListRoom as getListRoomAction,
-    getListSuccess, getRoomsSuccess, hideLoader,
+    getListSuccess,
+    hideLoader,
     hideLoaderTable,
     onHideModal,
     showLoader,
@@ -140,38 +138,28 @@ const updateRoomRequest = async (payload) =>
         .catch(error => error)
 
 export function* getRooms() {
-    yield takeEvery(GET_ROOMS, getRoomsGenerate);
+    yield takeEvery(GET_ALL_ROOMS, getRoomsGenerate);
 }
 
-function* getRoomsGenerate({payload}) {
+function* getRoomsGenerate() {
     try {
-        const response = yield call(getRoomsRequest, payload);
+        const response = yield call(getRoomsRequest);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
-            yield put(getRoomsSuccess(response.data.payload.items));
+            yield put(getAllRoomsSuccess(response.data.payload));
         }
     } catch (error) {
         yield put(showMessage(error));
     }
 }
 
-const getRoomsRequest = async (payload) =>
+const getRoomsRequest = async () =>
     await axios({
-        method: "POST",
-        url: `${INSTRUCTOR_API_URL}/get_list?page=1&size=10`,
-        data: {
-            sort: {
-                is_asc: false,
-                field: "_id"
-            },
-            keyword: payload.keyword
-        },
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem('token'),
-        },
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_all`,
     }).then(response => response)
         .catch(error => error)
 

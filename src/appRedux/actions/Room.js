@@ -1,7 +1,9 @@
 import {
     ADD_ROOM,
     DELETE_ROOM,
-    GET_ROOM, GET_ROOMS, GET_ROOMS_SUCCESS,
+    GET_ALL_ROOMS,
+    GET_ALL_ROOMS_SUCCESS,
+    GET_ROOM,
     UPDATE_ROOM
 } from "../../constants/ActionTypes";
 
@@ -19,16 +21,15 @@ export const addRoom = (param) => {
     };
 };
 
-export const getRooms = (param) => {
+export const getAllRooms = () => {
     return {
-        type: GET_ROOMS,
-        payload: param
+        type: GET_ALL_ROOMS,
     };
 };
 
-export const getRoomsSuccess = (param) => {
+export const getAllRoomsSuccess = (param) => {
     return {
-        type: GET_ROOMS_SUCCESS,
+        type: GET_ALL_ROOMS_SUCCESS,
         payload: param
     };
 };

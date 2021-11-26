@@ -1,7 +1,4 @@
-import {
-    GET_ALL_COURSE,
-    GET_ALL_COURSE_SUCCESS, GET_SCHEDULE, GET_SCHEDULE_SUCCESS,
-} from '../../constants/ActionTypes'
+import {GET_SCHEDULE, GET_SCHEDULE_SUCCESS,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     items: [],

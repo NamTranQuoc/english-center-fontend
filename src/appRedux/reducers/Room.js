@@ -1,4 +1,4 @@
-import {GET_ROOMS, GET_ROOMS_SUCCESS,} from '../../constants/ActionTypes'
+import {GET_ALL_ROOMS_SUCCESS,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     rooms: []
@@ -6,13 +6,7 @@ const INIT_STATE = {
 
 const RoomReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case GET_ROOMS: {
-            return {
-                ...state,
-                rooms: []
-            }
-        }
-        case GET_ROOMS_SUCCESS: {
+        case GET_ALL_ROOMS_SUCCESS: {
             return {
                 ...state,
                 rooms: action.payload,

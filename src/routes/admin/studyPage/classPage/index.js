@@ -6,7 +6,7 @@ import {
     addClass, generateSchedule,
     getAllCourse,
     getAllShift,
-    getListClass, getRooms,
+    getListClass, getAllRooms, getAllTeachers,
     onHideModal,
     onSelectIndex,
     onShowModal,
@@ -15,7 +15,7 @@ import {
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import moment from "moment";
-import {getDate, getDOW, getItemNameById, getStatus} from "../../../../util/ParseUtils";
+import {getDate, getDOW, getItemNameById} from "../../../../util/ParseUtils";
 
 let param = {
     page: 1,
@@ -40,6 +40,7 @@ const ClassPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
     const {rooms, } = useSelector(({room}) => room);
+    const {teachers, } = useSelector(({teacher}) => teacher);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
     const {locale} = useSelector(({settings}) => settings);
     const [action, setAction] = useState("edit");
@@ -165,7 +166,6 @@ const ClassPage = () => {
     }
 
     function onSubmitGenerate(values) {
-        console.log(values);
         values = {
             ...values,
             classroom_id: items[selectIndex]._id
@@ -220,7 +220,8 @@ const ClassPage = () => {
 
     function showModalGenerate() {
         if (!showGenerateModal) {
-            dispatch(getRooms({}))
+            dispatch(getAllRooms());
+            dispatch(getAllTeachers());
         }
         setShowGenerateModal(!showGenerateModal);
     }
@@ -245,7 +246,7 @@ const ClassPage = () => {
                 <Row>
                     <Col span={24}>
                         <Form.Item
-                            label={<IntlMessages id="admin.user.room.table.name"/>}
+                            label={<IntlMessages id="admin.user.class.table.name"/>}
                             labelCol={{span: 24}}
                             wrapperCol={{span: 24}}
                             name="name">
@@ -260,7 +261,12 @@ const ClassPage = () => {
                             labelCol={{span: 24}}
                             wrapperCol={{span: 24}}
                             name="room_id">
-                            <Select>
+                            <Select
+                                showSearch
+                                filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
                                 {rooms.map(item => {
                                     return <Select.Option value={item._id}>{item.name}</Select.Option>
                                 })}
@@ -268,13 +274,19 @@ const ClassPage = () => {
                         </Form.Item>
                     </Col>
                     <Col span={12}>
-                        <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
-                                   name="status"
+                        <Form.Item label={<IntlMessages id="sidebar.managerUser.teacher"/>}
+                                   name="teacher_id"
                                    labelCol={{span: 24}}
                                    wrapperCol={{span: 24}}>
-                            <Select>
-                                <Select.Option value="ACTIVE">{getStatus("ACTIVE")}</Select.Option>
-                                <Select.Option value="INACTIVE">{getStatus("INACTIVE")}</Select.Option>
+                            <Select
+                                showSearch
+                                filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {teachers.map(item => {
+                                    return <Select.Option value={item._id}>{item.name}</Select.Option>
+                                })}
                             </Select>
                         </Form.Item>
                     </Col>
