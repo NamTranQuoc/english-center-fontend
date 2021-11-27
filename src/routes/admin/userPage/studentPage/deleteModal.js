@@ -82,6 +82,38 @@ const DeleteModal = (props) => {
                     </Col>
                 </Row>
                 <Row>
+                    <Col span={12}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.input_score"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="input_score"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: <IntlMessages id="admin.user.form.input_score"/>,
+                                },
+                            ]}>
+                            <Input placeholder="0" disabled={true}/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.current_score"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="current_score"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: <IntlMessages id="admin.user.form.current_score"/>,
+                                },
+                            ]}>
+                            <Input placeholder="0" disabled={true}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
                     <Col span={24}>
                         <Form.Item
                             label={<IntlMessages id="admin.user.student.table.email"/>}

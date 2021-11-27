@@ -164,13 +164,17 @@ const StudentPage = () => {
                 phone_number: items[selectIndex].phone_number,
                 email: items[selectIndex].email,
                 dob: moment.unix(items[selectIndex].dob / 1000),
-                address: items[selectIndex].address
+                address: items[selectIndex].address,
+                current_score: items[selectIndex].current_score.total,
+                input_score: items[selectIndex].input_score.total
             };
         } else {
             return {
                 gender: "male",
                 address: "",
-                dob: moment()
+                dob: moment(),
+                current_score: 0,
+                input_score: 0
             };
         }
     }
@@ -273,6 +277,38 @@ const StudentPage = () => {
                             },
                         ]}>
                         <DatePicker style={{width: "100%"}} format={'DD/MM/YYYY'}/>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row style={selectIndex === -1 ? {display: "none"} : {}}>
+                <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.input_score"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="input_score"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.user.form.input_score"/>,
+                            },
+                        ]}>
+                        <Input placeholder="0" disabled={true}/>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.current_score"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="current_score"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.user.form.current_score"/>,
+                            },
+                        ]}>
+                        <Input placeholder="0" disabled={true}/>
                     </Form.Item>
                 </Col>
             </Row>
