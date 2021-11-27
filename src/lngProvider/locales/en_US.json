@@ -1,4 +1,11 @@
 {
+    "admin.course.form.output_score": "Please enter output score",
+    "admin.course.table.output_score": "Min output score",
+    "admin.course.table.input_score": "Min input score",
+    "admin.user.student.table.current_score": "Current score",
+    "admin.user.form.current_score": "please enter current score",
+    "admin.user.form.input_score": "Please enter input score",
+    "admin.user.student.table.input_score": "Input score",
     "notification.schedule_not_exist": "Schedule not found",
     "notification.room_not_empty": "Room invalid",
     "notification.teacher_not_available": "Teacher invalid",
