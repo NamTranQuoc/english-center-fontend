@@ -88,14 +88,14 @@ const CoursePage = () => {
             course = {
                 ...course,
                 id: items[selectIndex]._id,
-                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
+                description: desc != null ? desc.replaceAll('"', "'").replaceAll('\n', "") : "",
             }
             dispatch(updateCourse(course, param));
         } else {
 
             course = {
                 ...course,
-                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
+                description: desc != null ? desc.replaceAll('"', "'").replaceAll('\n', "") : "",
             }
             dispatch(addCourse(course));
             param = {
@@ -127,6 +127,8 @@ const CoursePage = () => {
                 tuition: items[selectIndex].tuition,
                 number_of_shift: items[selectIndex].number_of_shift,
                 category_course_id: items[selectIndex].category_course_id,
+                input_score: items[selectIndex].input_score,
+                output_score: items[selectIndex].output_score
             };
         } else {
             return {
@@ -226,6 +228,38 @@ const CoursePage = () => {
                             },
                         ]}>
                         <Input placeholder="2000000"/>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.course.table.input_score"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="input_score"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.user.form.input_score"/>,
+                            },
+                        ]}>
+                        <Input placeholder="300"/>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.course.table.output_score"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="output_score"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.course.form.output_score"/>,
+                            },
+                        ]}>
+                        <Input placeholder="550"/>
                     </Form.Item>
                 </Col>
             </Row>

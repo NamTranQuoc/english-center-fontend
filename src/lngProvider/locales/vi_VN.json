@@ -1,4 +1,11 @@
 {
+    "admin.course.form.output_score": "Vui lòng nhập điểm đầu ra tối thiểu",
+    "admin.course.table.output_score": "Điểm đầu ra tối thiểu",
+    "admin.course.table.input_score": "Điểm đầu vào tối thiểu",
+    "admin.user.student.table.current_score": "Điểm số hiện tại",
+    "admin.user.form.current_score": "Vui lòng nhập điểm hiện tại",
+    "admin.user.form.input_score": "Vui lòng nhập điểm đầu vào",
+    "admin.user.student.table.input_score": "Điểm đầu vào",
     "notification.schedule_not_exist": "Lịch học không tồn tại",
     "notification.room_not_empty": "Phòng học không hợp lệ",
     "notification.teacher_not_available": "Giảng viên Không hợp lệ",
