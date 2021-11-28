@@ -95,6 +95,10 @@ const errors = {
         message: <IntlMessages id="notification.room_not_empty"/>,
         type: "warning",
     },
+    phone_number_used: {
+        message: <IntlMessages id="notification.phone_number_used"/>,
+        type: "warning",
+    },
 };
 
 export function createNotification(message) {
