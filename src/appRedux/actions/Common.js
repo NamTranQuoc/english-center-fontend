@@ -1,7 +1,7 @@
 import {
     CLEAR_ITEMS, HIDE_CHANGE_PASSWORD,
     HIDE_MESSAGE,
-    HIDE_MODAL, HIDE_UPDATE_MEMBER,
+    HIDE_MODAL, HIDE_UPDATE_MEMBER, IMPORT_UPDATE_SCORE,
     INIT_URL,
     ON_HIDE_LOADER,
     ON_SHOW_LOADER,
@@ -63,6 +63,16 @@ export const uploadImage = (image, path) => {
 export const uploadFile = (file, path) => {
     return {
         type: UPLOAD_FILE,
+        payload: {
+            file: file,
+            path: path
+        }
+    }
+}
+
+export const importUpdateScoreFile = (file, path) => {
+    return {
+        type: IMPORT_UPDATE_SCORE,
         payload: {
             file: file,
             path: path

@@ -5,17 +5,20 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addMember,
     getListMember,
+    importUpdateScoreFile,
     onHideModal,
     onSelectIndex,
     onShowModal,
+    showMessage,
     updateMember
 } from "../../../../appRedux/actions";
 import {getDate, getGender, getImageURL} from "../../../../util/ParseUtils";
-import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
+import {PlusOutlined, SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import Image from "../../../../components/uploadImage";
 import moment from 'moment';
 import "../index.css";
 import DeleteModal from "./deleteModal";
+import Document from "../../../../components/uploadFile";
 
 moment.updateLocale('vi', {
     weekdaysMin: ["Cn", "T2", "T3", "T4", "T5", "T6", "T7"],
@@ -44,6 +47,8 @@ const StudentPage = () => {
     const [image, setImage] = useState(null);
     const [urlAvatar, setUrlAvatar] = useState(null);
     const [action, setAction] = useState("edit");
+    const [hasShowModalImport, setHasShowModalImport] = useState(false);
+    const [file, setFile] = useState(null);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -178,6 +183,55 @@ const StudentPage = () => {
             };
         }
     }
+
+    function onShowModalImportFile() {
+        setHasShowModalImport(!hasShowModalImport);
+    }
+
+    async function onSubmitImportFile() {
+        const pathFile = "import-" + moment().unix() + ".xlsx";
+        try {
+            if (file === null) {
+                // eslint-disable-next-line
+                throw "param_not_null";
+            } else {
+                const e = file.name.split(".")
+                if (e[1] !== "xlsx") {
+                    // eslint-disable-next-line
+                    throw "type_deny";
+                }
+                dispatch(importUpdateScoreFile(file.originFileObj, pathFile));
+                param = {
+                    page: 1,
+                    size: 10,
+                    sort: {
+                        is_asc: false,
+                        field: "_id"
+                    }
+                }
+            }
+            onShowModalImportFile();
+        } catch (e) {
+            dispatch(showMessage(e));
+        }
+    }
+
+    const modalImportFile = () => (<Modal
+        title={<IntlMessages id="admin.user.form.student.title"/>}
+        visible={hasShowModalImport}
+        footer={
+            <Button type="primary" form="import-file-form" htmlType="submit">{<IntlMessages
+                id="admin.user.form.save"/>}</Button>
+        }
+        onCancel={onShowModalImportFile}
+        centered
+        width={300}>
+        <Form
+            onFinish={onSubmitImportFile}
+            id="import-file-form">
+            <Document setFile={setFile} initFile={null}/>
+        </Form>
+    </Modal>);
 
     const menus = (index) => (<Menu onClick={(e) => {
         if (e.key === 'delete') {
@@ -346,12 +400,20 @@ const StudentPage = () => {
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.student.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined/>}
+                          size="large"
+                          style={{float: "right"}}
+                          onClick={showModal}/>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<UploadOutlined/>}
+                          size="large"
+                          style={{float: "right", marginRight: "10px"}}
+                          onClick={onShowModalImportFile}/>
+              </>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
@@ -471,6 +533,7 @@ const StudentPage = () => {
             {hasShowModal &&
             <DeleteModal showModal={showModal} getInitValueModal={getInitValueModal} urlAvatar={urlAvatar}
                          action={action} param={param}/>}
+            {hasShowModalImport && modalImportFile()}
         </Card>
     );
 };
