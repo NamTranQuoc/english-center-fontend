@@ -58,7 +58,8 @@ const addMemberRequest = async (payload) =>
         nick_name: payload.nick_name,
         note: payload.note,
         guardian: payload.guardian,
-        course_ids: payload.course_ids
+        course_ids: payload.course_ids,
+        status: payload.status
     }).then(response => response)
         .catch(error => error)
 

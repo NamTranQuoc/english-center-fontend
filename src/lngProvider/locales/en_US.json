@@ -1,4 +1,6 @@
 {
+    "admin.status.block": "Block",
+    "admin.status.active": "Active",
     "notification.phone_number_used": "Phone number used",
     "admin.user.student.table.note": "Note",
     "admin.user.student.table.guardian_relationship": "Relationship",
