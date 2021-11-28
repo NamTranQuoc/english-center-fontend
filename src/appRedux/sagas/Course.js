@@ -95,6 +95,8 @@ const addCourseRequest = async (payload) =>
             tuition: payload.tuition,
             number_of_shift: payload.number_of_shift,
             description: payload.description,
+            input_score: payload.input_score,
+            output_score: payload.output_score
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -137,6 +139,8 @@ const updateCourseRequest = async (payload) =>
             tuition: payload.tuition,
             number_of_shift: payload.number_of_shift,
             description: payload.description,
+            input_score: payload.input_score,
+            output_score: payload.output_score
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
