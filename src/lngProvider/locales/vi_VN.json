@@ -1,4 +1,11 @@
 {
+    "admin.button.export": "Xuất file",
+    "admin.button.import": "Nhập file",
+    "admin.button.add": "Thêm",
+    "admin.upload.file.title": "Chọn file",
+    "notification.success_export": "Xuất file thành công",
+    "admin.status.block": "Khóa",
+    "admin.status.active": "Hoạt động",
     "notification.phone_number_used": "Số điện thoại đã được sử dụng",
     "admin.user.student.table.note": "Chú ý",
     "admin.user.student.table.guardian_relationship": "Quan hệ",

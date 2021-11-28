@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table} from "antd";
+import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addMember,
+    addMember, exportMember,
     getListMember,
     importUpdateScoreFile,
     onHideModal,
@@ -12,7 +12,7 @@ import {
     showMessage,
     updateMember
 } from "../../../../appRedux/actions";
-import {getDate, getGender, getImageURL} from "../../../../util/ParseUtils";
+import {getDate, getGender, getImageURL, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import {DownloadOutlined, PlusOutlined, SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import Image from "../../../../components/uploadImage";
 import moment from 'moment';
@@ -191,7 +191,8 @@ const StudentPage = () => {
                 note: items[selectIndex].note,
                 guardian_relationship: items[selectIndex].guardian.relationship,
                 guardian_phone_number: items[selectIndex].guardian.phone_number,
-                guardian_name: items[selectIndex].guardian.name
+                guardian_name: items[selectIndex].guardian.name,
+                status: items[selectIndex].status
             };
         } else {
             return {
@@ -199,7 +200,8 @@ const StudentPage = () => {
                 address: "",
                 dob: moment(),
                 current_score: 0,
-                input_score: 0
+                input_score: 0,
+                status: "active"
             };
         }
     }
@@ -237,7 +239,7 @@ const StudentPage = () => {
     }
 
     const modalImportFile = () => (<Modal
-        title={<IntlMessages id="admin.user.form.student.title"/>}
+        title={<IntlMessages id="admin.upload.file.title"/>}
         visible={hasShowModalImport}
         footer={
             <Button type="primary" form="import-file-form" htmlType="submit">{<IntlMessages
@@ -263,7 +265,6 @@ const StudentPage = () => {
         dispatch(onShowModal());
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -271,7 +272,7 @@ const StudentPage = () => {
             <span>
                 <IntlMessages id="admin.user.form.student.title"/>
             </span>
-            <span style={{marginLeft: "4px",fontSize: "15px",fontWeight: "bold"}}>
+            <span style={{marginLeft: "4px", fontSize: "15px", fontWeight: "bold"}}>
                 <i>{selectIndex !== -1 ? items[selectIndex].code : ""}</i>
             </span></>}
         visible={hasShowModal && action !== "delete"}
@@ -309,6 +310,17 @@ const StudentPage = () => {
                     </Form.Item>
                 </Col>
                 <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.nick_name"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="nick_name">
+                        <Input/>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={12}>
                     <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
                                name="gender"
                                labelCol={{span: 24}}
@@ -323,6 +335,23 @@ const StudentPage = () => {
                             <Select.Option value="male">{getGender("male")}</Select.Option>
                             <Select.Option value="female">{getGender("female")}</Select.Option>
                             <Select.Option value="other">{getGender("other")}</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                               name="status"
+                               labelCol={{span: 24}}
+                               wrapperCol={{span: 24}}
+                               rules={[
+                                   {
+                                       required: true,
+                                       message: <IntlMessages id="admin.categoryCourse.form.status"/>,
+                                   },
+                               ]}>
+                        <Select>
+                            <Select.Option value="active">{getStatusV2("active")}</Select.Option>
+                            <Select.Option value="block">{getStatusV2("block")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>
@@ -393,7 +422,7 @@ const StudentPage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col span={12}>
+                <Col span={24}>
                     <Form.Item
                         label={<IntlMessages id="admin.user.student.table.email"/>}
                         labelCol={{span: 24}}
@@ -409,15 +438,6 @@ const StudentPage = () => {
                         <Input placeholder="nguyenvan@gmail.com" disabled={selectIndex !== -1}/>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.user.student.table.nick_name"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="nick_name">
-                        <Input />
-                    </Form.Item>
-                </Col>
             </Row>
             <Row>
                 <Col span={8}>
@@ -426,7 +446,7 @@ const StudentPage = () => {
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
                         name="guardian_name">
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -442,7 +462,7 @@ const StudentPage = () => {
                                 pattern: new RegExp("[0-9]{10}"),
                             },
                         ]}>
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -451,7 +471,7 @@ const StudentPage = () => {
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
                         name="guardian_relationship">
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -480,27 +500,37 @@ const StudentPage = () => {
         </Form>
     </Modal>);
 
+    function onExportMember() {
+        dispatch(exportMember(param));
+    }
+
     return (
         <Card title={<h2><IntlMessages id="admin.user.student.title"/></h2>}
               extra={<>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<PlusOutlined/>}
-                          size="large"
-                          style={{float: "right"}}
-                          onClick={showModal}/>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<UploadOutlined/>}
-                          size="large"
-                          style={{float: "right", marginRight: "10px"}}
-                          onClick={onShowModalImportFile}/>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<DownloadOutlined />}
-                          size="large"
-                          style={{float: "right", marginRight: "10px"}}
-                          onClick={onShowModalImportFile}/>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<PlusOutlined/>}
+                              size="large"
+                              style={{float: "right"}}
+                              onClick={showModal}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.import"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<UploadOutlined/>}
+                              size="large"
+                              style={{float: "right", marginRight: "10px"}}
+                              onClick={onShowModalImportFile}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.export"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<DownloadOutlined/>}
+                              size="large"
+                              style={{float: "right", marginRight: "10px"}}
+                              onClick={onExportMember}/>
+                  </Tooltip>
               </>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
@@ -572,6 +602,14 @@ const StudentPage = () => {
                                title: <IntlMessages id="admin.user.student.table.dob"/>,
                                dataIndex: "dob",
                                render: (dob) => getDate(dob),
+                               width: 120,
+                               sorter: true
+                           },
+                           {
+                               key: "status",
+                               title: <IntlMessages id="admin.categoryCourse.table.status"/>,
+                               dataIndex: "status",
+                               render: (status) => getStatusTagV2(status),
                                width: 120,
                                sorter: true
                            },
