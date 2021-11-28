@@ -1,4 +1,10 @@
 {
+    "notification.phone_number_used": "Số điện thoại đã được sử dụng",
+    "admin.user.student.table.note": "Chú ý",
+    "admin.user.student.table.guardian_relationship": "Quan hệ",
+    "admin.user.student.table.guardian_phone_number": "SĐT người giám hộ",
+    "admin.user.student.table.guardian_name": "Tên người giám hộ",
+    "admin.user.student.table.nick_name": "Tên tiếng anh",
     "admin.course.form.output_score": "Vui lòng nhập điểm đầu ra tối thiểu",
     "admin.course.table.output_score": "Điểm đầu ra tối thiểu",
     "admin.course.table.input_score": "Điểm đầu vào tối thiểu",

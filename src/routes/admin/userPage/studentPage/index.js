@@ -13,7 +13,7 @@ import {
     updateMember
 } from "../../../../appRedux/actions";
 import {getDate, getGender, getImageURL} from "../../../../util/ParseUtils";
-import {PlusOutlined, SearchOutlined, UploadOutlined} from "@ant-design/icons";
+import {DownloadOutlined, PlusOutlined, SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import Image from "../../../../components/uploadImage";
 import moment from 'moment';
 import "../index.css";
@@ -123,13 +123,19 @@ const StudentPage = () => {
     }
 
     function onSubmit(member) {
+        console.log(member);
         if (selectIndex !== -1) {
             member = {
                 ...member,
                 _id: items[selectIndex]._id,
                 dob: member.dob.unix() * 1000,
                 type: "student",
-                avatar: image
+                avatar: image,
+                guardian: {
+                    name: member.guardian_name,
+                    phone_number: member.guardian_phone_number,
+                    relationship: member.guardian_relationship
+                }
             }
             dispatch(updateMember(member, param));
         } else {
@@ -137,12 +143,22 @@ const StudentPage = () => {
                 ...member,
                 dob: member.dob.unix() * 1000,
                 type: "student",
-                avatar: image
+                avatar: image,
+                guardian: {
+                    name: member.guardian_name,
+                    phone_number: member.guardian_phone_number,
+                    relationship: member.guardian_relationship
+                }
             }
             dispatch(addMember(member));
             param = {
                 ...param,
-                page: 1
+                size: 10,
+                page: 1,
+                sort: {
+                    is_asc: false,
+                    field: "_id"
+                },
             }
         }
     }
@@ -171,7 +187,11 @@ const StudentPage = () => {
                 dob: moment.unix(items[selectIndex].dob / 1000),
                 address: items[selectIndex].address,
                 current_score: items[selectIndex].current_score.total,
-                input_score: items[selectIndex].input_score.total
+                input_score: items[selectIndex].input_score.total,
+                note: items[selectIndex].note,
+                guardian_relationship: items[selectIndex].guardian.relationship,
+                guardian_phone_number: items[selectIndex].guardian.phone_number,
+                guardian_name: items[selectIndex].guardian.name
             };
         } else {
             return {
@@ -247,7 +267,13 @@ const StudentPage = () => {
     </Menu>);
 
     const modal = () => (<Modal
-        title={<IntlMessages id="admin.user.form.student.title"/>}
+        title={<>
+            <span>
+                <IntlMessages id="admin.user.form.student.title"/>
+            </span>
+            <span style={{marginLeft: "4px",fontSize: "15px",fontWeight: "bold"}}>
+                <i>{selectIndex !== -1 ? items[selectIndex].code : ""}</i>
+            </span></>}
         visible={hasShowModal && action !== "delete"}
         footer={
             <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
@@ -310,9 +336,9 @@ const StudentPage = () => {
                         name="phone_number"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                                 message: <IntlMessages id="admin.user.form.phoneNumber"/>,
-                                pattern: new RegExp("([0-9]{10})"),
+                                pattern: new RegExp("[0-9]{10}"),
                             },
                         ]}>
                         <Input placeholder="0987654321"/>
@@ -367,7 +393,7 @@ const StudentPage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col span={24}>
+                <Col span={12}>
                     <Form.Item
                         label={<IntlMessages id="admin.user.student.table.email"/>}
                         labelCol={{span: 24}}
@@ -381,6 +407,62 @@ const StudentPage = () => {
                             },
                         ]}>
                         <Input placeholder="nguyenvan@gmail.com" disabled={selectIndex !== -1}/>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.nick_name"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="nick_name">
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={8}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.guardian_name"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="guardian_name">
+                        <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.guardian_phone_number"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="guardian_phone_number"
+                        rules={[
+                            {
+                                required: false,
+                                message: <IntlMessages id="admin.user.form.phoneNumber"/>,
+                                pattern: new RegExp("[0-9]{10}"),
+                            },
+                        ]}>
+                        <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.guardian_relationship"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="guardian_relationship">
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.student.table.note"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="note">
+                        <Input.TextArea rows={4}/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -410,6 +492,12 @@ const StudentPage = () => {
                   <Button type="primary"
                           shape="circle"
                           icon={<UploadOutlined/>}
+                          size="large"
+                          style={{float: "right", marginRight: "10px"}}
+                          onClick={onShowModalImportFile}/>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<DownloadOutlined />}
                           size="large"
                           style={{float: "right", marginRight: "10px"}}
                           onClick={onShowModalImportFile}/>
@@ -458,10 +546,10 @@ const StudentPage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
+                               key: "code",
                                title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
-                               width: 250,
+                               dataIndex: "code",
+                               width: 150,
                                sorter: true
                            },
                            {

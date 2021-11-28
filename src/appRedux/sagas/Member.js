@@ -55,8 +55,10 @@ const addMemberRequest = async (payload) =>
         dob: payload.dob,
         phone_number: payload.phone_number,
         type: payload.type,
-        salary: payload.salary,
-        certificate: payload.certificate,
+        nick_name: payload.nick_name,
+        note: payload.note,
+        guardian: payload.guardian,
+        course_ids: payload.course_ids
     }).then(response => response)
         .catch(error => error)
 
@@ -74,6 +76,11 @@ const updateMemberRequest = async (payload) =>
             dob: payload.dob,
             salary: payload.salary,
             certificate: payload.certificate,
+            nick_name: payload.nick_name,
+            note: payload.note,
+            guardian: payload.guardian,
+            course_ids: payload.course_ids,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
