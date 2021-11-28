@@ -1,4 +1,9 @@
 {
+    "admin.button.export": "Export",
+    "admin.button.import": "Import",
+    "admin.button.add": "Add",
+    "admin.upload.file.title": "Select file",
+    "notification.success_export": "Success export",
     "admin.status.block": "Block",
     "admin.status.active": "Active",
     "notification.phone_number_used": "Phone number used",

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table} from "antd";
+import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addMember,
+    addMember, exportMember,
     getListMember,
     importUpdateScoreFile,
     onHideModal,
@@ -239,7 +239,7 @@ const StudentPage = () => {
     }
 
     const modalImportFile = () => (<Modal
-        title={<IntlMessages id="admin.user.form.student.title"/>}
+        title={<IntlMessages id="admin.upload.file.title"/>}
         visible={hasShowModalImport}
         footer={
             <Button type="primary" form="import-file-form" htmlType="submit">{<IntlMessages
@@ -265,7 +265,6 @@ const StudentPage = () => {
         dispatch(onShowModal());
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
@@ -501,27 +500,37 @@ const StudentPage = () => {
         </Form>
     </Modal>);
 
+    function onExportMember() {
+        dispatch(exportMember(param));
+    }
+
     return (
         <Card title={<h2><IntlMessages id="admin.user.student.title"/></h2>}
               extra={<>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<PlusOutlined/>}
-                          size="large"
-                          style={{float: "right"}}
-                          onClick={showModal}/>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<UploadOutlined/>}
-                          size="large"
-                          style={{float: "right", marginRight: "10px"}}
-                          onClick={onShowModalImportFile}/>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<DownloadOutlined/>}
-                          size="large"
-                          style={{float: "right", marginRight: "10px"}}
-                          onClick={onShowModalImportFile}/>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<PlusOutlined/>}
+                              size="large"
+                              style={{float: "right"}}
+                              onClick={showModal}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.import"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<UploadOutlined/>}
+                              size="large"
+                              style={{float: "right", marginRight: "10px"}}
+                              onClick={onShowModalImportFile}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.export"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<DownloadOutlined/>}
+                              size="large"
+                              style={{float: "right", marginRight: "10px"}}
+                              onClick={onExportMember}/>
+                  </Tooltip>
               </>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>

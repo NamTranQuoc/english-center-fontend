@@ -99,6 +99,10 @@ const errors = {
         message: <IntlMessages id="notification.phone_number_used"/>,
         type: "warning",
     },
+    success_export: {
+        message: <IntlMessages id="notification.success_export"/>,
+        type: "success",
+    },
 };
 
 export function createNotification(message) {
