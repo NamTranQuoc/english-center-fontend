@@ -1,7 +1,7 @@
 import {
     ADD_MEMBER,
     CHANGE_PASSWORD,
-    DELETE_MEMBER,
+    DELETE_MEMBER, EXPORT_MEMBER,
     GET_ALL_TEACHERS,
     GET_ALL_TEACHERS_SUCCESS,
     GET_CURRENT_MEMBER,
@@ -15,6 +15,13 @@ import {
 export const getListMember = (param) => {
     return {
         type: GET_MEMBER,
+        payload: param
+    };
+};
+
+export const exportMember = (param) => {
+    return {
+        type: EXPORT_MEMBER,
         payload: param
     };
 };
