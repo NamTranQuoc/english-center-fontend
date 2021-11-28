@@ -9,7 +9,7 @@ import {
     GET_MEMBER,
     ON_HIDE_LOADER_TABLE,
     UPDATE_CURRENT_MEMBER,
-    UPDATE_MEMBER
+    UPDATE_MEMBER, UPDATE_SCORE_BY_EXCEL
 } from "../../constants/ActionTypes";
 
 export const getListMember = (param) => {
@@ -94,5 +94,14 @@ export const getAllTeachersSuccess = (param) => {
     return {
         type: GET_ALL_TEACHERS_SUCCESS,
         payload: param
+    };
+};
+
+export const updateScoreByExcel = (path) => {
+    return {
+        type: UPDATE_SCORE_BY_EXCEL,
+        payload: {
+            path: path
+        }
     };
 };

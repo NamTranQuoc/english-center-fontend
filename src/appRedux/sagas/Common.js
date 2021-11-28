@@ -1,7 +1,19 @@
 import {all, fork, put, takeEvery} from "redux-saga/effects";
-import {INIT_URL, SHOW_MESSAGE, SWITCH_LANGUAGE, UPLOAD_FILE, UPLOAD_IMAGE} from "../../constants/ActionTypes";
+import {
+    IMPORT_UPDATE_SCORE,
+    INIT_URL,
+    SHOW_MESSAGE,
+    SWITCH_LANGUAGE,
+    UPLOAD_FILE,
+    UPLOAD_IMAGE
+} from "../../constants/ActionTypes";
 import {createNotification} from "../../components/Notification";
-import {clearItems, userSignOut} from "../actions";
+import {
+    clearItems,
+    showLoader,
+    updateScoreByExcel,
+    userSignOut
+} from "../actions";
 import {storage} from "../../firebase/firebase";
 
 function* showNotificationGenerate({payload}) {
@@ -47,12 +59,25 @@ function* uploadFileGenerate({payload}) {
     }
 }
 
+export function* importUpdateScoreFile() {
+    yield takeEvery(IMPORT_UPDATE_SCORE, importUpdateScoreFileGenerate);
+}
+
+function* importUpdateScoreFileGenerate({payload}) {
+    if (payload.file != null) {
+        yield put(showLoader());
+        yield storage.ref(`imports/${payload.path}`).put(payload.file, {contentType: payload.file.type});
+        yield put(updateScoreByExcel(payload.path));
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         fork(showNotification),
         fork(setInitUrl),
         fork(setLocale),
         fork(uploadImage),
-        fork(uploadFile)
+        fork(uploadFile),
+        fork(importUpdateScoreFile)
     ]);
 }

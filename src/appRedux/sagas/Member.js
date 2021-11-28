@@ -7,7 +7,7 @@ import {
     GET_MEMBER,
     SIGNUP_USER,
     UPDATE_CURRENT_MEMBER,
-    UPDATE_MEMBER
+    UPDATE_MEMBER, UPDATE_SCORE_BY_EXCEL
 } from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";
@@ -301,6 +301,49 @@ const getTeachersRequest = async () =>
     }).then(response => response)
         .catch(error => error)
 
+export function* updateScoreByExcel() {
+    yield takeEvery(UPDATE_SCORE_BY_EXCEL, updateScoreByExcelGenerate);
+}
+
+function* updateScoreByExcelGenerate({payload}) {
+    try {
+        const response = yield call(updateScoreByExcelRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getListMemberAction({
+                page: 1,
+                size: 10,
+                sort: {
+                    is_asc: false,
+                    field: "_id"
+                },
+                types: ["student"],
+            }));
+            yield put(showMessage("success_update"));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const updateScoreByExcelRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/update_score_by_excel`,
+        data: {
+            path: payload.path
+        },
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getListMember),
@@ -311,5 +354,6 @@ export default function* rootSaga() {
         fork(signUpUser),
         fork(updateMemberCurrent),
         fork(getTeachers),
+        fork(updateScoreByExcel),
     ]);
 }
