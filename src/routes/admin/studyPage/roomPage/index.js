@@ -48,7 +48,7 @@ const RoomPage = () => {
             page: pagination.current,
             size: pagination.pageSize
         }
-        dispatch(getListShift(param));
+        dispatch(getListRoom(param));
     }
 
     function onSearch(e) {
@@ -193,7 +193,8 @@ const RoomPage = () => {
                                ]}>
                         <Select>
                             <Select.Option value="ACTIVE">{getStatus("ACTIVE")}</Select.Option>
-                            <Select.Option value="INACTIVE">{getStatus("INACTIVE")}</Select.Option>
+                            <Select.Option value="SHUTDOWN">{getStatus("SHUTDOWN")}</Select.Option>
+                            <Select.Option value="MAINTENANCE">{getStatus("MAINTENANCE")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>

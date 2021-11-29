@@ -9,6 +9,7 @@ import shiftSagas from "./Shift";
 import documentSagas from "./Document";
 import classSagas from "./Class";
 import scheduleSagas from "./Schedule";
+import examScheduleSagas from "./ExamSchedule"
 
 export default function* rootSaga(getState) {
     yield all([
@@ -22,5 +23,6 @@ export default function* rootSaga(getState) {
         documentSagas(),
         classSagas(),
         scheduleSagas(),
+        examScheduleSagas(),
     ]);
 }

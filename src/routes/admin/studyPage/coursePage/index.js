@@ -356,6 +356,20 @@ const CoursePage = () => {
                                sorter: true
                            },
                            {
+                               key: "tuition",
+                               title: <IntlMessages id="admin.course.table.input_score"/>,
+                               dataIndex: "input_score",
+                               width: 120,
+                               sorter: true
+                           },
+                           {
+                               key: "tuition",
+                               title: <IntlMessages id="admin.course.table.output_score"/>,
+                               dataIndex: "output_score",
+                               width: 120,
+                               sorter: true
+                           },
+                           {
                                key: "action",
                                dataIndex: "index",
                                render: (text, record, index) => (<div>
