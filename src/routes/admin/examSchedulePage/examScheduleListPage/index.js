@@ -4,19 +4,15 @@ import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addExamSchedule,
-    addRoom,
     getAllRooms,
     getAllTeachers,
     getListExamSchedule,
-    getListRoom,
-    getListShift,
     onHideModal,
     onSelectIndex,
     onShowModal, updateExamSchedule,
-    updateRoom
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import {getDate, getDateTime, getDOW, getItemNameById} from "../../../../util/ParseUtils";
+import {getDateTime, getItemNameById} from "../../../../util/ParseUtils";
 import moment from "moment";
 
 let param = {
@@ -55,7 +51,7 @@ const ExamSchedulePage = () => {
             page: pagination.current,
             size: pagination.pageSize
         }
-        dispatch(getListShift(param));
+        dispatch(getListExamSchedule(param));
     }
 
     function onSearch(e) {
@@ -64,7 +60,7 @@ const ExamSchedulePage = () => {
             keyword: e.target.value,
             page: 1
         }
-        dispatch(getListRoom(param));
+        dispatch(getListExamSchedule(param));
     }
 
     useEffect(() => {
@@ -317,7 +313,7 @@ const ExamSchedulePage = () => {
                                        })}
                                    </div>
                                ),
-                               width: 130,
+                               width: 140,
                                sorter: true,
                            },
                            {

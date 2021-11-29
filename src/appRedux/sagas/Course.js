@@ -46,6 +46,7 @@ const getListCourseRequest = async (payload) =>
             keyword: payload.keyword,
             from_date: payload.from_date,
             to_date: payload.to_date,
+            status: payload.status,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -96,7 +97,8 @@ const addCourseRequest = async (payload) =>
             number_of_shift: payload.number_of_shift,
             description: payload.description,
             input_score: payload.input_score,
-            output_score: payload.output_score
+            output_score: payload.output_score,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -140,7 +142,8 @@ const updateCourseRequest = async (payload) =>
             number_of_shift: payload.number_of_shift,
             description: payload.description,
             input_score: payload.input_score,
-            output_score: payload.output_score
+            output_score: payload.output_score,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),

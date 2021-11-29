@@ -106,7 +106,7 @@ export function* updateExamSchedule() {
 function* updateExamScheduleGenerate({payload}) {
     yield put(showLoader());
     try {
-        const response = yield call(updateExamScheduleRequest, payload.shift);
+        const response = yield call(updateExamScheduleRequest, payload.examSchedule);
         if (response.status !== 200) {
             yield put(showMessage("bad_request"));
         } else if (response.data.code !== 9999) {
@@ -128,7 +128,7 @@ const updateExamScheduleRequest = async (payload) =>
         method: "PUT",
         url: `${INSTRUCTOR_API_URL}/update`,
         data: {
-            _id: payload._id,
+            id: payload._id,
             start_time: payload.start_time,
             end_time: payload.end_time,
             room_id: payload.room_id,

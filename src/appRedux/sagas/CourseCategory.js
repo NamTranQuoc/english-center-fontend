@@ -1,11 +1,11 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
     ADD_COURSE_CATEGORY,
-    GET_ALL_COURSE_CATEGORY,
+    GET_ALL_COURSE_CATEGORY, GET_ALL_COURSE_CATEGORY_ADD,
     GET_COURSE_CATEGORY, UPDATE_COURSE_CATEGORY,
 } from "../../constants/ActionTypes";
 import {
-    getAllSuccessCourseCategory,
+    getAllSuccessCourseCategory, getAllSuccessCourseCategoryByStatus,
     getListCourseCategory as getListCourseCategoryAction,
     getListSuccess,
     hideLoader,
@@ -82,6 +82,32 @@ const getAllCourseCategoryRequest = async (payload) =>
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
         },
+    }).then(response => response)
+        .catch(error => error)
+
+export function* getAllCourseCategoryByStatus() {
+    yield takeEvery(GET_ALL_COURSE_CATEGORY_ADD, getAllCourseCategoryByStatusGenerate);
+}
+
+function* getAllCourseCategoryByStatusGenerate({payload}) {
+    try {
+        const response = yield call(getAllCourseCategoryByStatusRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getAllSuccessCourseCategoryByStatus(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const getAllCourseCategoryByStatusRequest = async (payload) =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_by_status/` + payload.status,
     }).then(response => response)
         .catch(error => error)
 
@@ -177,5 +203,6 @@ export default function* rootSaga() {
         fork(getAllCourseCategory),
         fork(addCourseCategory),
         fork(updateCourseCategory),
+        fork(getAllCourseCategoryByStatus),
     ]);
 }

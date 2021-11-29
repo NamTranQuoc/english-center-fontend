@@ -20,11 +20,11 @@ export const addExamSchedule = (param) => {
     };
 };
 
-export const updateExamSchedule = (room, param) => {
+export const updateExamSchedule = (examSchedule, param) => {
     return {
         type: UPDATE_EXAM_SCHEDULE,
         payload: {
-            room: room,
+            examSchedule: examSchedule,
             param: param
         }
     };

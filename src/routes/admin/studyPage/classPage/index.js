@@ -1,5 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
+import {
+    Button,
+    Card,
+    Col,
+    DatePicker,
+    Dropdown,
+    Form,
+    Input,
+    Menu,
+    Modal,
+    Row,
+    Select,
+    Table,
+    Tag,
+    Tooltip
+} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -422,12 +437,14 @@ const ClassPage = () => {
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.classroom.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined/>}
+                          size="large"
+                          style={{float: "right"}}
+                          onClick={showModal}/>
+              </Tooltip>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="admin.user.class.table.course"/>}

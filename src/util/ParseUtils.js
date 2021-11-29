@@ -15,6 +15,7 @@ export function getStatusTagV2(status) {
         return ""
     }
     switch (status) {
+        case "shutdown":
         case "block":
             return <Tag color={"red"}><IntlMessages id={`admin.status.${status}`}/></Tag>
         default:
