@@ -349,7 +349,7 @@ const StudentPage = () => {
                                        message: <IntlMessages id="admin.categoryCourse.form.status"/>,
                                    },
                                ]}>
-                        <Select>
+                        <Select disabled={selectIndex === -1}>
                             <Select.Option value="active">{getStatusV2("active")}</Select.Option>
                             <Select.Option value="block">{getStatusV2("block")}</Select.Option>
                         </Select>

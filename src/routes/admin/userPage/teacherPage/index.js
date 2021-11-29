@@ -1,17 +1,41 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, InputNumber, Menu, Modal, Row, Select, Table} from "antd";
+import {
+    Button,
+    Card,
+    Col,
+    DatePicker,
+    Dropdown,
+    Form,
+    Input,
+    Menu,
+    Modal,
+    Row,
+    Select,
+    Table,
+    Tag,
+    Tooltip
+} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addMember,
+    exportMember,
+    getAllCourse,
     getListMember,
     onHideModal,
     onSelectIndex,
     onShowModal,
     updateMember
 } from "../../../../appRedux/actions";
-import {getDate, getGender, getImageURL, getMoney} from "../../../../util/ParseUtils";
-import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
+import {
+    getDate,
+    getGender,
+    getImageURL,
+    getItemNameById,
+    getStatusTagV2,
+    getStatusV2
+} from "../../../../util/ParseUtils";
+import {DownloadOutlined, PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import Image from "../../../../components/uploadImage";
 import moment from 'moment';
 import "../index.css";
@@ -46,6 +70,7 @@ const TeacherPage = () => {
     const [urlAvatar, setUrlAvatar] = useState(null);
     const [action, setAction] = useState("edit");
     const [resetPassword, setResetPassword] = useState(false);
+    const {courses} = useSelector(({course}) => course);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -76,6 +101,7 @@ const TeacherPage = () => {
 
     useEffect(() => {
         dispatch(getListMember(param));
+        dispatch(getAllCourse());
         // eslint-disable-next-line
     }, []);
 
@@ -171,23 +197,22 @@ const TeacherPage = () => {
                 setUrlAvatar(getImageURL(items[selectIndex].avatar));
             }
             return {
-                certificateType: items[selectIndex].certificate.type,
-                certificateCode: items[selectIndex].certificate.code,
-                certificateScore: items[selectIndex].certificate.score,
                 name: items[selectIndex].name,
                 gender: items[selectIndex].gender,
                 phone_number: items[selectIndex].phone_number,
                 email: items[selectIndex].email,
                 dob: moment.unix(items[selectIndex].dob / 1000),
                 address: items[selectIndex].address,
-                salary: items[selectIndex].salary
+                course_ids: items[selectIndex].course_ids,
+                status: items[selectIndex].status
             };
         } else {
             return {
-                certificateType: "TOEIC",
                 gender: "male",
                 address: "",
-                dob: moment()
+                dob: moment(),
+                course_ids: [],
+                status: "active"
             };
         }
     }
@@ -207,12 +232,17 @@ const TeacherPage = () => {
         }
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
         <Menu.Item key="resetPassword"><IntlMessages id="admin.user.form.resetPassword"/></Menu.Item>
     </Menu>);
 
     const modal = () => (<Modal
-        title={<IntlMessages id="admin.user.form.teacher.title"/>}
+        title={<>
+            <span>
+            <IntlMessages id="admin.user.form.teacher.title"/>
+            </span>
+            <span style={{marginLeft: "4px", fontSize: "15px", fontWeight: "bold"}}>
+            <i>{selectIndex !== -1 ? items[selectIndex].code : ""}</i>
+            </span></>}
         visible={hasShowModal && action !== "delete"}
         footer={
             <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
@@ -317,74 +347,35 @@ const TeacherPage = () => {
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.user.table.salary"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="salary"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.user.form.salary"/>,
-                            },
-                        ]}>
-                        <InputNumber
-                            style={{width: "100%"}}
-                            placeholder={"9,999,999"}
-                            formatter={value => getMoney(value)}
-                            parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                        />
+                    <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                               name="status"
+                               labelCol={{span: 24}}
+                               wrapperCol={{span: 24}}
+                               rules={[
+                                   {
+                                       required: true,
+                                       message: <IntlMessages id="admin.categoryCourse.form.status"/>,
+                                   },
+                               ]}>
+                        <Select disabled={selectIndex === -1}>
+                            <Select.Option value="active">{getStatusV2("active")}</Select.Option>
+                            <Select.Option value="block">{getStatusV2("block")}</Select.Option>
+                        </Select>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
-                <Col span={8}>
+                <Col span={24}>
                     <Form.Item
-                        label={<IntlMessages id="admin.user.table.certificate.type"/>}
+                        label={<IntlMessages id="admin.user.teacher.table.course_ids"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="certificateType"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.user.form.certificate.type"/>,
-                            },
-                        ]}>
-                        <Select>
-                            <Select.Option value="TOEIC">TOEIC</Select.Option>
-                            <Select.Option value="IELTS">IELTS </Select.Option>
-                            <Select.Option value="OTHER">OTHER</Select.Option>
+                        name="course_ids">
+                        <Select placeholder="Select" mode={"multiple"}>
+                            {courses.map(item => {
+                                return <Select.Option value={item._id}>{item.name}</Select.Option>
+                            })}
                         </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.user.table.certificate.code"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="certificateCode"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.user.form.certificate.code"/>,
-                            },
-                        ]}>
-                        <Input placeholder="TO-00000001"/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item
-                        label={<IntlMessages id="admin.user.table.certificate.score"/>}
-                        labelCol={{span: 24}}
-                        wrapperCol={{span: 24}}
-                        name="certificateScore"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.user.form.certificate.score"/>,
-                            },
-                        ]}>
-                        <InputNumber placeholder={"500"} style={{width: "100%"}}/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -402,14 +393,30 @@ const TeacherPage = () => {
         </Form>
     </Modal>);
 
+    function onExportMember() {
+        dispatch(exportMember(param));
+    }
+
     return (
         <Card title={<h2><IntlMessages id="admin.user.teacher.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<PlusOutlined/>}
+                              size="large"
+                              style={{float: "right"}}
+                              onClick={showModal}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.export"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<DownloadOutlined/>}
+                              size="large"
+                              style={{float: "right", marginRight: "10px"}}
+                              onClick={onExportMember}/>
+                  </Tooltip>
+              </>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
@@ -454,10 +461,10 @@ const TeacherPage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
+                               key: "code",
                                title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
-                               width: 250,
+                               dataIndex: "code",
+                               width: 150,
                                sorter: true
                            },
                            {
@@ -484,10 +491,24 @@ const TeacherPage = () => {
                                sorter: true
                            },
                            {
-                               key: "salary",
-                               title: <IntlMessages id="admin.user.table.salary"/>,
-                               dataIndex: "salary",
-                               render: (salary) => getMoney(salary),
+                               key: "course_ids",
+                               title: <IntlMessages id="admin.user.teacher.table.course_ids"/>,
+                               dataIndex: "course_ids",
+                               render: (course_ids) => (
+                                   <div>
+                                       {course_ids.map(item => {
+                                           return <Tag color={"yellow"}>{getItemNameById(courses, item)}</Tag>
+                                       })}
+                                   </div>
+                               ),
+                               width: 250,
+                               sorter: true
+                           },
+                           {
+                               key: "status",
+                               title: <IntlMessages id="admin.categoryCourse.table.status"/>,
+                               dataIndex: "status",
+                               render: (status) => getStatusTagV2(status),
                                width: 120,
                                sorter: true
                            },
@@ -503,7 +524,7 @@ const TeacherPage = () => {
                                title: <IntlMessages id="admin.user.student.table.createdDate"/>,
                                dataIndex: "create_date",
                                render: (create_date) => getDate(create_date),
-                               width: 120,
+                               width: 130,
                                sorter: true
                            },
                            {
