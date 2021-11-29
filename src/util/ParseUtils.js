@@ -1,6 +1,26 @@
 import IntlMessages from "./IntlMessages";
 import React from "react";
 import jwt from 'jwt-decode';
+import {Tag} from "antd";
+
+export function getStatusV2(status) {
+    if (status === null) {
+        return ""
+    }
+    return <IntlMessages id={`admin.status.${status}`}/>
+}
+
+export function getStatusTagV2(status) {
+    if (status === null) {
+        return ""
+    }
+    switch (status) {
+        case "block":
+            return <Tag color={"red"}><IntlMessages id={`admin.status.${status}`}/></Tag>
+        default:
+            return <Tag color={"green"}><IntlMessages id={`admin.status.${status}`}/></Tag>
+    }
+}
 
 export function getDOW(value) {
     if (value === null) {

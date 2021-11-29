@@ -1,7 +1,7 @@
 import {
     ADD_MEMBER,
     CHANGE_PASSWORD,
-    DELETE_MEMBER,
+    DELETE_MEMBER, EXPORT_MEMBER,
     GET_ALL_TEACHERS,
     GET_ALL_TEACHERS_SUCCESS,
     GET_CURRENT_MEMBER,
@@ -9,12 +9,19 @@ import {
     GET_MEMBER,
     ON_HIDE_LOADER_TABLE,
     UPDATE_CURRENT_MEMBER,
-    UPDATE_MEMBER
+    UPDATE_MEMBER, UPDATE_SCORE_BY_EXCEL
 } from "../../constants/ActionTypes";
 
 export const getListMember = (param) => {
     return {
         type: GET_MEMBER,
+        payload: param
+    };
+};
+
+export const exportMember = (param) => {
+    return {
+        type: EXPORT_MEMBER,
         payload: param
     };
 };
@@ -94,5 +101,14 @@ export const getAllTeachersSuccess = (param) => {
     return {
         type: GET_ALL_TEACHERS_SUCCESS,
         payload: param
+    };
+};
+
+export const updateScoreByExcel = (path) => {
+    return {
+        type: UPDATE_SCORE_BY_EXCEL,
+        payload: {
+            path: path
+        }
     };
 };
