@@ -366,7 +366,9 @@ function* ExportExcelGenerate({payload}) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(showMessage("success_export"));
-            window.open(response.data.payload);
+            if (response.data.payload !== "") {
+                window.open(response.data.payload);
+            }
         }
     } catch (error) {
         yield put(showMessage(error));
