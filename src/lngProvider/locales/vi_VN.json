@@ -1,4 +1,6 @@
 {
+    "admin.user.form.username": "Vui lòng nhập tên đăng nhập",
+    "admin.user.teacher.table.course_ids": "Khóa học có thể dạy",
     "admin.button.export": "Xuất file",
     "admin.button.import": "Nhập file",
     "admin.button.add": "Thêm",

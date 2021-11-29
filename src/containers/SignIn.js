@@ -52,8 +52,8 @@ const SignIn = () => {
                             className="gx-signin-form gx-form-row0">
 
                             <Form.Item
-                                rules={[{required: true, message: <IntlMessages id="admin.user.form.email"/>}]} name="email">
-                                <Input placeholder="Email"/>
+                                rules={[{required: true, message: <IntlMessages id="admin.user.form.username"/>}]} name="email">
+                                <Input placeholder="Email/Phone/Code"/>
                             </Form.Item>
                             <Form.Item
                                 rules={[{required: true, message: <IntlMessages id="admin.user.form.password"/>}]} name="password">

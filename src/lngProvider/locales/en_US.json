@@ -1,4 +1,6 @@
 {
+    "admin.user.form.username": "Please enter username",
+    "admin.user.teacher.table.course_ids": "Course can teach",
     "admin.button.export": "Export",
     "admin.button.import": "Import",
     "admin.button.add": "Add",
