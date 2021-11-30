@@ -1,16 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    addRoom,
-    getListRoom,
-    getListShift,
-    onHideModal,
-    onSelectIndex,
-    onShowModal,
-    updateRoom
-} from "../../../../appRedux/actions";
+import {addRoom, getListRoom, onHideModal, onSelectIndex, onShowModal, updateRoom} from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import {getStatus} from "../../../../util/ParseUtils";
@@ -48,7 +40,7 @@ const RoomPage = () => {
             page: pagination.current,
             size: pagination.pageSize
         }
-        dispatch(getListShift(param));
+        dispatch(getListRoom(param));
     }
 
     function onSearch(e) {
@@ -193,7 +185,8 @@ const RoomPage = () => {
                                ]}>
                         <Select>
                             <Select.Option value="ACTIVE">{getStatus("ACTIVE")}</Select.Option>
-                            <Select.Option value="INACTIVE">{getStatus("INACTIVE")}</Select.Option>
+                            <Select.Option value="SHUTDOWN">{getStatus("SHUTDOWN")}</Select.Option>
+                            <Select.Option value="MAINTENANCE">{getStatus("MAINTENANCE")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>
@@ -203,12 +196,14 @@ const RoomPage = () => {
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.room.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined/>}
+                          size="large"
+                          style={{float: "right"}}
+                          onClick={showModal}/>
+              </Tooltip>}
               className="gx-card">
             <IntlMessages id="table.search">
                 {placeholder => <Input

@@ -13,3 +13,4 @@ export * from "./Course";
 export * from "./Shift";
 export * from "./Document";
 export * from "./Schedule";
+export * from "./ExamSchedule";

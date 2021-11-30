@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addCourse,
-    getAllCourseCategory,
+    getAllCourseCategory, getAllCourseCategoryByStatus,
     getListCourse,
     onHideModal,
     onSelectIndex,
     onShowModal,
     updateCourse,
 } from "../../../../appRedux/actions";
-import {getItemNameById} from "../../../../util/ParseUtils";
+import {getItemNameById, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import DeleteModal from "./deleteModal";
@@ -35,6 +35,7 @@ const CoursePage = () => {
     const [action, setAction] = useState("edit");
     const {courseCategories} = useSelector(({courseCategory}) => courseCategory);
     const [desc, setDesc] = useState(null);
+    const {courseCategoriesAdd} = useSelector(({courseCategory}) => courseCategory);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -75,7 +76,8 @@ const CoursePage = () => {
 
     useEffect(() => {
         dispatch(getListCourse(param));
-        dispatch(getAllCourseCategory());
+        dispatch(getAllCourseCategory())
+        dispatch(getAllCourseCategoryByStatus("active"));
         // eslint-disable-next-line
     }, []);
 
@@ -106,6 +108,16 @@ const CoursePage = () => {
         }
     }
 
+    function onFilterStatus(e) {
+        const status = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            status: status,
+            page: 1
+        }
+        dispatch(getListCourse(param));
+    }
+
     function showModal() {
         dispatch(onSelectIndex(-1));
         setDesc(null);
@@ -128,10 +140,12 @@ const CoursePage = () => {
                 number_of_shift: items[selectIndex].number_of_shift,
                 category_course_id: items[selectIndex].category_course_id,
                 input_score: items[selectIndex].input_score,
-                output_score: items[selectIndex].output_score
+                output_score: items[selectIndex].output_score,
+                status: items[selectIndex].status
             };
         } else {
             return {
+                status: "active",
             };
         }
     }
@@ -192,7 +206,7 @@ const CoursePage = () => {
                                    },
                                ]}>
                         <Select>
-                            {courseCategories.map(item => {
+                            {courseCategoriesAdd.map(item => {
                                 return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
                             })}
                         </Select>
@@ -232,7 +246,7 @@ const CoursePage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col span={12}>
+                <Col span={6}>
                     <Form.Item
                         label={<IntlMessages id="admin.course.table.input_score"/>}
                         labelCol={{span: 24}}
@@ -247,7 +261,7 @@ const CoursePage = () => {
                         <Input placeholder="300"/>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={6}>
                     <Form.Item
                         label={<IntlMessages id="admin.course.table.output_score"/>}
                         labelCol={{span: 24}}
@@ -260,6 +274,23 @@ const CoursePage = () => {
                             },
                         ]}>
                         <Input placeholder="550"/>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                               name="status"
+                               labelCol={{span: 24}}
+                               wrapperCol={{span: 24}}
+                               rules={[
+                                   {
+                                       required: true,
+                                       message: <IntlMessages id="admin.categoryCourse.form.status"/>,
+                                   },
+                               ]}>
+                        <Select>
+                            <Select.Option value="active">{getStatusV2("active")}</Select.Option>
+                            <Select.Option value="shutdown">{getStatusV2("shutdown")}</Select.Option>
+                        </Select>
                     </Form.Item>
                 </Col>
             </Row>
@@ -278,12 +309,14 @@ const CoursePage = () => {
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.course.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined/>}
+                          size="large"
+                          style={{float: "right"}}
+                          onClick={showModal}/>
+              </Tooltip>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="admin.course.table.type"/>}
@@ -298,6 +331,21 @@ const CoursePage = () => {
                                 {courseCategories.map(item => {
                                     return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
                                 })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                           name="genders"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterStatus}
+                                    placeholder={placeholder}>
+                                <Select.Option key="active" value="active">{getStatusV2("active")}</Select.Option>
+                                <Select.Option key="shutdown" value="shutdown">{getStatusV2("shutdown")}</Select.Option>
                             </Select>
                         }
                     </IntlMessages>
@@ -352,6 +400,28 @@ const CoursePage = () => {
                                key: "tuition",
                                title: <IntlMessages id="admin.course.table.tuition"/>,
                                dataIndex: "tuition",
+                               width: 120,
+                               sorter: true
+                           },
+                           {
+                               key: "tuition",
+                               title: <IntlMessages id="admin.course.table.input_score"/>,
+                               dataIndex: "input_score",
+                               width: 120,
+                               sorter: true
+                           },
+                           {
+                               key: "tuition",
+                               title: <IntlMessages id="admin.course.table.output_score"/>,
+                               dataIndex: "output_score",
+                               width: 120,
+                               sorter: true
+                           },
+                           {
+                               key: "status",
+                               title: <IntlMessages id="admin.categoryCourse.table.status"/>,
+                               dataIndex: "status",
+                               render: (status) => getStatusTagV2(status),
                                width: 120,
                                sorter: true
                            },
