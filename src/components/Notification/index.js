@@ -107,6 +107,26 @@ const errors = {
         message: <IntlMessages id="notification.room_not_available"/>,
         type: "error",
     },
+    cannot_when_status_not_is_register: {
+        message: <IntlMessages id="notification.cannot_when_status_not_is_register"/>,
+        type: "error",
+    },
+    cannot_when_status_not_is_create: {
+        message: <IntlMessages id="notification.cannot_when_status_not_is_create"/>,
+        type: "error",
+    },
+    can_only_generate_with_status_is_create: {
+        message: <IntlMessages id="notification.can_only_generate_with_status_is_create"/>,
+        type: "error",
+    },
+    schedule_exist: {
+        message: <IntlMessages id="notification.schedule_exist"/>,
+        type: "error",
+    },
+    can_not_update: {
+        message: <IntlMessages id="notification.can_not_update"/>,
+        type: "warning",
+    },
 };
 
 export function createNotification(message) {

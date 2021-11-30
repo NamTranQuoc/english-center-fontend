@@ -6,7 +6,7 @@ import {
     GET_ALL_TEACHERS_SUCCESS,
     GET_CURRENT_MEMBER,
     GET_LIST_SUCCESS,
-    GET_MEMBER,
+    GET_MEMBER, GET_MEMBER_BY_TYPE_AND_STATUS, GET_MEMBER_BY_TYPE_AND_STATUS_SUCCESS,
     ON_HIDE_LOADER_TABLE,
     UPDATE_CURRENT_MEMBER,
     UPDATE_MEMBER, UPDATE_SCORE_BY_EXCEL
@@ -100,6 +100,24 @@ export const getAllTeachers = () => {
 export const getAllTeachersSuccess = (param) => {
     return {
         type: GET_ALL_TEACHERS_SUCCESS,
+        payload: param
+    };
+};
+
+export const getAllMemberByTypeAndStatus = (type, status, course_id) => {
+    return {
+        type: GET_MEMBER_BY_TYPE_AND_STATUS,
+        payload: {
+            type: type,
+            status: status,
+            course_id: course_id
+        }
+    };
+};
+
+export const getAllMemberByTypeAndStatusSuccess = (param) => {
+    return {
+        type: GET_MEMBER_BY_TYPE_AND_STATUS_SUCCESS,
         payload: param
     };
 };

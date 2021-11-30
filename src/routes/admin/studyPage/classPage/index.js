@@ -18,14 +18,18 @@ import {
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addClass, generateSchedule,
+    addClass,
+    generateSchedule,
     getAllCourse,
+    getAllCourseByStatus,
+    getAllMemberByTypeAndStatus,
+    getAllRoomsByStatus,
     getAllShift,
-    getListClass, getAllRooms, getAllTeachers,
+    getListClass,
     onHideModal,
     onSelectIndex,
     onShowModal,
-    updateClass, getAllCourseByStatus
+    updateClass
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
@@ -54,8 +58,8 @@ const MyDOW = [2, 3, 4, 5, 6, 7, 1];
 const ClassPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
-    const {rooms, } = useSelector(({room}) => room);
-    const {teachers, } = useSelector(({teacher}) => teacher);
+    const {roomsByStatus} = useSelector(({room}) => room);
+    const {membersByStatus} = useSelector(({teacher}) => teacher);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
     const {locale} = useSelector(({settings}) => settings);
     const [action, setAction] = useState("edit");
@@ -209,11 +213,12 @@ const ClassPage = () => {
                 dow: items[selectIndex].dow,
                 course_id: items[selectIndex].course_id,
                 start_date: moment.unix(items[selectIndex].start_date / 1000),
-                shift_id: items[selectIndex].shift_id
+                shift_id: items[selectIndex].shift_id,
+                status: items[selectIndex].status
             };
         } else {
             return {
-                status: "register"
+                status: "create"
             };
         }
     }
@@ -221,7 +226,7 @@ const ClassPage = () => {
     const menus = (index) => (<Menu onClick={(e) => {
         if (e.key === "generate") {
             dispatch(onSelectIndex(index));
-            showModalGenerate()
+            showModalGenerate(index)
         } else {
             if (e.key === 'delete') {
                 setAction("delete");
@@ -234,13 +239,14 @@ const ClassPage = () => {
 
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        <Menu.Item key="generate"><IntlMessages id="admin.user.form.generate"/></Menu.Item>
+        {items[index].status === "create" ?
+            <Menu.Item key="generate"><IntlMessages id="admin.user.form.generate"/></Menu.Item> : null}
     </Menu>);
 
-    function showModalGenerate() {
+    function showModalGenerate(index) {
         if (!showGenerateModal) {
-            dispatch(getAllRooms());
-            dispatch(getAllTeachers());
+            dispatch(getAllRoomsByStatus("ACTIVE", items[index].max_student));
+            dispatch(getAllMemberByTypeAndStatus("teacher", "active", items[index].course_id))
         }
         setShowGenerateModal(!showGenerateModal);
     }
@@ -286,7 +292,7 @@ const ClassPage = () => {
                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
                             >
-                                {rooms.map(item => {
+                                {roomsByStatus.map(item => {
                                     return <Select.Option value={item._id}>{item.name}</Select.Option>
                                 })}
                             </Select>
@@ -303,7 +309,7 @@ const ClassPage = () => {
                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
                             >
-                                {teachers.map(item => {
+                                {membersByStatus.map(item => {
                                     return <Select.Option value={item._id}>{item.name}</Select.Option>
                                 })}
                             </Select>
@@ -392,12 +398,13 @@ const ClassPage = () => {
                                 message: <IntlMessages id="admin.class.form.startDate"/>,
                             },
                         ]}>
-                        <DatePicker style={{width: "100%"}} format={'DD/MM/YYYY'}/>
+                        <DatePicker style={{width: "100%"}} format={'DD/MM/YYYY'}
+                                    disabled={items[selectIndex].status !== "create"}/>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
-                <Col span={12}>
+                <Col span={24}>
                     <Form.Item
                         label={<IntlMessages id="admin.user.class.table.dow"/>}
                         labelCol={{span: 24}}
@@ -416,6 +423,8 @@ const ClassPage = () => {
                         </Select>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row>
                 <Col span={12}>
                     <Form.Item
                         label={<IntlMessages id="admin.user.class.table.shift"/>}
@@ -435,9 +444,7 @@ const ClassPage = () => {
                         </Select>
                     </Form.Item>
                 </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
+                <Col span={12}>
                     <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
                                name="status"
                                labelCol={{span: 24}}
@@ -448,11 +455,12 @@ const ClassPage = () => {
                                        message: <IntlMessages id="admin.categoryCourse.form.status"/>,
                                    },
                                ]}>
-                        <Select>
-                            <Select.Option value="register">{getStatusV2("register")}</Select.Option>
-                            <Select.Option value="coming">{getStatusV2("coming")}</Select.Option>
+                        <Select disabled={selectIndex === -1}>
+                            <Select.Option value="create" disabled={true}>{getStatusV2("create")}</Select.Option>
+                            <Select.Option value="register" disabled={true}>{getStatusV2("register")}</Select.Option>
+                            <Select.Option value="coming" disabled={true}>{getStatusV2("coming")}</Select.Option>
                             <Select.Option value="cancel">{getStatusV2("cancel")}</Select.Option>
-                            <Select.Option value="finish">{getStatusV2("finish")}</Select.Option>
+                            <Select.Option value="finish" disabled={true}>{getStatusV2("finish")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>
