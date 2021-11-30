@@ -1,6 +1,7 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_ROOM, GET_ALL_ROOMS, GET_ROOM, UPDATE_ROOM} from "../../constants/ActionTypes";
+import {ADD_ROOM, GET_ALL_ROOMS, GET_ALL_ROOMS_BY_STATUS, GET_ROOM, UPDATE_ROOM} from "../../constants/ActionTypes";
 import {
+    getAllRoomsByStatusSuccess,
     getAllRoomsSuccess,
     getListRoom as getListRoomAction,
     getListSuccess,
@@ -163,11 +164,42 @@ const getRoomsRequest = async () =>
     }).then(response => response)
         .catch(error => error)
 
+export function* getRoomsByStatus() {
+    yield takeEvery(GET_ALL_ROOMS_BY_STATUS, getRoomsByStatusGenerate);
+}
+
+function* getRoomsByStatusGenerate({payload}) {
+    try {
+        const response = yield call(getRoomsByStatusRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getAllRoomsByStatusSuccess(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const getRoomsByStatusRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/get_all_by_status`,
+        data: {
+            status: payload.status,
+            capacity: payload.capacity
+        }
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getListRoom),
         fork(addRoom),
         fork(updateRoom),
         fork(getRooms),
+        fork(getRoomsByStatus),
     ]);
 }

@@ -1,4 +1,11 @@
 {
+    "notification.can_not_update": "Cannot Update",
+    "admin.user.class.table.session": "Session",
+    "notification.schedule_exist": "Schedule exist",
+    "admin.status.create": "Create",
+    "notification.can_only_generate_with_status_is_create": "Generate can only while status is create ",
+    "notification.cannot_when_status_not_is_create": "Updates can only be made while status is create",
+    "notification.cannot_when_status_not_is_register": "Updates can only be made while status is register",
     "admin.user.form.username": "Please enter username",
     "admin.user.teacher.table.course_ids": "Course can teach",
     "admin.button.export": "Export",

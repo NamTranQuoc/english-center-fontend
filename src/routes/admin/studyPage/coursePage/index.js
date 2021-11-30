@@ -266,13 +266,7 @@ const CoursePage = () => {
                         label={<IntlMessages id="admin.course.table.output_score"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="output_score"
-                        rules={[
-                            {
-                                required: true,
-                                message: <IntlMessages id="admin.course.form.output_score"/>,
-                            },
-                        ]}>
+                        name="output_score">
                         <Input placeholder="550"/>
                     </Form.Item>
                 </Col>

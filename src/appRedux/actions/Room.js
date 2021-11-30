@@ -1,7 +1,7 @@
 import {
     ADD_ROOM,
     DELETE_ROOM,
-    GET_ALL_ROOMS,
+    GET_ALL_ROOMS, GET_ALL_ROOMS_BY_STATUS, GET_ALL_ROOMS_BY_STATUS_SUCCESS,
     GET_ALL_ROOMS_SUCCESS,
     GET_ROOM,
     UPDATE_ROOM
@@ -30,6 +30,23 @@ export const getAllRooms = () => {
 export const getAllRoomsSuccess = (param) => {
     return {
         type: GET_ALL_ROOMS_SUCCESS,
+        payload: param
+    };
+};
+
+export const getAllRoomsByStatus = (status, capacity) => {
+    return {
+        type: GET_ALL_ROOMS_BY_STATUS,
+        payload: {
+            status: status,
+            capacity: capacity
+        }
+    };
+};
+
+export const getAllRoomsByStatusSuccess = (param) => {
+    return {
+        type: GET_ALL_ROOMS_BY_STATUS_SUCCESS,
         payload: param
     };
 };
