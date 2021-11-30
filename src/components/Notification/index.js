@@ -103,6 +103,10 @@ const errors = {
         message: <IntlMessages id="notification.success_export"/>,
         type: "success",
     },
+    room_not_available: {
+        message: <IntlMessages id="notification.room_not_available"/>,
+        type: "error",
+    },
 };
 
 export function createNotification(message) {

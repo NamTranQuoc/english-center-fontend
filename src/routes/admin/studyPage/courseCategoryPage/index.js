@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -9,7 +9,7 @@ import {
     onSelectIndex,
     onShowModal, updateCourseCategory,
 } from "../../../../appRedux/actions";
-import {getDate, getStatus} from "../../../../util/ParseUtils";
+import {getDate, getStatus, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import DeleteModal from "./deleteModal";
@@ -113,7 +113,7 @@ const CourseCategoryPage = () => {
             };
         } else {
             return {
-                status: "ACTIVE"
+                status: "active"
             };
         }
     }
@@ -174,8 +174,8 @@ const CourseCategoryPage = () => {
                                    },
                                ]}>
                         <Select>
-                            <Select.Option value="ACTIVE">{getStatus("ACTIVE")}</Select.Option>
-                            <Select.Option value="INACTIVE">{getStatus("INACTIVE")}</Select.Option>
+                            <Select.Option value="active">{getStatusV2("active")}</Select.Option>
+                            <Select.Option value="shutdown">{getStatusV2("shutdown")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>
@@ -195,12 +195,14 @@ const CourseCategoryPage = () => {
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.categoryCourse.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined/>}
+                          size="large"
+                          style={{float: "right"}}
+                          onClick={showModal}/>
+              </Tooltip>}
               className="gx-card">
             <IntlMessages id="table.search">
                 {placeholder => <Input
@@ -236,7 +238,7 @@ const CourseCategoryPage = () => {
                                key: "status",
                                title: <IntlMessages id="admin.categoryCourse.table.status"/>,
                                dataIndex: "status",
-                               render: (status) => <Tag color={status === "ACTIVE" ? "blue" : "red"}>{getStatus(status)}</Tag>,
+                               render: (status) => getStatusTagV2(status),
                                width: 100,
                                sorter: true,
                            },
