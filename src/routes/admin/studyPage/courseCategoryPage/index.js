@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag, Tooltip} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -9,7 +9,7 @@ import {
     onSelectIndex,
     onShowModal, updateCourseCategory,
 } from "../../../../appRedux/actions";
-import {getDate, getStatus, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
+import {getDate, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import DeleteModal from "./deleteModal";
@@ -73,14 +73,13 @@ const CourseCategoryPage = () => {
             courseCategory = {
                 ...courseCategory,
                 id: items[selectIndex]._id,
-                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
+                description: desc !== null ? desc.replaceAll('"', "'").replaceAll('\n', "") : "",
             }
             dispatch(updateCourseCategory(courseCategory, param));
         } else {
-
             courseCategory = {
                 ...courseCategory,
-                description: desc.replaceAll('"', "'").replaceAll('\n', ""),
+                description: desc !== null ? desc.replaceAll('"', "'").replaceAll('\n', "") : "",
             }
             dispatch(addCourseCategory(courseCategory));
             param = {
@@ -113,7 +112,8 @@ const CourseCategoryPage = () => {
             };
         } else {
             return {
-                status: "active"
+                status: "active",
+                description: ""
             };
         }
     }

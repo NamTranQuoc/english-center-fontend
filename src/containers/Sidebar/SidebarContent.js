@@ -111,21 +111,12 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 </Link>
                             </Menu.Item>
                         </Menu.SubMenu>
-                        <Menu.SubMenu key="managerExamSchedule"
-                                      title={
-                                          <span><i className="icon icon-schedule"/>
-                                <span><IntlMessages id="sidebar.managerExamSchedule"/></span></span>}>
-                            <Menu.Item key="/admin/examSchedule">
-                                <Link to="/admin/examSchedule">
-                                    <span><IntlMessages id="sidebar.managerExamSchedule.examSchedule"/></span>
-                                </Link>
-                            </Menu.Item>
-                            <Menu.Item key="/admin/examScheduleRegis">
-                                <Link to="/admin/examRegistrationList">
-                                    <span><IntlMessages id="sidebar.managerExamSchedule.examRegistrationList"/></span>
-                                </Link>
-                            </Menu.Item>
-                        </Menu.SubMenu>
+                        <Menu.Item key="/admin/examSchedule">
+                            <Link to="/admin/examSchedule">
+                                <span><i className="icon icon-schedule"/>
+                                <span><IntlMessages id="sidebar.managerExamSchedule.examSchedule"/></span></span>
+                            </Link>
+                        </Menu.Item>
                         <Menu.Item key="/admin/document">
                             <Link to="/admin/document">
                                 <i className="icon icon-folder-o"/>
