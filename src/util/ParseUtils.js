@@ -15,8 +15,11 @@ export function getStatusTagV2(status) {
         return ""
     }
     switch (status) {
+        case "shutdown":
         case "block":
             return <Tag color={"red"}><IntlMessages id={`admin.status.${status}`}/></Tag>
+        case "create":
+            return <Tag color={"blue"}><IntlMessages id={`admin.status.${status}`}/></Tag>
         default:
             return <Tag color={"green"}><IntlMessages id={`admin.status.${status}`}/></Tag>
     }
@@ -110,4 +113,9 @@ export function getItemNameById(listItem, id) {
         }
     }
     return "-";
+}
+
+export function getDateTime(timestamp) {
+    const date = new Date(timestamp);
+    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " - " + date.getHours() + ":" + date.getMinutes();
 }

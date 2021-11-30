@@ -27,6 +27,10 @@ function* getsScheduleGenerate({payload}) {
                     title: item.title,
                     start: new Date(item.start),
                     end: new Date(item.end),
+                    session: item.session,
+                    max_student: item.max_student,
+                    course_id: item.course_id,
+                    took_place: item.took_place
                 }
             })));
         }
@@ -117,7 +121,9 @@ const updateScheduleRequest = async (payload) =>
         data: {
             id: payload.id,
             teacher_id: payload.teacher_id,
-            room_id: payload.room_id
+            room_id: payload.room_id,
+            start_time: payload.start_time,
+            end_time: payload.end_time
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),

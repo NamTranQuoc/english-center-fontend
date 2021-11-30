@@ -19,6 +19,7 @@ const App = ({match}) => (
 			<Route path="/admin/document" component={asyncComponent(() => import('./documentPage'))}/>
             <Route path="/admin/class" component={asyncComponent(() => import('./studyPage/classPage'))}/>
             <Route path="/admin/schedule" component={asyncComponent(() => import('./studyPage/schedulePage'))}/>
+            <Route path="/admin/examSchedule" component={asyncComponent(() => import('./examSchedulePage/examScheduleListPage'))}/>
         </Switch>
     </div>
 );

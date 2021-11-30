@@ -4,7 +4,7 @@ import {
     DELETE_MEMBER, EXPORT_MEMBER,
     GET_ALL_TEACHERS,
     GET_CURRENT_MEMBER,
-    GET_MEMBER,
+    GET_MEMBER, GET_MEMBER_BY_TYPE_AND_STATUS,
     SIGNUP_USER,
     UPDATE_CURRENT_MEMBER,
     UPDATE_MEMBER, UPDATE_SCORE_BY_EXCEL
@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import {host} from "../store/Host";
 import {
+    getAllMemberByTypeAndStatusSuccess,
     getAllTeachersSuccess,
     getCurrentMember as getCurrentMemberAction,
     getListMember as getListMemberAction,
@@ -366,7 +367,9 @@ function* ExportExcelGenerate({payload}) {
             yield put(showMessage(response.data.message));
         } else {
             yield put(showMessage("success_export"));
-            window.open(response.data.payload);
+            if (response.data.payload !== "") {
+                window.open(response.data.payload);
+            }
         }
     } catch (error) {
         yield put(showMessage(error));
@@ -393,6 +396,37 @@ const ExportExcelRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* getAllMemberByTypeAndStatus() {
+    yield takeEvery(GET_MEMBER_BY_TYPE_AND_STATUS, getAllMemberByTypeAndStatusGenerate);
+}
+
+function* getAllMemberByTypeAndStatusGenerate({payload}) {
+    try {
+        const response = yield call(getAllMemberByTypeAndStatusRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getAllMemberByTypeAndStatusSuccess(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const getAllMemberByTypeAndStatusRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/get_all_by_status`,
+        data: {
+            type: payload.type,
+            status: payload.status,
+            course_id: payload.course_id
+        }
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getListMember),
@@ -405,5 +439,6 @@ export default function* rootSaga() {
         fork(getTeachers),
         fork(updateScoreByExcel),
         fork(ExportExcel),
+        fork(getAllMemberByTypeAndStatus),
     ]);
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Table, TimePicker} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Table, TimePicker, Tooltip} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -187,12 +187,14 @@ const ShiftPage = () => {
 
     return (
         <Card title={<h2><IntlMessages id="admin.user.shift.title"/></h2>}
-              extra={<Button type="primary"
-                             shape="circle"
-                             icon={<PlusOutlined/>}
-                             size="large"
-                             style={{float: "right"}}
-                             onClick={showModal}/>}
+              extra={<Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                  <Button type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined/>}
+                          size="large"
+                          style={{float: "right"}}
+                          onClick={showModal}/>
+              </Tooltip>}
               className="gx-card">
             <IntlMessages id="table.search">
                 {placeholder => <Input

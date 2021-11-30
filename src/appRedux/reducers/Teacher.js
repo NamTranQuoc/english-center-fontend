@@ -1,9 +1,10 @@
 import {
-    GET_ALL_TEACHERS_SUCCESS,
+    GET_ALL_TEACHERS_SUCCESS, GET_MEMBER_BY_TYPE_AND_STATUS_SUCCESS,
 } from '../../constants/ActionTypes'
 
 const INIT_STATE = {
-    teachers: []
+    teachers: [],
+    membersByStatus: []
 };
 
 const TeacherReducer = (state = INIT_STATE, action) => {
@@ -12,6 +13,12 @@ const TeacherReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 teachers: action.payload,
+            }
+        }
+        case GET_MEMBER_BY_TYPE_AND_STATUS_SUCCESS: {
+            return {
+                ...state,
+                membersByStatus: action.payload,
             }
         }
         default:

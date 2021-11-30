@@ -1,7 +1,7 @@
 import {
     ADD_COURSE_CATEGORY,
     DELETE_COURSE_CATEGORY,
-    GET_ALL_COURSE_CATEGORY,
+    GET_ALL_COURSE_CATEGORY, GET_ALL_COURSE_CATEGORY_ADD, GET_ALL_COURSE_CATEGORY_ADD_SUCCESS,
     GET_ALL_COURSE_CATEGORY_SUCCESS,
     GET_COURSE_CATEGORY,
     UPDATE_COURSE_CATEGORY
@@ -17,6 +17,22 @@ export const getListCourseCategory = (param) => {
 export const getAllCourseCategory = (param) => {
     return {
         type: GET_ALL_COURSE_CATEGORY,
+        payload: param
+    };
+};
+
+export const getAllCourseCategoryByStatus = (param) => {
+    return {
+        type: GET_ALL_COURSE_CATEGORY_ADD,
+        payload: {
+            status:param,
+        }
+    };
+};
+
+export const getAllSuccessCourseCategoryByStatus = (param) => {
+    return {
+        type: GET_ALL_COURSE_CATEGORY_ADD_SUCCESS,
         payload: param
     };
 };

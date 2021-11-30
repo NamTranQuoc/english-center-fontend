@@ -1,7 +1,12 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_COURSE, GET_ALL_COURSE, GET_COURSE, UPDATE_COURSE,} from "../../constants/ActionTypes";
 import {
-    getAllSuccessCategory,
+    ADD_COURSE,
+    GET_ALL_COURSE, GET_ALL_COURSE_ADD,
+    GET_COURSE,
+    UPDATE_COURSE,
+} from "../../constants/ActionTypes";
+import {
+    getAllSuccessCategory, getAllSuccessCourseByStatus,
     getListCourse as getListCourseAction,
     getListSuccess,
     hideLoader,
@@ -46,6 +51,7 @@ const getListCourseRequest = async (payload) =>
             keyword: payload.keyword,
             from_date: payload.from_date,
             to_date: payload.to_date,
+            status: payload.status,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -96,7 +102,8 @@ const addCourseRequest = async (payload) =>
             number_of_shift: payload.number_of_shift,
             description: payload.description,
             input_score: payload.input_score,
-            output_score: payload.output_score
+            output_score: payload.output_score,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -140,7 +147,8 @@ const updateCourseRequest = async (payload) =>
             number_of_shift: payload.number_of_shift,
             description: payload.description,
             input_score: payload.input_score,
-            output_score: payload.output_score
+            output_score: payload.output_score,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -174,11 +182,38 @@ const getAllCourseRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* getAllCourseByStatus() {
+    yield takeEvery(GET_ALL_COURSE_ADD, getAllCourseByStatusGenerate);
+}
+
+function* getAllCourseByStatusGenerate({payload}) {
+    try {
+        const response = yield call(getAllCourseByStatusRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getAllSuccessCourseByStatus(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const getAllCourseByStatusRequest = async (payload) =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_by_status/` + payload.status,
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getListCourse),
         fork(addCourse),
         fork(updateCourse),
         fork(getAllCourse),
+        fork(getAllCourseByStatus),
     ]);
 }

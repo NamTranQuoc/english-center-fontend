@@ -1,7 +1,8 @@
-import {GET_ALL_ROOMS_SUCCESS,} from '../../constants/ActionTypes'
+import {GET_ALL_ROOMS_BY_STATUS_SUCCESS, GET_ALL_ROOMS_SUCCESS,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
-    rooms: []
+    rooms: [],
+    roomsByStatus: []
 };
 
 const RoomReducer = (state = INIT_STATE, action) => {
@@ -10,6 +11,12 @@ const RoomReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 rooms: action.payload,
+            }
+        }
+        case GET_ALL_ROOMS_BY_STATUS_SUCCESS: {
+            return {
+                ...state,
+                roomsByStatus: action.payload,
             }
         }
         default:
