@@ -25,12 +25,12 @@ import {
     onHideModal,
     onSelectIndex,
     onShowModal,
-    updateClass
+    updateClass, getAllCourseByStatus
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import moment from "moment";
-import {getDate, getDOW, getItemNameById} from "../../../../util/ParseUtils";
+import {getDate, getDOW, getItemNameById, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 
 let param = {
     page: 1,
@@ -63,6 +63,7 @@ const ClassPage = () => {
     const {shifts} = useSelector(({shift}) => shift);
     const [style, setStyle] = useState("150px");
     const [showGenerateModal, setShowGenerateModal] = useState(false);
+    const {coursesAdd} = useSelector(({course}) => course);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -95,6 +96,7 @@ const ClassPage = () => {
         dispatch(getListClass(param));
         dispatch(getAllShift());
         dispatch(getAllCourse());
+        dispatch(getAllCourseByStatus("active"))
         // eslint-disable-next-line
     }, []);
 
@@ -210,7 +212,9 @@ const ClassPage = () => {
                 shift_id: items[selectIndex].shift_id
             };
         } else {
-            return {};
+            return {
+                status: "register"
+            };
         }
     }
 
@@ -370,7 +374,7 @@ const ClassPage = () => {
                             },
                         ]}>
                         <Select placeholder={"Select"} disabled={selectIndex !== -1}>
-                            {courses.map(item => {
+                            {coursesAdd.map(item => {
                                 return <Select.Option value={item._id}>{item.name}</Select.Option>
                             })}
                         </Select>
@@ -428,6 +432,27 @@ const ClassPage = () => {
                             {shifts.map(item => {
                                 return <Select.Option value={item._id}>{item.name}</Select.Option>
                             })}
+                        </Select>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                               name="status"
+                               labelCol={{span: 24}}
+                               wrapperCol={{span: 24}}
+                               rules={[
+                                   {
+                                       required: true,
+                                       message: <IntlMessages id="admin.categoryCourse.form.status"/>,
+                                   },
+                               ]}>
+                        <Select>
+                            <Select.Option value="register">{getStatusV2("register")}</Select.Option>
+                            <Select.Option value="coming">{getStatusV2("coming")}</Select.Option>
+                            <Select.Option value="cancel">{getStatusV2("cancel")}</Select.Option>
+                            <Select.Option value="finish">{getStatusV2("finish")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>
@@ -577,6 +602,14 @@ const ClassPage = () => {
                                dataIndex: "start_date",
                                render: (start_date) => getDate(start_date),
                                width: 200,
+                               sorter: true
+                           },
+                           {
+                               key: "status",
+                               title: <IntlMessages id="admin.categoryCourse.table.status"/>,
+                               dataIndex: "status",
+                               render: (status) => getStatusTagV2(status),
+                               width: 160,
                                sorter: true
                            },
                            {

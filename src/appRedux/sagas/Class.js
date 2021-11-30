@@ -46,7 +46,8 @@ const getListClassRequest = async (payload) =>
             course_ids: payload.course_ids,
             dow: payload.dow,
             start_from_date: payload.start_from_date,
-            start_to_date: payload.start_to_date
+            start_to_date: payload.start_to_date,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -96,7 +97,8 @@ const addClassRequest = async (payload) =>
             dow: payload.dow,
             course_id: payload.course_id,
             start_date: payload.start_date,
-            shift_id: payload.shift_id
+            shift_id: payload.shift_id,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -136,7 +138,8 @@ const updateClassRequest = async (payload) =>
             id: payload._id,
             name: payload.name,
             max_student: payload.max_student,
-            start_date: payload.start_date
+            start_date: payload.start_date,
+            status: payload.status
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),

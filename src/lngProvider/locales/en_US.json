@@ -211,5 +211,9 @@
     "admin.categoryCourse.table.SHUTDOWN": "Shut down",
     "admin.categoryCourse.table.MAINTENANCE": "Maintenance",
     "admin.status.shutdown": "Shut down",
-    "notification.room_not_available": "Room not available"
+    "notification.room_not_available": "Room not available",
+    "admin.status.register" : "During registration",
+    "admin.status.coming" : "Will take place",
+    "admin.status.cancel" : "Cancelled",
+    "admin.status.finish" : "Accomplished"
 }

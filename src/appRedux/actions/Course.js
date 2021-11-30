@@ -2,6 +2,10 @@ import {
     ADD_COURSE,
     DELETE_COURSE,
     GET_ALL_COURSE,
+    GET_ALL_COURSE_ADD,
+    GET_ALL_COURSE_ADD_SUCCESS,
+    GET_ALL_COURSE_CATEGORY_ADD,
+    GET_ALL_COURSE_CATEGORY_ADD_SUCCESS,
     GET_ALL_COURSE_SUCCESS,
     GET_COURSE,
     UPDATE_COURSE
@@ -51,5 +55,21 @@ export const deleteCourse = (id, param) => {
             id: id,
             param: param
         }
+    };
+};
+
+export const getAllCourseByStatus = (param) => {
+    return {
+        type: GET_ALL_COURSE_ADD,
+        payload: {
+            status:param,
+        }
+    };
+};
+
+export const getAllSuccessCourseByStatus = (param) => {
+    return {
+        type: GET_ALL_COURSE_ADD_SUCCESS,
+        payload: param
     };
 };

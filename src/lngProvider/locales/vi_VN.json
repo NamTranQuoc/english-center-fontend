@@ -210,5 +210,9 @@
     "admin.categoryCourse.table.SHUTDOWN": "Ngưng sử dụng",
     "admin.categoryCourse.table.MAINTENANCE": "Bảo trì",
     "admin.status.shutdown": "Ngưng sử dụng",
-    "notification.room_not_available": "Phòng học đã có lịch"
+    "notification.room_not_available": "Phòng học đã có lịch",
+    "admin.status.register" : "Trong thời gian đăng ký",
+    "admin.status.coming" : "Sẽ khai giảng",
+    "admin.status.cancel" : "Đã hủy",
+    "admin.status.finish" : "Đã hoàn thành"
 }
