@@ -1,5 +1,10 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_EXAM_SCHEDULE, GET_EXAM_SCHEDULE, UPDATE_EXAM_SCHEDULE,} from "../../constants/ActionTypes";
+import {
+    ADD_EXAM_SCHEDULE, EXPORT_EXAM_SCHEDULE,
+    GET_EXAM_SCHEDULE,
+    REGISTER_EXAM_SCHEDULE,
+    UPDATE_EXAM_SCHEDULE,
+} from "../../constants/ActionTypes";
 import {
     getListExamSchedule as getListExamScheduleAction,
     getListSuccess,
@@ -42,6 +47,10 @@ const getListExamScheduleRequest = async (payload) =>
         data: {
             sort: payload.sort,
             keyword: payload.keyword,
+            start_time: payload.start_time,
+            end_time: payload.end_time,
+            member_ids: payload.member_ids,
+            room_ids: payload.room_ids
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -142,11 +151,83 @@ const updateExamScheduleRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* registerExamSchedule() {
+    yield takeEvery(REGISTER_EXAM_SCHEDULE, registerExamScheduleGenerate);
+}
+
+function* registerExamScheduleGenerate({payload}) {
+    yield put(showLoader());
+    try {
+        const response = yield call(registerExamScheduleRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(showMessage("success_add"));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const registerExamScheduleRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/register`,
+        data: {
+            member: payload.member,
+            exam_id: payload.exam_id
+        },
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
+export function* exportExamSchedule() {
+    yield takeEvery(EXPORT_EXAM_SCHEDULE, exportExamScheduleGenerate);
+}
+
+function* exportExamScheduleGenerate({payload}) {
+    yield put(showLoader());
+    try {
+        const response = yield call(exportExamScheduleRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(showMessage("success_export"));
+            if (response.data.payload !== "") {
+                window.open(response.data.payload);
+            }
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const exportExamScheduleRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/export_excel/` + payload.exam_id,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
 
 export default function* rootSaga() {
     yield all([
         fork(getListExamSchedule),
         fork(addExamSchedule),
         fork(updateExamSchedule),
+        fork(registerExamSchedule),
+        fork(exportExamSchedule),
     ]);
 }
