@@ -127,6 +127,18 @@ const errors = {
         message: <IntlMessages id="notification.can_not_update"/>,
         type: "warning",
     },
+    exam_schedule_exist: {
+        message: <IntlMessages id="notification.exam_schedule_exist"/>,
+        type: "warning",
+    },
+    receptionist_not_available: {
+        message: <IntlMessages id="notification.receptionist_not_available"/>,
+        type: "warning",
+    },
+    room_capacity_is_not_enough: {
+        message: <IntlMessages id="notification.room_capacity_is_not_enough"/>,
+        type: "warning",
+    },
 };
 
 export function createNotification(message) {

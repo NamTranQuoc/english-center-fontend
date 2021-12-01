@@ -3,13 +3,16 @@ import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, 
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addExamSchedule,
+    addExamSchedule, exportExam,
+    getAllMemberByTypeAndStatus,
     getAllRooms,
-    getAllTeachers,
+    getAllRoomsByStatus,
     getListExamSchedule,
     onHideModal,
     onSelectIndex,
-    onShowModal, updateExamSchedule,
+    onShowModal,
+    registerExam,
+    updateExamSchedule,
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import {getDateTime, getItemNameById} from "../../../../util/ParseUtils";
@@ -22,9 +25,9 @@ let param = {
         is_asc: false,
         field: "_id"
     },
-    types: ["teacher"],
     keyword: "",
-    genders: []
+    member_ids: [],
+    room_ids: []
 }
 const {RangePicker} = DatePicker;
 const ExamSchedulePage = () => {
@@ -32,9 +35,12 @@ const ExamSchedulePage = () => {
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
     const [action, setAction] = useState("edit");
+    const [hasModalRegister, setHasModalRegister] = useState(false);
+    const [index, setIndex] = useState(-1);
     const {locale} = useSelector(({settings}) => settings);
-    const {rooms,} = useSelector(({room}) => room);
-    const {teachers,} = useSelector(({teacher}) => teacher);
+    const {roomsByStatus, rooms} = useSelector(({room}) => room);
+    const {membersByStatus} = useSelector(({teacher}) => teacher);
+    const [style, setStyle] = useState("150px");
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -66,7 +72,8 @@ const ExamSchedulePage = () => {
     useEffect(() => {
         dispatch(getListExamSchedule(param));
         dispatch(getAllRooms());
-        dispatch(getAllTeachers());
+        dispatch(getAllRoomsByStatus("ACTIVE", 0));
+        dispatch(getAllMemberByTypeAndStatus("receptionist", "active"));
         // eslint-disable-next-line
     }, []);
 
@@ -104,6 +111,11 @@ const ExamSchedulePage = () => {
         }
     }
 
+    function onRegister(values) {
+        dispatch(registerExam(values.member, items[index]._id));
+        onShowModalRegister(-1);
+    }
+
     function showModal() {
         dispatch(onSelectIndex(-1));
         setAction("edit");
@@ -122,11 +134,10 @@ const ExamSchedulePage = () => {
                 member_ids: items[selectIndex].member_ids,
                 min_quantity: items[selectIndex].min_quantity,
                 max_quantity: items[selectIndex].max_quantity,
-                time:[moment.unix(items[selectIndex].start_time / 1000),moment.unix(items[selectIndex].end_time / 1000)]
+                time: [moment.unix(items[selectIndex].start_time / 1000), moment.unix(items[selectIndex].end_time / 1000)]
             };
         } else {
-            return {
-            };
+            return {};
         }
     }
 
@@ -137,6 +148,10 @@ const ExamSchedulePage = () => {
             dispatch(onShowModal());
         } else if (e.key === 'resetPassword') {
             dispatch(onSelectIndex(index));
+        } else if (e.key === "register") {
+            onShowModalRegister(index);
+        } else if (e.key === "export") {
+            dispatch(exportExam(items[index]._id))
         } else {
             setAction("edit");
             dispatch(onSelectIndex(index));
@@ -144,7 +159,47 @@ const ExamSchedulePage = () => {
         }
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
+        <Menu.Item key="register"><IntlMessages id="admin.user.form.register"/></Menu.Item>
+        <Menu.Item key="export"><IntlMessages id="admin.exam.form.export"/></Menu.Item>
     </Menu>);
+
+    function onShowModalRegister(index) {
+        setIndex(index);
+        setHasModalRegister(!hasModalRegister);
+    }
+
+    const modalRegister = () => (<Modal
+        title={<IntlMessages id="admin.user.form.examSchedule.title.register"/>}
+        visible={hasModalRegister}
+        footer={
+            <Button type="primary" form="register-form" htmlType="submit">{<IntlMessages
+                id="admin.user.form.save"/>}</Button>
+        }
+        onCancel={onShowModalRegister}
+        centered
+        width={300}>
+        <Form
+            onFinish={onRegister}
+            id="register-form">
+            <Row>
+                <Col span={24}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.examSchedule.table.student"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="member"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.exam.form.member"/>,
+                            },
+                        ]}>
+                        <Input placeholder={"Email/Phone/Code"}/>
+                    </Form.Item>
+                </Col>
+            </Row>
+        </Form>
+    </Modal>);
 
     const modal = () => (<Modal
         title={<IntlMessages id="admin.user.form.examSchedule.title"/>}
@@ -161,14 +216,21 @@ const ExamSchedulePage = () => {
             id="add-edit-form"
             initialValues={getInitValueModal()}>
             <Row>
-                <Col span={12}>
+                <Col span={24}>
                     <Form.Item
-                        label={<IntlMessages id="admin.user.room.table.room"/>}
+                        label={<IntlMessages id="admin.user.examSchedule.table"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="time">
+                        name="time"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.class.form.time"/>,
+                            },
+                        ]}>
                         <RangePicker showTime
                                      placeholder={locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
+                                     style={{width: "100%"}}
                         />
                     </Form.Item>
                 </Col>
@@ -179,32 +241,42 @@ const ExamSchedulePage = () => {
                         label={<IntlMessages id="admin.user.room.table.room"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
-                        name="room_id">
+                        name="room_id"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.class.form.room"/>,
+                            },
+                        ]}>
                         <Select
                             showSearch
                             filterOption={(input, option) =>
                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {rooms.map(item => {
+                            }>
+                            {roomsByStatus.map(item => {
                                 return <Select.Option value={item._id}>{item.name}</Select.Option>
                             })}
                         </Select>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item label={<IntlMessages id="sidebar.managerUser.teacher"/>}
+                    <Form.Item label={<IntlMessages id="sidebar.managerUser.receptionist"/>}
                                name="member_ids"
                                labelCol={{span: 24}}
-                               wrapperCol={{span: 24}}>
+                               wrapperCol={{span: 24}}
+                               rules={[
+                                   {
+                                       required: true,
+                                       message: <IntlMessages id="admin.class.form.receptionist"/>,
+                                   },
+                               ]}>
                         <Select
                             mode={"multiple"}
                             showSearch
                             filterOption={(input, option) =>
                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {teachers.map(item => {
+                            }>
+                            {membersByStatus.map(item => {
                                 return <Select.Option value={item._id}>{item.name}</Select.Option>
                             })}
                         </Select>
@@ -246,6 +318,52 @@ const ExamSchedulePage = () => {
         </Form>
     </Modal>);
 
+    function onFilterMember(e) {
+        const values = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            member_ids: values,
+            page: 1
+        }
+        dispatch(getListExamSchedule(param));
+    }
+
+    function onFilterRoom(e) {
+        const values = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            room_ids: values,
+            page: 1
+        }
+        dispatch(getListExamSchedule(param));
+    }
+
+    function onFilterDate(dates) {
+        if (dates !== null && dates[0] != null && dates[1] != null) {
+            setStyle("370px");
+            param = {
+                ...param,
+                start_time: dates[0].unix() * 1000,
+                end_time: dates[1].unix() * 1000,
+                page: 1
+            }
+            dispatch(getListExamSchedule(param));
+        }
+    }
+
+    function onChangeDatePicker(dates) {
+        if (dates === null || dates.length === 0) {
+            setStyle("150px");
+            param = {
+                ...param,
+                start_time: null,
+                end_time: null,
+                page: 1
+            }
+            dispatch(getListExamSchedule(param));
+        }
+    }
+
     return (
         <Card title={<h2><IntlMessages id="admin.user.examSchedule.title"/></h2>}
               extra={<Button type="primary"
@@ -255,6 +373,48 @@ const ExamSchedulePage = () => {
                              style={{float: "right"}}
                              onClick={showModal}/>}
               className="gx-card">
+            <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
+                <Form.Item label={<IntlMessages id="sidebar.managerUser.receptionist"/>}
+                           name="memberIds"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterMember}
+                                    placeholder={placeholder}>
+                                {membersByStatus.map(item => {
+                                    return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="sidebar.managerStudy.room"/>}
+                           name="roomIds"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterRoom}
+                                    placeholder={placeholder}>
+                                {roomsByStatus.map(item => {
+                                    return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.examSchedule.table"/>}
+                           name="examTime">
+                    <DatePicker.RangePicker showTime style={{width: style}}
+                                            onOk={onFilterDate}
+                                            onChange={onChangeDatePicker}
+                                            placeholder={locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
+                    />
+                </Form.Item>
+            </Form>
             <IntlMessages id="table.search">
                 {placeholder => <Input
                     placeholder={placeholder}
@@ -309,7 +469,7 @@ const ExamSchedulePage = () => {
                                render: (member_ids) => (
                                    <div>
                                        {member_ids.map(item => {
-                                           return <Tag color={"green"}>{getItemNameById(teachers, item)}</Tag>;
+                                           return <Tag color={"green"}>{getItemNameById(membersByStatus, item)}</Tag>;
                                        })}
                                    </div>
                                ),
@@ -358,6 +518,7 @@ const ExamSchedulePage = () => {
                 }
             }/>
             {hasShowModal && modal()}
+            {hasModalRegister && modalRegister()}
         </Card>
     );
 };

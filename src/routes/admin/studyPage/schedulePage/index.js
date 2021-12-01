@@ -55,7 +55,6 @@ const SchedulePage = () => {
     }
 
     function showModalGenerate(value) {
-        console.log(value)
         if (!showGenerateModal) {
             dispatch(getAllRoomsByStatus("ACTIVE", value.max_student));
             dispatch(getAllMemberByTypeAndStatus("teacher", "active", value.course_id))
