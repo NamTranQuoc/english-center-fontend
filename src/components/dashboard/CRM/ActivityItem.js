@@ -1,36 +1,17 @@
 import React from "react";
-import {Avatar} from "antd";
-import Auxiliary from "util/Auxiliary";
+import IntlMessages from "../../../util/IntlMessages";
 
 const ActivityItem = ({task}) => {
 
-  return (
-    <Auxiliary>
-      <p className="gx-mb-0">{task.title}</p>
-      {task.imageList.length > 0 ?
-        <ul className="gx-list-inline gx-mb-3 gx-mt-2">
-          {task.imageList.map((image, index) => {
-              if (index === 2) {
-                return (
-                  <li className="gx-mb-1" key={index}>
-                    <span className="gx-link gx-img-more"> +{task.imageList.length - 2} More</span>
-                  </li>
-                );
-              } else if (index > 2) {
-                return null;
-              } else {
-                return (
-                  <li className="gx-mb-1" key={index}>
-                    <Avatar shape="square" className="gx-size-40" src={image}/>
-                  </li>
-                )
-              }
-            }
-          )}
-        </ul> : null}
-
-    </Auxiliary>
-  );
+    return (
+        <div style={{display: "inline-block", marginLeft: "10px"}}>
+            <span className="gx-link" style={{marginRight: "4px"}}>{task.perform_name}</span>
+            <span style={{marginRight: "4px"}}><IntlMessages id={`action.${task.action}`}/></span>
+            <span style={{marginRight: "4px"}}><IntlMessages id={`report.collection.${task.class_name}`}/></span>
+            <span style={{marginRight: "4px"}}><IntlMessages id={"report.name"}/></span>
+            <span style={{marginRight: "4px"}}>{task.name}</span>
+        </div>
+    );
 };
 
 export default ActivityItem;
