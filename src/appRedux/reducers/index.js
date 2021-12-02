@@ -10,6 +10,7 @@ import Course from "./Course";
 import Schedule from "./Schedule";
 import Room from "./Room";
 import Teacher from "./Teacher";
+import Report from "./Report";
 
 const createRootReducer = (history) => combineReducers({
     router: connectRouter(history),
@@ -23,6 +24,7 @@ const createRootReducer = (history) => combineReducers({
     schedule: Schedule,
     room: Room,
     teacher: Teacher,
+    report: Report,
 });
 
 export default createRootReducer

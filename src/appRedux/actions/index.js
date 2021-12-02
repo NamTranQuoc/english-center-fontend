@@ -14,3 +14,4 @@ export * from "./Shift";
 export * from "./Document";
 export * from "./Schedule";
 export * from "./ExamSchedule";
+export * from "./Report";
