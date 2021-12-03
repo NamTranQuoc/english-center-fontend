@@ -24,7 +24,6 @@ import {
     NAV_STYLE_NO_HEADER_MINI_SIDEBAR
 } from "../../constants/ThemeSetting";
 import NoHeaderNotification from "../Topbar/NoHeaderNotification/index";
-import {useRouteMatch} from "react-router-dom";
 import {updateWindowWidth} from "../../appRedux/actions";
 import AppSidebar from "./AppSidebar";
 
@@ -76,7 +75,6 @@ const getNavStyles = (navStyle) => {
 
 const MainApp = () => {
     const {navStyle} = useSelector(({settings}) => settings);
-    const match = useRouteMatch();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -91,7 +89,7 @@ const MainApp = () => {
             <Layout>
                 {getNavStyles(navStyle)}
                 <Content className={`gx-layout-content ${getContainerClass(navStyle)} `}>
-                    <App match={match}/>
+                    <App/>
                     <Footer>
                         <div className="gx-layout-footer-content">
                             {footerText}

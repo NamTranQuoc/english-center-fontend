@@ -1,4 +1,8 @@
 {
+    "view.course.outputScore": "Không xác định",
+    "view.course.inputScore": "Không yêu cầu",
+    "admin.user.student.table.output_score": "Điểm đầu ra",
+    "admin.document.type.advertisement": "Quảng cáo",
     "report.action.recent": "Hoạt động gần đây",
     "action.add": "đã thêm",
     "action.update": "đã cập nhật",
