@@ -1,57 +1,56 @@
-import React from "react";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Menu} from "antd";
+import {THEME_TYPE_LITE} from "../../constants/ThemeSetting";
 import {Link} from "react-router-dom";
-
-import CustomScrollbars from "util/CustomScrollbars";
-import SidebarLogo from "./SidebarLogo";
-import UserProfile from "./UserProfile";
-import AppsNavigation from "./AppsNavigation";
-import {
-    NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-    NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
-    THEME_TYPE_LITE
-} from "../../constants/ThemeSetting";
+import {viewCourseCategory} from "../../appRedux/actions";
 import IntlMessages from "../../util/IntlMessages";
-import {useSelector} from "react-redux";
 
-const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
-    const {navStyle, themeType} = useSelector(({settings}) => settings);
-    const pathname = useSelector(({common}) => common.pathname);
+const SubMenu = Menu.SubMenu;
 
-    const getNoHeaderClass = (navStyle) => {
-        if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR || navStyle === NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR) {
-            return "gx-no-header-notifications";
-        }
-        return "";
-    };
+const SidebarContent = () => {
+    const dispatch = useDispatch();
+    const {themeType} = useSelector(({settings}) => settings);
+    const {views} = useSelector(({courseCategory}) => courseCategory);
 
+    useEffect(() => {
+        dispatch(viewCourseCategory());
+        // eslint-disable-next-line
+    }, [])
+
+    console.log("fasdfasd");
     return (
-        <>
-            <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
-            <div className="gx-sidebar-content">
-                <div className={`gx-sidebar-notifications ${getNoHeaderClass(navStyle)}`}>
-                    <UserProfile/>
-                    <AppsNavigation/>
-                </div>
-                <CustomScrollbars className="gx-layout-sider-scrollbar">
-                    <Menu
-                        defaultOpenKeys={["/home"]}
-                        selectedKeys={[pathname]}
-                        theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
-                        mode={"inline"}>
-
-                        <Menu.Item key="/home">
-                            <Link to="/home"><i className="icon icon-widgets"/>
-                                <span><IntlMessages id="sidebar.home"/></span>
-                            </Link>
-                        </Menu.Item>
-
-                    </Menu>
-                </CustomScrollbars>
-            </div>
-        </>
+        <Menu mode="horizontal"
+              theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
+              style={{minWidth: '700px'}}>
+                <Menu.Item key="/home">
+                    <Link to="/home">
+                        <IntlMessages id="sidebar.home"/>
+                    </Link>
+                </Menu.Item>
+                <SubMenu key="SubMenu" title={<IntlMessages id="admin.course.table.type"/>}>
+                    {views.map((item) => {
+                        return <SubMenu title={item.name}>
+                            {item.courses.map(subItem => {
+                                return <Menu.Item key={subItem.id}>
+                                    <Link to="/register">
+                                        {subItem.name}
+                                    </Link>
+                                </Menu.Item>
+                            })}
+                        </SubMenu>
+                    })}
+                </SubMenu>
+                <Menu.Item key="/schedule">
+                    <Link to="/schedule">
+                        <IntlMessages id="sidebar.managerStudy.schedule"/>
+                    </Link>
+                </Menu.Item>
+        </Menu>
     );
 };
 
-export default React.memo(SidebarContent);
+SidebarContent.propTypes = {};
+
+export default SidebarContent;
 

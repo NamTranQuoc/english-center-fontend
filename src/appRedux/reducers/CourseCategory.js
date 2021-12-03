@@ -1,16 +1,23 @@
 import {
     GET_ALL_COURSE_CATEGORY,
     GET_ALL_COURSE_CATEGORY_ADD, GET_ALL_COURSE_CATEGORY_ADD_SUCCESS,
-    GET_ALL_COURSE_CATEGORY_SUCCESS,
+    GET_ALL_COURSE_CATEGORY_SUCCESS, VIEW_COURSE_CATEGORY_SUCCESS,
 } from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     courseCategoriesAdd: [],
-    courseCategories: []
+    courseCategories: [],
+    views: [],
 };
 
 const CourseCategoryReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
+        case VIEW_COURSE_CATEGORY_SUCCESS: {
+            return {
+                ...state,
+                views: action.payload,
+            }
+        }
         case GET_ALL_COURSE_CATEGORY: {
             return {
                 ...state,

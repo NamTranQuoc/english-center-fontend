@@ -2,7 +2,7 @@ import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
     ADD_COURSE_CATEGORY,
     GET_ALL_COURSE_CATEGORY, GET_ALL_COURSE_CATEGORY_ADD,
-    GET_COURSE_CATEGORY, UPDATE_COURSE_CATEGORY,
+    GET_COURSE_CATEGORY, UPDATE_COURSE_CATEGORY, VIEW_COURSE_CATEGORY,
 } from "../../constants/ActionTypes";
 import {
     getAllSuccessCourseCategory, getAllSuccessCourseCategoryByStatus,
@@ -12,7 +12,7 @@ import {
     hideLoaderTable,
     onHideModal,
     showLoader,
-    showMessage,
+    showMessage, viewCourseCategorySuccess,
 } from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
@@ -197,8 +197,35 @@ const updateCourseCategoryRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* viewCourseCategory() {
+    yield takeEvery(VIEW_COURSE_CATEGORY, viewCourseCategoryGenerate);
+}
+
+function* viewCourseCategoryGenerate() {
+    try {
+        const response = yield call(viewCourseCategoryRequest);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(viewCourseCategorySuccess(response.data.payload))
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const viewCourseCategoryRequest = async () =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/view`,
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
+        fork(viewCourseCategory),
         fork(getListCourseCategory),
         fork(getAllCourseCategory),
         fork(addCourseCategory),

@@ -202,7 +202,7 @@ function* exportExamScheduleGenerate({payload}) {
         } else {
             yield put(showMessage("success_export"));
             if (response.data.payload !== "") {
-                window.open(response.data.payload);
+                window.open(response.data.payload, "_self");
             }
         }
     } catch (error) {

@@ -4,7 +4,7 @@ import {Route, Switch} from "react-router-dom";
 import asyncComponent from "util/asyncComponent";
 
 
-const App = ({match}) => (
+const App = () => (
     <div className="gx-main-content-wrapper">
         <Switch>
             <Route path="/admin/dashboard" component={asyncComponent(() => import('./dashboardPage'))}/>
@@ -20,6 +20,7 @@ const App = ({match}) => (
             <Route path="/admin/class" component={asyncComponent(() => import('./studyPage/classPage'))}/>
             <Route path="/admin/schedule" component={asyncComponent(() => import('./studyPage/schedulePage'))}/>
             <Route path="/admin/examSchedule" component={asyncComponent(() => import('./examSchedulePage/examScheduleListPage'))}/>
+            <Route path="/admin/register" component={asyncComponent(() => import('./registerPage'))}/>
         </Switch>
     </div>
 );

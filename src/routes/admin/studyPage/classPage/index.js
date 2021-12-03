@@ -399,7 +399,7 @@ const ClassPage = () => {
                             },
                         ]}>
                         <DatePicker style={{width: "100%"}} format={'DD/MM/YYYY'}
-                                    disabled={items[selectIndex].status !== "create"}/>
+                                    disabled={selectIndex !== -1 && items[selectIndex].status !== "create"}/>
                     </Form.Item>
                 </Col>
             </Row>
