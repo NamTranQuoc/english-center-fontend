@@ -9,7 +9,8 @@ import shiftSagas from "./Shift";
 import documentSagas from "./Document";
 import classSagas from "./Class";
 import scheduleSagas from "./Schedule";
-import examScheduleSagas from "./ExamSchedule"
+import examScheduleSagas from "./ExamSchedule";
+import reportSagas from "./Report";
 import registerSagas from "./Register"
 
 export default function* rootSaga(getState) {
@@ -25,6 +26,7 @@ export default function* rootSaga(getState) {
         classSagas(),
         scheduleSagas(),
         examScheduleSagas(),
+        reportSagas(),
         registerSagas(),
     ]);
 }

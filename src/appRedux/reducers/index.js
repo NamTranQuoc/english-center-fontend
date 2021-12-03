@@ -10,6 +10,7 @@ import Course from "./Course";
 import Schedule from "./Schedule";
 import Room from "./Room";
 import Teacher from "./Teacher";
+import Report from "./Report";
 import Class from "./Class";
 
 const createRootReducer = (history) => combineReducers({
@@ -24,6 +25,7 @@ const createRootReducer = (history) => combineReducers({
     schedule: Schedule,
     room: Room,
     teacher: Teacher,
+    report: Report,
     classRoom: Class,
 });
 
