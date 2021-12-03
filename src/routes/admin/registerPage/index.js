@@ -1,24 +1,23 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
+import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addClass, addRegister,
-    generateSchedule, getAllClassByCourseId, getAllCourseByCategoryId,
+    addRegister,
+    getAllClassByCourseId, getAllCourseByCategoryId,
     getAllCourseCategoryByStatus,
-    getAllMemberByTypeAndStatus,
-    getAllRoomsByStatus,
-    getListClass, getListRegister,
+    getListRegister,
     onHideModal,
     onSelectIndex,
-    onShowModal, showMessage,
-    updateClass, updateRegister
+    onShowModal,
+    showMessage,
+    updateRegister
 } from "../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "./index.css";
-import moment from "moment";
-import {getDate, getDOW, getGender, getStatusV2} from "../../../util/ParseUtils";
+import {getDate, getGender, getStatusV2} from "../../../util/ParseUtils";
 import {useForm} from "antd/es/form/Form";
+import DeleteModal from "../registerPage/deleteModal";
 
 let param = {
     page: 1,
@@ -33,11 +32,8 @@ let param = {
 const RegisterPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
-    const {membersByStatus} = useSelector(({teacher}) => teacher);
     const {hasShowModal, selectIndex} = useSelector(({common}) => common);
-    const {locale} = useSelector(({settings}) => settings);
     const [action, setAction] = useState("edit");
-    const [showGenerateModal, setShowGenerateModal] = useState(false);
     const {coursesByCategoryId} = useSelector(({course}) => course);
     const {classByCourseId} = useSelector(({classRoom}) => classRoom);
     const {courseCategoriesAdd} = useSelector(({courseCategory}) => courseCategory);
@@ -162,9 +158,10 @@ const RegisterPage = () => {
 
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
-        {items[index].status === "create" ?
-            <Menu.Item key="generate"><IntlMessages id="admin.user.form.generate"/></Menu.Item> : null}
-    </Menu>);
+            <Menu.Item key="delete"><IntlMessages id="admin.user.form.delete"/></Menu.Item>
+        </Menu>
+
+    );
 
     const modal = () => (<Modal
         title={<IntlMessages id="admin.user.form.class.title"/>}
@@ -366,6 +363,7 @@ const RegisterPage = () => {
                 }
             }/>
             {hasShowModal && modal()}
+            {hasShowModal && (<DeleteModal action={action} getInitValueModal={getInitValueModal} param={param}/>)}
         </Card>
     );
 };

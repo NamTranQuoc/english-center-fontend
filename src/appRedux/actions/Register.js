@@ -25,11 +25,12 @@ export const updateRegister = (register, param) => {
     };
 };
 
-export const deleteRegister = (id, param) => {
+export const deleteRegister = (id, class_id, param) => {
     return {
         type: DELETE_REGISTER,
         payload: {
-            id: id,
+            student_id: id,
+            class_id: class_id,
             param: param
         }
     };

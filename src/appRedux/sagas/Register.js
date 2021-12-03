@@ -1,13 +1,11 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
-    ADD_REGISTER,
-    GET_EXAM_SCHEDULE,
+    ADD_REGISTER, DELETE_REGISTER,
     GET_REGISTER,
     UPDATE_REGISTER,
-    UPDATE_ROOM,
 } from "../../constants/ActionTypes";
 import {
-    getListRegister, getListRoom as getListRoomAction,
+    getListRegister,
     getListSuccess,
     hideLoader,
     hideLoaderTable,
@@ -142,11 +140,50 @@ const updateRegisterRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* deleteRegister() {
+    yield takeEvery(DELETE_REGISTER, deleteRegisterGenerate);
+}
+
+function* deleteRegisterGenerate({payload}) {
+    yield put(showLoader());
+    try {
+        const response = yield call(deleteRegisterRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(onHideModal());
+            yield put(getListRegister(payload.param));
+            yield put(showMessage("success_delete"));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const deleteRegisterRequest = async (payload) =>
+    await axios({
+        method: "PUT",
+        url: `${INSTRUCTOR_API_URL}/delete/`,
+        data: {
+            student_id: payload.student_id,
+            class_id: payload.class_id,
+        },
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 
 export default function* rootSaga() {
     yield all([
         fork(addRegister),
         fork(getListRegisterSaga),
         fork(updateRegister),
+        fork(deleteRegister),
     ]);
 }
