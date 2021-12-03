@@ -1,59 +1,38 @@
-import React, {useState} from "react";
-import {Button, Dropdown, Layout, Menu, message, Popover} from 'antd';
-import Icon from '@ant-design/icons';
+import React from "react";
+import {Layout, Popover} from 'antd';
 import {useDispatch, useSelector} from "react-redux";
 import languageData from "../languageData";
-import SearchBox from "../../../components/SearchBox";
 import UserInfo from "../../../components/UserInfo";
-import AppNotification from "../../../components/AppNotification";
-import MailNotification from "../../../components/MailNotification";
-import HorizontalNav from "../HorizontalNav";
 import {Link} from "react-router-dom";
-import {switchLanguage, toggleCollapsedSideNav} from "../../../appRedux/actions";
+import {switchLanguage} from "../../../appRedux/actions";
 import IntlMessages from "../../../util/IntlMessages";
-import {TAB_SIZE} from "../../../constants/ThemeSetting";
+import SidebarContent from "../../SidebarHome/SidebarContent";
 
 const {Header} = Layout;
 
-const menu = (
-    <Menu onClick={handleMenuClick}>
-        <Menu.Item key="1">Products</Menu.Item>
-        <Menu.Item key="2">Apps</Menu.Item>
-        <Menu.Item key="3">Blogs</Menu.Item>
-    </Menu>
-);
-
-function handleMenuClick(e) {
-    message.info('Click on menu item.');
-}
-
 const InsideHeader = () => {
-    const [searchText, setSearchText] = useState('');
     const {locale} = useSelector(({settings}) => settings);
-    const navCollapsed = useSelector(({common}) => common.navCollapsed);
-    const width = useSelector(({common}) => common.width);
     const authUser = useSelector(({auth}) => auth.authUser);
     const dispatch = useDispatch();
 
     const languageMenu = () => (
-            <ul className="gx-sub-popover">
-                {languageData.map(language =>
-                    <li className="gx-media gx-pointer" key={JSON.stringify(language)} onClick={(e) =>
-                        dispatch(switchLanguage(language))
-                    }>
-                        <i className={`flag flag-24 gx-mr-2 flag-${language.icon}`}/>
-                        <span className="gx-language-text">{language.name}</span>
-                    </li>
-                )}
-            </ul>);
-
-    const updateSearchChatUser = (evt) => {
-        setSearchText(evt.target.value)
-    };
+        <ul className="gx-sub-popover">
+            {languageData.map(language =>
+                <li className="gx-media gx-pointer" key={JSON.stringify(language)} onClick={(e) =>
+                    dispatch(switchLanguage(language))
+                }>
+                    <i className={`flag flag-24 gx-mr-2 flag-${language.icon}`}/>
+                    <span className="gx-language-text">{language.name}</span>
+                </li>
+            )}
+        </ul>);
 
     const getMemberAvatar = () => {
         if (authUser == null) {
-            return (<li><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signIn"}/></Link><span style={{marginRight: "3px", marginLeft: "3px"}}>|</span><Link to={"/signup"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages id={"app.userAuth.signUp"}/></Link></li>)
+            return (<li><Link to={"/signin"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages
+                id={"app.userAuth.signIn"}/></Link><span style={{marginRight: "3px", marginLeft: "3px"}}>|</span><Link
+                to={"/signup"} style={{color: "#fa8c15", fontSize: "15px"}}><IntlMessages
+                id={"app.userAuth.signUp"}/></Link></li>)
         } else {
             return <li><UserInfo/></li>
         }
@@ -61,72 +40,24 @@ const InsideHeader = () => {
 
     return (
         <div className="gx-header-horizontal gx-header-horizontal-dark gx-inside-header-horizontal">
-            <Header
-                className="gx-header-horizontal-main">
+            <Header className="gx-header-horizontal-main">
                 <div className="gx-container">
                     <div className="gx-header-horizontal-main-flex">
-                        <div className="gx-d-block gx-d-lg-none gx-linebar gx-mr-xs-3 6e">
-                            <i className="gx-icon-btn icon icon-menu"
-                               onClick={() => {
-                                   dispatch(toggleCollapsedSideNav(!navCollapsed));
-                               }}
-                            />
-                        </div>
-                        <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
-                            <img alt="" src="/assets/images/w-logo.png"/></Link>
-                        <Link to="/" className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
-                            <img alt="" src="/assets/images/logo.png"/></Link>
+                        <Link to="/home" className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
+                            <img alt="" src="/assets/images/logo.png"/>
+                        </Link>
 
-                        {width >= TAB_SIZE && (
-                            <div className="gx-header-horizontal-nav gx-header-horizontal-nav-curve">
-                                <HorizontalNav/>
-                            </div>
-                        )}
+                        <div className="gx-header-horizontal-nav gx-header-horizontal-nav-curve">
+                            <SidebarContent/>
+                        </div>
 
                         <ul className="gx-header-notifications gx-ml-auto">
-                            <li className="gx-notify gx-notify-search">
-                                <Popover overlayClassName="gx-popover-horizantal"
-                                         placement="bottomRight" content={
-                                    <div className="gx-d-flex"><Dropdown overlay={menu}>
-                                        <Button>
-                                            Category <Icon type="down"/>
-                                        </Button>
-                                    </Dropdown>
-                                        <SearchBox styleName="gx-popover-search-bar"
-                                                   placeholder="Search in app..."
-                                                   onChange={updateSearchChatUser}
-                                                   value={searchText}/></div>
-                                } trigger="click">
-
-                                    <span className="gx-pointer gx-d-block"><i className="icon icon-search-new"/></span>
-
-                                </Popover>
-                            </li>
-
-                            <li className="gx-notify">
-                                <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
-                                         content={<AppNotification/>}
-                                         trigger="click">
-                                    <span className="gx-pointer gx-d-block"><i
-                                        className="icon icon-notification"/></span>
-                                </Popover>
-                            </li>
-
-                            <li className="gx-msg">
-                                <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
-                                         content={<MailNotification/>} trigger="click">
-                <span className="gx-pointer gx-status-pos gx-d-block">
-                <i className="icon icon-chat-new"/>
-                <span className="gx-status gx-status-rtl gx-small gx-orange"/>
-                </span>
-                                </Popover>
-                            </li>
                             <li className="gx-language">
                                 <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
                                          content={languageMenu()} trigger="click">
-              <span className="gx-pointer gx-flex-row gx-align-items-center"><i
-                  className={`flag flag-24 flag-${locale.icon}`}/>
-              </span>
+                                    <span className="gx-pointer gx-flex-row gx-align-items-center">
+                                        <i className={`flag flag-24 flag-${locale.icon}`}/>
+                                    </span>
                                 </Popover>
                             </li>
                             {getMemberAvatar()}

@@ -1,6 +1,13 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {ADD_DOCUMENT, DELETE_DOCUMENT, GET_DOCUMENT, UPDATE_DOCUMENT,} from "../../constants/ActionTypes";
 import {
+    ADD_DOCUMENT,
+    DELETE_DOCUMENT,
+    GET_ADVERTISEMENT,
+    GET_DOCUMENT,
+    UPDATE_DOCUMENT,
+} from "../../constants/ActionTypes";
+import {
+    getImageAdvertisementSuccess,
     getListDocument as getListDocumentAction,
     getListSuccess,
     hideLoader,
@@ -177,11 +184,42 @@ const deleteDocumentRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+
+export function* getAdvertisement() {
+    yield takeEvery(GET_ADVERTISEMENT, getAdvertisementGenerate);
+}
+
+function* getAdvertisementGenerate() {
+    yield put(showLoader());
+    try {
+        const response = yield call(getAdvertisementRequest);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getImageAdvertisementSuccess(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const getAdvertisementRequest = async () =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_advertisement`,
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(updateDocument),
         fork(addDocument),
         fork(getListDocument),
         fork(deleteDocument),
+        fork(getAdvertisement),
     ]);
 }

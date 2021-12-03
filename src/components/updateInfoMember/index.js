@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import IntlMessages from "../../util/IntlMessages";
-import {Button, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Select} from "antd";
+import {Button, Col, DatePicker, Form, Input, Modal, Row, Select} from "antd";
 import Image from "../uploadImage";
-import {getGender, getImageURL, getMoney, getRoleCurrent} from "../../util/ParseUtils";
+import {getGender, getImageURL, getRoleCurrent, getStatusV2} from "../../util/ParseUtils";
 import {useDispatch, useSelector} from "react-redux";
-import {onHideUpdateMember, updateCurrentMember} from "../../appRedux/actions";
+import {getAllCourse, onHideUpdateMember, updateCurrentMember} from "../../appRedux/actions";
 import "./index.css";
 import moment from "moment";
 
@@ -14,7 +14,14 @@ const ModalUpdateMember = () => {
     const [image, setImage] = useState(null);
     const [urlAvatar, setUrlAvatar] = useState(null);
     const memberType = getRoleCurrent();
+    const {courses} = useSelector(({course}) => course);
 
+    useEffect(() => {
+        if (courses === []) {
+            dispatch(getAllCourse());
+        }
+        // eslint-disable-next-line
+    }, [])
 
     const getInitValueModal = () => {
         if (member !== null) {
@@ -23,18 +30,16 @@ const ModalUpdateMember = () => {
             }
             if (memberType === "teacher") {
                 return {
-                    certificateType: member.certificate.type,
-                    certificateCode: member.certificate.code,
-                    certificateScore: member.certificate.score,
                     name: member.name,
                     gender: member.gender,
                     phone_number: member.phone_number,
                     email: member.email,
                     dob: moment.unix(member.dob / 1000),
                     address: member.address,
-                    salary: member.salary
+                    course_ids: member.course_ids,
+                    status: member.status
                 }
-            } else if (memberType === "receptionist") {
+            } else if (memberType === "receptionist" || memberType === "admin") {
                 return {
                     name: member.name,
                     gender: member.gender,
@@ -42,7 +47,7 @@ const ModalUpdateMember = () => {
                     email: member.email,
                     dob: moment.unix(member.dob / 1000),
                     address: member.address,
-                    salary: member.salary
+                    status: member.status
                 }
             } else {
                 return {
@@ -52,6 +57,13 @@ const ModalUpdateMember = () => {
                     email: member.email,
                     dob: moment.unix(member.dob / 1000),
                     address: member.address,
+                    current_score: member.current_score.total,
+                    input_score: member.input_score.total,
+                    note: member.note,
+                    guardian_relationship: member.guardian.relationship,
+                    guardian_phone_number: member.guardian.phone_number,
+                    guardian_name: member.guardian.name,
+                    status: member.status
                 };
             }
         } else {
@@ -71,11 +83,6 @@ const ModalUpdateMember = () => {
             dob: _member.dob.unix() * 1000,
             type: memberType,
             avatar: image,
-            certificate: {
-                type: _member.certificateType,
-                code: _member.certificateCode,
-                score: _member.certificateScore
-            }
         }
         dispatch(updateCurrentMember(_member));
     }
@@ -102,7 +109,7 @@ const ModalUpdateMember = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={12}>
+                    <Col span={memberType !== "student" ? 24 : 12}>
                         <Form.Item
                             label={<IntlMessages id="admin.user.student.table.name"/>}
                             labelCol={{span: 24}}
@@ -117,6 +124,17 @@ const ModalUpdateMember = () => {
                             <Input placeholder="Nguyen Van A"/>
                         </Form.Item>
                     </Col>
+                    <Col span={12} style={memberType !== "student" ? {display: "none"} : {}}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.nick_name"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="nick_name">
+                            <Input/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
                     <Col span={12}>
                         <Form.Item label={<IntlMessages id="admin.user.student.table.gender"/>}
                                    name="gender"
@@ -135,6 +153,17 @@ const ModalUpdateMember = () => {
                             </Select>
                         </Form.Item>
                     </Col>
+                    <Col span={12}>
+                        <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                                   name="status"
+                                   labelCol={{span: 24}}
+                                   wrapperCol={{span: 24}}>
+                            <Select disabled={true}>
+                                <Select.Option value="active">{getStatusV2("active")}</Select.Option>
+                                <Select.Option value="block">{getStatusV2("block")}</Select.Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
                 </Row>
                 <Row>
                     <Col span={12}>
@@ -145,12 +174,11 @@ const ModalUpdateMember = () => {
                             name="phone_number"
                             rules={[
                                 {
-                                    required: true,
                                     message: <IntlMessages id="admin.user.form.phoneNumber"/>,
-                                    pattern: new RegExp("([0-9]{10})"),
+                                    pattern: new RegExp("[0-9]{10}"),
                                 },
                             ]}>
-                            <Input placeholder={"0987654321"}/>
+                            <Input placeholder="0987654321"/>
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -169,8 +197,28 @@ const ModalUpdateMember = () => {
                         </Form.Item>
                     </Col>
                 </Row>
+                <Row style={memberType !== "student" ? {display: "none"} : {}}>
+                    <Col span={12}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.input_score"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="input_score">
+                            <Input placeholder="0" disabled={true}/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.current_score"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="current_score">
+                            <Input placeholder="0" disabled={true}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
                 <Row>
-                    <Col span={memberType === "student" ? 24 : 12}>
+                    <Col span={24}>
                         <Form.Item
                             label={<IntlMessages id="admin.user.student.table.email"/>}
                             labelCol={{span: 24}}
@@ -179,70 +227,65 @@ const ModalUpdateMember = () => {
                             <Input placeholder="nguyenvan@gmail.com" disabled={true}/>
                         </Form.Item>
                     </Col>
-                    <Col span={12} style={memberType === "student" ? {display: "none"} : {}}>
+                </Row>
+                <Row style={memberType !== "student" ? {display: "none"} : {}}>
+                    <Col span={8}>
                         <Form.Item
-                            label={<IntlMessages id="admin.user.table.salary"/>}
+                            label={<IntlMessages id="admin.user.student.table.guardian_name"/>}
                             labelCol={{span: 24}}
                             wrapperCol={{span: 24}}
-                            name="salary">
-                            <InputNumber
-                                disabled={true}
-                                style={{width: "100%"}}
-                                placeholder={"9,999,999"}
-                                formatter={value => getMoney(value)}
-                                parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                            />
+                            name="guardian_name">
+                            <Input/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.guardian_phone_number"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="guardian_phone_number"
+                            rules={[
+                                {
+                                    message: <IntlMessages id="admin.user.form.phoneNumber"/>,
+                                    pattern: new RegExp("[0-9]{10}"),
+                                },
+                            ]}>
+                            <Input/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.student.table.guardian_relationship"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            name="guardian_relationship">
+                            <Input/>
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row style={memberType !== "teacher" ? {display: "none"} : {}}>
-                    <Col span={8}>
+                    <Col span={24}>
                         <Form.Item
-                            label={<IntlMessages id="admin.user.table.certificate.type"/>}
+                            label={<IntlMessages id="admin.user.teacher.table.course_ids"/>}
                             labelCol={{span: 24}}
                             wrapperCol={{span: 24}}
-                            name="certificateType"
-                            rules={[
-                                {
-                                    required: memberType === "teacher",
-                                    message: <IntlMessages id="admin.user.form.certificate.type"/>,
-                                },
-                            ]}>
-                            <Select>
-                                <Select.Option value="TOEIC">TOEIC</Select.Option>
-                                <Select.Option value="IELTS">IELTS </Select.Option>
-                                <Select.Option value="OTHER">OTHER</Select.Option>
+                            name="course_ids">
+                            <Select placeholder="Select" mode={"multiple"} disabled={true}>
+                                {courses.map(item => {
+                                    return <Select.Option value={item._id}>{item.name}</Select.Option>
+                                })}
                             </Select>
                         </Form.Item>
                     </Col>
-                    <Col span={8}>
+                </Row>
+                <Row style={memberType !== "student" ? {display: "none"} : {}}>
+                    <Col span={24}>
                         <Form.Item
-                            label={<IntlMessages id="admin.user.table.certificate.code"/>}
+                            label={<IntlMessages id="admin.user.student.table.note"/>}
                             labelCol={{span: 24}}
                             wrapperCol={{span: 24}}
-                            name="certificateCode"
-                            rules={[
-                                {
-                                    required: memberType === "teacher",
-                                    message: <IntlMessages id="admin.user.form.certificate.code"/>,
-                                },
-                            ]}>
-                            <Input placeholder="TO-00000001"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                        <Form.Item
-                            label={<IntlMessages id="admin.user.table.certificate.score"/>}
-                            labelCol={{span: 24}}
-                            wrapperCol={{span: 24}}
-                            name="certificateScore"
-                            rules={[
-                                {
-                                    required: memberType === "teacher",
-                                    message: <IntlMessages id="admin.user.form.certificate.score"/>,
-                                },
-                            ]}>
-                            <InputNumber placeholder={"500"} style={{width: "100%"}}/>
+                            name="note">
+                            <Input.TextArea rows={4}/>
                         </Form.Item>
                     </Col>
                 </Row>
