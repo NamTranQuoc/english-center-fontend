@@ -113,8 +113,14 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                         </Menu.SubMenu>
                         <Menu.Item key="/admin/examSchedule">
                             <Link to="/admin/examSchedule">
-                                <span><i className="icon icon-schedule"/>
+                                <span><i className="icon icon-hotel-booking"/>
                                 <span><IntlMessages id="sidebar.managerExamSchedule.examSchedule"/></span></span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/admin/register">
+                            <Link to="/admin/register">
+                                <i className="icon icon-feedback"/>
+                                <span><IntlMessages id="sidebar.register"/></span>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="/admin/document">

@@ -1,9 +1,14 @@
 import {
-    GET_ALL_COURSE, GET_ALL_COURSE_ADD, GET_ALL_COURSE_ADD_SUCCESS,
+    GET_ALL_COURSE,
+    GET_ALL_COURSE_ADD,
+    GET_ALL_COURSE_ADD_SUCCESS,
+    GET_ALL_COURSE_BY_CATEGORY,
+    GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
     GET_ALL_COURSE_SUCCESS,
 } from '../../constants/ActionTypes'
 
 const INIT_STATE = {
+    coursesByCategoryId: [],
     coursesAdd: [],
     courses: []
 };
@@ -32,6 +37,18 @@ const CourseReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 coursesAdd: action.payload,
+            }
+        }
+        case GET_ALL_COURSE_BY_CATEGORY: {
+            return {
+                ...state,
+                coursesByCategoryId: []
+            }
+        }
+        case GET_ALL_COURSE_BY_CATEGORY_SUCCESS: {
+            return {
+                ...state,
+                coursesByCategoryId: action.payload,
             }
         }
         default:
