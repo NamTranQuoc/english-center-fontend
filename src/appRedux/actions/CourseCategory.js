@@ -4,7 +4,7 @@ import {
     GET_ALL_COURSE_CATEGORY, GET_ALL_COURSE_CATEGORY_ADD, GET_ALL_COURSE_CATEGORY_ADD_SUCCESS,
     GET_ALL_COURSE_CATEGORY_SUCCESS,
     GET_COURSE_CATEGORY,
-    UPDATE_COURSE_CATEGORY
+    UPDATE_COURSE_CATEGORY, VIEW_COURSE_CATEGORY, VIEW_COURSE_CATEGORY_SUCCESS
 } from "../../constants/ActionTypes";
 
 export const getListCourseCategory = (param) => {
@@ -68,5 +68,18 @@ export const deleteCourseCategory = (id, param) => {
             id: id,
             param: param
         }
+    };
+};
+
+export const viewCourseCategory = () => {
+    return {
+        type: VIEW_COURSE_CATEGORY
+    };
+};
+
+export const viewCourseCategorySuccess = (param) => {
+    return {
+        type: VIEW_COURSE_CATEGORY_SUCCESS,
+        payload: param
     };
 };

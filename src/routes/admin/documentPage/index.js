@@ -134,7 +134,7 @@ const CourseCategoryPage = () => {
 
     const menus = (index) => (<Menu onClick={(e) => {
         if (e.key === "download") {
-            window.open(getFileURL(items[index].path), "_blank");
+            window.open(getFileURL(items[index].path), "_self");
         } else if(e.key === "copy") {
             navigator.clipboard.writeText(getFileURL(items[index].path));
         } else {
@@ -198,6 +198,7 @@ const CourseCategoryPage = () => {
                         <Select disabled={selectIndex !== -1}>
                             <Select.Option value="image">{getType("image")}</Select.Option>
                             <Select.Option value="doc">{getType("doc")}</Select.Option>
+                            <Select.Option value="advertisement">{getType("advertisement")}</Select.Option>
                         </Select>
                     </Form.Item>
                 </Col>
@@ -294,6 +295,7 @@ const CourseCategoryPage = () => {
                                     placeholder={placeholder}>
                                 <Select.Option value="image">{getType("image")}</Select.Option>
                                 <Select.Option value="doc">{getType("doc")}</Select.Option>
+                                <Select.Option value="advertisement">{getType("advertisement")}</Select.Option>
                             </Select>
                         }
                     </IntlMessages>
