@@ -3,7 +3,7 @@ import {
     DELETE_COURSE,
     GET_ALL_COURSE,
     GET_ALL_COURSE_ADD,
-    GET_ALL_COURSE_ADD_SUCCESS,
+    GET_ALL_COURSE_ADD_SUCCESS, GET_ALL_COURSE_BY_CATEGORY, GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
     GET_ALL_COURSE_SUCCESS,
     GET_COURSE,
     UPDATE_COURSE
@@ -68,6 +68,22 @@ export const getAllCourseByStatus = (param) => {
 export const getAllSuccessCourseByStatus = (param) => {
     return {
         type: GET_ALL_COURSE_ADD_SUCCESS,
+        payload: param
+    };
+};
+
+export const getAllCourseByCategoryId = (id) => {
+    return {
+        type: GET_ALL_COURSE_BY_CATEGORY,
+        payload: {
+            id:id,
+        }
+    };
+};
+
+export const getAllSuccessCourseByCategoryId = (param) => {
+    return {
+        type: GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
         payload: param
     };
 };

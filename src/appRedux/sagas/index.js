@@ -10,6 +10,7 @@ import documentSagas from "./Document";
 import classSagas from "./Class";
 import scheduleSagas from "./Schedule";
 import examScheduleSagas from "./ExamSchedule"
+import registerSagas from "./Register"
 
 export default function* rootSaga(getState) {
     yield all([
@@ -24,5 +25,6 @@ export default function* rootSaga(getState) {
         classSagas(),
         scheduleSagas(),
         examScheduleSagas(),
+        registerSagas(),
     ]);
 }

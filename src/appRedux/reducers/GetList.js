@@ -3,7 +3,7 @@ import {
     GET_COURSE,
     GET_COURSE_CATEGORY, GET_DOCUMENT, GET_EXAM_SCHEDULE,
     GET_LIST_SUCCESS,
-    GET_MEMBER, GET_ROOM, GET_SHIFT,
+    GET_MEMBER, GET_REGISTER, GET_ROOM, GET_SHIFT,
     ON_HIDE_LOADER_TABLE,
 } from '../../constants/ActionTypes'
 
@@ -15,6 +15,7 @@ const INIT_STATE = {
 
 const GetListReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
+        case GET_REGISTER:
         case GET_EXAM_SCHEDULE:
         case GET_CLASS:
     	case GET_DOCUMENT:

@@ -222,5 +222,10 @@
     "admin.status.register" : "During registration",
     "admin.status.coming" : "Will take place",
     "admin.status.cancel" : "Cancelled",
-    "admin.status.finish" : "Accomplished"
+    "admin.status.finish" : "Accomplished",
+    "sidebar.register": "Register management",
+    "admin.status.unpaid" : "Unpaid",
+    "admin.status.paid" : "Paid",
+    "admin.categoryCourse.table.statusPayment" : "Payment status",
+    "admin.categoryCourse.table.EmailPhoneCode" : "Email/Phone/Code"
 }
