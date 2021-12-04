@@ -1,13 +1,25 @@
 import {
     FORGET_PASSWORD,
     REQUEST_FORGET_PASSWORD,
-    RESET_PASSWORD,
+    RESET_PASSWORD, SIGNIN_FACEBOOK_USER, SIGNIN_GOOGLE_USER,
     SIGNIN_USER,
     SIGNIN_USER_SUCCESS,
     SIGNOUT_USER,
     SIGNOUT_USER_SUCCESS,
     SIGNUP_USER,
 } from "../../constants/ActionTypes";
+
+export const userGoogleSignIn = () => {
+    return {
+        type: SIGNIN_GOOGLE_USER
+    };
+};
+
+export const userFacebookSignIn = () => {
+    return {
+        type: SIGNIN_FACEBOOK_USER
+    };
+};
 
 export const userSignUp = (user, history) => {
     return {
