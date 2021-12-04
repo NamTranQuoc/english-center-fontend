@@ -1,7 +1,7 @@
 import {
-    ADD_CLASS, GET_ALL_CLASS_BY_COURSE, GET_ALL_CLASS_BY_COURSE_SUCCESS,
-    GET_ALL_COURSE_BY_CATEGORY,
-    GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
+    ADD_CLASS,
+    GET_ALL_CLASS_BY_COURSE,
+    GET_ALL_CLASS_BY_COURSE_SUCCESS,
     GET_CLASS,
     UPDATE_CLASS
 } from "../../constants/ActionTypes";
@@ -34,7 +34,7 @@ export const getAllClassByCourseId = (id) => {
     return {
         type: GET_ALL_CLASS_BY_COURSE,
         payload: {
-            id:id,
+            id: id,
         }
     };
 };
