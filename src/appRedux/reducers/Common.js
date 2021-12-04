@@ -8,7 +8,7 @@ import {
     SELECT_INDEX,
     SET_MEMBER, SHOW_CHANGE_PASSWORD,
     SHOW_MESSAGE,
-    SHOW_MODAL, SHOW_UPDATE_MEMBER,
+    SHOW_MODAL, SHOW_UPDATE_MEMBER, TOGGLE_COLLAPSED_NAV, WINDOW_WIDTH,
 } from '../../constants/ActionTypes'
 
 const INIT_STATE = {
@@ -26,6 +26,24 @@ const INIT_STATE = {
 
 const CommonReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
+        case '@@router/LOCATION_CHANGE': {
+            return {
+                ...state,
+                pathname: action.payload.location.pathname,
+                navCollapsed: false
+            }
+        }
+        case WINDOW_WIDTH:
+            return {
+                ...state,
+                width: action.width,
+            };
+        case TOGGLE_COLLAPSED_NAV: {
+            return {
+                ...state,
+                navCollapsed: action.navCollapsed
+            }
+        }
         case INIT_URL: {
             return {
                 ...state,

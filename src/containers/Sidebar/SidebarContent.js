@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
 import UserProfile from "./UserProfile";
-import AppsNavigation from "./AppsNavigation";
 import {
     NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
     NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
@@ -14,6 +13,7 @@ import {
 import IntlMessages from "../../util/IntlMessages";
 import {useSelector} from "react-redux";
 import {getRoleCurrent} from "../../util/ParseUtils";
+import AppsNavigation from "../SidebarHome/AppsNavigation";
 
 const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
     const {navStyle, themeType} = useSelector(({settings}) => settings);
