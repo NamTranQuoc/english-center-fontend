@@ -3,10 +3,11 @@ import {Button, Form, Input} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useHistory} from "react-router-dom";
 
-import {userSignIn,} from "../appRedux/actions";
+import {userGoogleSignIn, userSignIn,} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
 import {getImageURL, getRoleCurrent} from "../util/ParseUtils";
+import {GoogleOutlined} from "@ant-design/icons";
 
 const SignIn = () => {
     const dispatch = useDispatch();
@@ -52,11 +53,13 @@ const SignIn = () => {
                             className="gx-signin-form gx-form-row0">
 
                             <Form.Item
-                                rules={[{required: true, message: <IntlMessages id="admin.user.form.username"/>}]} name="email">
+                                rules={[{required: true, message: <IntlMessages id="admin.user.form.username"/>}]}
+                                name="email">
                                 <Input placeholder="Email/Phone/Code"/>
                             </Form.Item>
                             <Form.Item
-                                rules={[{required: true, message: <IntlMessages id="admin.user.form.password"/>}]} name="password">
+                                rules={[{required: true, message: <IntlMessages id="admin.user.form.password"/>}]}
+                                name="password">
                                 <Input type="password" placeholder="Password"/>
                             </Form.Item>
                             <Form.Item>
@@ -66,6 +69,21 @@ const SignIn = () => {
                                 <span><IntlMessages id="app.userAuth.or"/></span> <Link to="/signup"><IntlMessages
                                 id="app.userAuth.signUp"/></Link>
                             </Form.Item>
+                            <div className="gx-flex-row" style={{alignItems: "baseline"}}>
+                                <span>or connect with</span>
+                                <ul className="gx-social-link">
+                                    <li style={{marginLeft: "10px"}}>
+                                        <GoogleOutlined onClick={() => {
+                                            dispatch(userGoogleSignIn());
+                                        }}/>
+                                    </li>
+                                    {/*<li>*/}
+                                    {/*    <FacebookOutlined onClick={() => {*/}
+                                    {/*        dispatch(userFacebookSignIn());*/}
+                                    {/*    }}/>*/}
+                                    {/*</li>*/}
+                                </ul>
+                            </div>
                             <Form.Item name="forgetPassword">
                                 <Link className="gx-login-form-forgot"
                                       to="/request_forget_password">
