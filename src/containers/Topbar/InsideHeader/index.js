@@ -38,6 +38,8 @@ const InsideHeader = () => {
         }
     }
 
+    console.log()
+
     return (
         <div className="gx-header-horizontal gx-header-horizontal-dark gx-inside-header-horizontal">
             <Header className="gx-header-horizontal-main">
