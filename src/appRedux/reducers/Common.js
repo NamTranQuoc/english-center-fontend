@@ -26,13 +26,6 @@ const INIT_STATE = {
 
 const CommonReducer = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case '@@router/LOCATION_CHANGE': {
-            return {
-                ...state,
-                pathname: action.payload.location.pathname,
-                navCollapsed: false
-            }
-        }
         case WINDOW_WIDTH:
             return {
                 ...state,
