@@ -3,12 +3,14 @@ import {
     CHANGE_PASSWORD,
     FORGET_PASSWORD,
     REQUEST_FORGET_PASSWORD,
-    RESET_PASSWORD,
+    RESET_PASSWORD, SIGNIN_FACEBOOK_USER,
+    SIGNIN_GOOGLE_USER,
     SIGNIN_USER,
     SIGNOUT_USER,
 } from "../../constants/ActionTypes";
 import {
-    hideLoader, onHideChangePassword,
+    hideLoader,
+    onHideChangePassword,
     setInitUrl,
     setMember,
     showLoader,
@@ -19,13 +21,15 @@ import {
 import axios from "axios";
 import {host} from "../store/Host";
 import {getRoleCurrent} from "../../util/ParseUtils";
+import {auth, googleAuthProvider, facebookAuthProvider} from "../../firebase/firebase";
 
 const INSTRUCTOR_API_URL = `${host}/auth`;
 
-const signOutRequest = async () => {}
-    // await auth.signOut()
-    //     .then(authUser => authUser)
-    //     .catch(error => error);
+const signOutRequest = async () => {
+}
+// await auth.signOut()
+//     .then(authUser => authUser)
+//     .catch(error => error);
 
 const signInUserWithEmailPasswordRequest = async (payload) =>
     await axios.post(`${INSTRUCTOR_API_URL}/login`, {
@@ -223,12 +227,88 @@ const changePasswordRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* signInWithGoogle() {
+    yield takeEvery(SIGNIN_GOOGLE_USER, signInUserWithGoogle);
+}
+
+function* signInUserWithGoogle() {
+    try {
+        const signUpUser = yield call(signInUserWithGoogleRequest);
+        if (signUpUser.message) {
+            yield put(showMessage(signUpUser.message));
+        } else {
+            yield put(showLoader());
+            const signInResponse = yield call(SigninWithGoogle, signUpUser);
+            if (signInResponse.status !== 200) {
+                yield put(showMessage("bad_request"));
+            } else if (signInResponse.data.code !== 9999) {
+                yield put(showMessage(signInResponse.data.message));
+            } else {
+                localStorage.setItem('token', signInResponse.data.payload);
+                yield put(userSignInSuccess(signInResponse.data.payload));
+                const role = getRoleCurrent();
+                if (role === "admin" || role === "receptionist") {
+                    yield put(setInitUrl("/admin/dashboard"));
+                } else {
+                    yield put(setInitUrl("/home"));
+                }
+            }
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader())
+    }
+}
+
+const SigninWithGoogle = async (signUpUser) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/sign_with_google`,
+        data: {
+            email: signUpUser.user.email,
+            name: signUpUser.user.displayName,
+            avatar: signUpUser.user.photoURL,
+            phone_number: signUpUser.user.phoneNumber
+        },
+    }).then(response => response)
+        .catch(error => error)
+
+const signInUserWithGoogleRequest = async () =>
+    await auth.signInWithPopup(googleAuthProvider)
+        .then(authUser => authUser)
+        .catch(error => error);
+
+export function* signInWithFacebook() {
+    yield takeEvery(SIGNIN_FACEBOOK_USER, signInUserWithFacebook);
+}
+
+function* signInUserWithFacebook() {
+    try {
+        const signUpUser = yield call(signInUserWithFacebookRequest);
+        if (signUpUser.message) {
+            yield put(showMessage(signUpUser.message));
+        } else {
+            console.log(signUpUser.user);
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const signInUserWithFacebookRequest = async () =>
+    await  auth.signInWithPopup(facebookAuthProvider)
+        .then(authUser => authUser)
+        .catch(error => error);
+
 export default function* rootSaga() {
     yield all([fork(signInUser),
         fork(signOutUser),
         fork(resetPasswordUser),
         fork(requestForgetPasswordUser),
         fork(forgetPasswordUser),
-        fork(changePasswordUser)
+        fork(changePasswordUser),
+        fork(signInWithGoogle),
+        fork(signInWithFacebook),
     ]);
 }

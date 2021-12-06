@@ -18,7 +18,9 @@ const UserInfo = () => {
     const {hasShowUpdateMember, hasShowChangePassword} = useSelector(({common}) => common);
 
     useEffect(() => {
-        dispatch(getCurrentMember());
+        if (member === null) {
+            dispatch(getCurrentMember());
+        }
         // eslint-disable-next-line
     }, [authUser])
 
