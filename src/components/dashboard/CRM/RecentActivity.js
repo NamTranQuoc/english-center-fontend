@@ -21,7 +21,7 @@ function getName(task) {
 
 const RecentActivity = (props) => {
     return (
-        <div className="gx-entry-sec" style={{height: "564px"}}>
+        <div className="gx-entry-sec" style={{minHeight: "400px"}}>
             <WidgetHeader title={<IntlMessages id="report.action.recent"/>}/>
                 <div className="gx-timeline-info" key={"activity"} style={{margin: "auto"}}>
                     <Timeline>

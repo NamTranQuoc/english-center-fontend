@@ -1,4 +1,8 @@
-import {REPORT_ACTION_RECENT_SUCCESS, REPORT_COUNT_SUCCESS,} from '../../constants/ActionTypes'
+import {
+    REPORT_ACTION_RECENT_SUCCESS,
+    REPORT_COUNT_SUCCESS,
+    REPORT_STATISTICAL_BY_PAID_SUCCESS, REPORT_STATISTICAL_BY_REGISTER_SUCCESS,
+} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     counter: {
@@ -19,7 +23,59 @@ const INIT_STATE = {
             percent: 0
         }
     },
-    actionRecent: []
+    actionRecent: [],
+    statisticalByRegister: {
+        "total": 0,
+        "percent": 0,
+        "details": [
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            },
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            },
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            },
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            }
+        ]
+    },
+    statisticalByPaid: {
+        "total": 0,
+        "percent": 0,
+        "details": [
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            },
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            },
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            },
+            {
+                "name": "-",
+                "total": 0,
+                "percent": 0
+            }
+        ]
+    }
 };
 
 const RoomReducer = (state = INIT_STATE, action) => {
@@ -34,6 +90,18 @@ const RoomReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 actionRecent: action.payload
+            }
+        }
+        case REPORT_STATISTICAL_BY_PAID_SUCCESS: {
+            return {
+                ...state,
+                statisticalByPaid: action.payload,
+            }
+        }
+        case REPORT_STATISTICAL_BY_REGISTER_SUCCESS: {
+            return {
+                ...state,
+                statisticalByRegister: action.payload
             }
         }
         default:
