@@ -9,16 +9,23 @@ import Portfolio from "../../../components/dashboard/Crypto/Portfolio";
 import RecentActivity from "../../../components/dashboard/CRM/RecentActivity";
 import Widget from "../../../components/Widget";
 import {useDispatch, useSelector} from "react-redux";
-import {reportActionRecent, reportCount} from "../../../appRedux/actions";
+import {
+    reportActionRecent,
+    reportCount,
+    reportStatisticalByPaid,
+    reportStatisticalByRegister
+} from "../../../appRedux/actions";
 import IntlMessages from "../../../util/IntlMessages";
 
 const DashBoardPage = () => {
     const dispatch = useDispatch();
-    const {counter, actionRecent} = useSelector(({report}) => report);
+    const {counter, actionRecent, statisticalByRegister, statisticalByPaid} = useSelector(({report}) => report);
 
     useEffect(() => {
         dispatch(reportCount());
         dispatch(reportActionRecent());
+        dispatch(reportStatisticalByPaid());
+        dispatch(reportStatisticalByRegister());
         // eslint-disable-next-line
     }, [])
 
@@ -83,8 +90,8 @@ const DashBoardPage = () => {
             </Row>
             <Row>
                 <Col xl={12} lg={24} md={12} sm={24} xs={24}>
-                    <Portfolio/>
-                    <Portfolio/>
+                    <Portfolio data={statisticalByRegister} title={"admin.status.totalRegister"} subTitle={"admin.status.countRegister"}/>
+                    <Portfolio data={statisticalByPaid} title={"admin.status.totalMoney"} subTitle={"admin.status.countMoney"}/>
                 </Col>
                 <Col xl={12} lg={24} md={12} sm={24} xs={24}>
                     <Widget>
