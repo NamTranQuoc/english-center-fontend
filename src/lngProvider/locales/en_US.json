@@ -1,4 +1,5 @@
 {
+    "admin.class.form.min_student": "Please enter min student",
     "view.course.outputScore": "Unspecified",
     "view.course.inputScore": "Not required",
     "admin.user.student.table.output_score": "Output score",
@@ -246,7 +247,7 @@
     "admin.status.register" : "During registration",
     "admin.status.coming" : "Will take place",
     "admin.status.cancel" : "Cancelled",
-    "admin.status.finish" : "Accomplished",
+    "admin.status.finish" : "Completed",
     "sidebar.register": "Register management",
     "admin.status.unpaid" : "Unpaid",
     "admin.status.paid" : "Paid",
