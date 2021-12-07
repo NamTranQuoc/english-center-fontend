@@ -251,7 +251,7 @@ const StudentPage = () => {
                 defaultValue={[100, 500]}
                 onAfterChange={onAfterChangeInputScore}
             />
-            <a href=" " onClick={hideInput}>O</a>
+            <a href=" " onClick={hideInput}>Ok</a>
             <a href=" " onClick={CancelInput} style={{marginLeft: "80px"}}>Cancel</a>
         </>
     );
