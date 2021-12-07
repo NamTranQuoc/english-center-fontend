@@ -104,7 +104,8 @@ const addClassRequest = async (payload) =>
             course_id: payload.course_id,
             start_date: payload.start_date,
             shift_id: payload.shift_id,
-            status: payload.status
+            status: payload.status,
+            min_student: payload.min_student
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -145,7 +146,8 @@ const updateClassRequest = async (payload) =>
             name: payload.name,
             max_student: payload.max_student,
             start_date: payload.start_date,
-            status: payload.status
+            status: payload.status,
+            min_student: payload.min_student
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),

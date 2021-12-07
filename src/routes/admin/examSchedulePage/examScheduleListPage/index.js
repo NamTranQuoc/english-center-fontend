@@ -15,7 +15,7 @@ import {
     updateExamSchedule,
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import {getDateTime, getItemNameById} from "../../../../util/ParseUtils";
+import {getDateTime, getItemNameById, getStatusTagV2} from "../../../../util/ParseUtils";
 import moment from "moment";
 
 let param = {
@@ -452,6 +452,14 @@ const ExamSchedulePage = () => {
                                dataIndex: "end_time",
                                render: (end_time) => getDateTime(end_time),
                                width: 150,
+                               sorter: true,
+                           },
+                           {
+                               key: "status",
+                               title: <IntlMessages id="admin.categoryCourse.table.status"/>,
+                               dataIndex: "status",
+                               render: (status) => getStatusTagV2(status),
+                               width: 200,
                                sorter: true,
                            },
                            {
