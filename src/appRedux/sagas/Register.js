@@ -1,6 +1,6 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
-    ADD_REGISTER, DELETE_REGISTER,
+    ADD_REGISTER, DELETE_REGISTER, EXPORT_MEMBER, EXPORT_REGISTER,
     GET_REGISTER,
     UPDATE_REGISTER,
 } from "../../constants/ActionTypes";
@@ -178,6 +178,41 @@ const deleteRegisterRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* ExportExcel() {
+    yield takeEvery(EXPORT_REGISTER, ExportExcelGenerate);
+}
+
+function* ExportExcelGenerate({payload}) {
+    yield put(showLoader());
+    try {
+        const response = yield call(ExportExcelRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(showMessage("success_export"));
+            if (response.data.payload !== "") {
+                window.open(response.data.payload, "_self");
+            }
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoader());
+    }
+}
+
+const ExportExcelRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/export_excel/` + payload.id,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 
 export default function* rootSaga() {
     yield all([
@@ -185,5 +220,6 @@ export default function* rootSaga() {
         fork(getListRegisterSaga),
         fork(updateRegister),
         fork(deleteRegister),
+        fork(ExportExcel),
     ]);
 }

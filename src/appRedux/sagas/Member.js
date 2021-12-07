@@ -39,7 +39,14 @@ const getListMemberRequest = async (payload) =>
             keyword: payload.keyword,
             from_date: payload.from_date,
             to_date: payload.to_date,
-            genders: payload.genders
+            genders: payload.genders,
+            course_ids: payload.course_ids,
+            from_dob_date: payload.from_dob_date,
+            to_dob_date: payload.to_dob_date,
+            min_input_score: payload.min_input_score,
+            max_input_score: payload.max_input_score,
+            min_output_score: payload.min_output_score,
+            max_output_score: payload.max_output_score,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),

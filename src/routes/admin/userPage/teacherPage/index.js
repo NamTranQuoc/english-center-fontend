@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addMember,
     exportMember,
-    getAllCourse,
+    getAllCourse, getListClass,
     getListMember,
     onHideModal,
     onSelectIndex,
@@ -130,6 +130,16 @@ const TeacherPage = () => {
             }
             dispatch(getListMember(param));
         }
+    }
+
+    function onFilterCourse(e) {
+        const values = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            course_ids: values,
+            page: 1
+        }
+        dispatch(getListMember(param));
     }
 
     function onChangeDatePicker(dates) {
@@ -442,6 +452,22 @@ const TeacherPage = () => {
                                  onChange={onChangeDatePicker}
                                  placeholder={locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
                     />
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.class.table.course"/>}
+                           name="course_ids"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "100px"}}
+                                    onChange={onFilterCourse}
+                                    placeholder={placeholder}>
+                                {courses.map(item => {
+                                    return <Select.Option key={item._id} value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        }
+                    </IntlMessages>
                 </Form.Item>
             </Form>
             <IntlMessages id="table.search">
