@@ -214,7 +214,8 @@ const ClassPage = () => {
                 course_id: items[selectIndex].course_id,
                 start_date: moment.unix(items[selectIndex].start_date / 1000),
                 shift_id: items[selectIndex].shift_id,
-                status: items[selectIndex].status
+                status: items[selectIndex].status,
+                min_student: items[selectIndex].min_student
             };
         } else {
             return {
@@ -335,7 +336,7 @@ const ClassPage = () => {
             id="add-edit-form"
             initialValues={getInitValueModal()}>
             <Row>
-                <Col span={12}>
+                <Col span={24}>
                     <Form.Item
                         label={<IntlMessages id="admin.user.class.table.name"/>}
                         labelCol={{span: 24}}
@@ -350,9 +351,26 @@ const ClassPage = () => {
                         <Input placeholder="Toeic 550"/>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row>
                 <Col span={12}>
                     <Form.Item
-                        label={<IntlMessages id="admin.user.class.table.max_student"/>}
+                        label={<IntlMessages id="admin.user.examSchedule.table.min"/>}
+                        labelCol={{span: 24}}
+                        wrapperCol={{span: 24}}
+                        name="min_student"
+                        rules={[
+                            {
+                                required: true,
+                                message: <IntlMessages id="admin.class.form.min_student"/>,
+                            },
+                        ]}>
+                        <Input placeholder="10" type={"number"}/>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        label={<IntlMessages id="admin.user.examSchedule.table.max"/>}
                         labelCol={{span: 24}}
                         wrapperCol={{span: 24}}
                         name="max_student"
@@ -455,7 +473,7 @@ const ClassPage = () => {
                                        message: <IntlMessages id="admin.categoryCourse.form.status"/>,
                                    },
                                ]}>
-                        <Select disabled={selectIndex === -1}>
+                        <Select disabled={selectIndex !== -1 && items[selectIndex].status !== "create"}>
                             <Select.Option value="create" disabled={true}>{getStatusV2("create")}</Select.Option>
                             <Select.Option value="register" disabled={true}>{getStatusV2("register")}</Select.Option>
                             <Select.Option value="coming" disabled={true}>{getStatusV2("coming")}</Select.Option>
