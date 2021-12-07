@@ -75,8 +75,8 @@ const StudentPage = () => {
         min: 100,
         max:500,
     });
-    const [titleInput, setTitleInput] = useState("Filter");
-    const [titleOutput, setTitleOutput] = useState("Filter");
+    const [titleInput, setTitleInput] = useState(<IntlMessages id="filter.select"/>);
+    const [titleOutput, setTitleOutput] = useState(<IntlMessages id="filter.select"/>);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -251,8 +251,8 @@ const StudentPage = () => {
                 defaultValue={[100, 500]}
                 onAfterChange={onAfterChangeInputScore}
             />
-            <a href=" " onClick={hideInput}>Ok</a>
-            <a href=" " onClick={CancelInput} style={{marginLeft: "80px"}}>Cancel</a>
+            <Button type={"text"} onClick={hideInput}>Ok</Button>
+            <Button type={"text"} onClick={CancelInput} style={{marginLeft: "80px"}}><IntlMessages id="admin.user.form.cancel"/></Button>
         </>
     );
 
@@ -270,7 +270,7 @@ const StudentPage = () => {
             max_input_score: null,
             page: 1
         }
-        setTitleInput("Filter");
+        setTitleInput(<IntlMessages id="filter.select"/>);
         dispatch(getListMember(param));
         setVisible(false);
     };
@@ -301,8 +301,8 @@ const StudentPage = () => {
                 defaultValue={[100, 500]}
                 onAfterChange={onAfterChangeOutputScore}
             />
-            <a href=" " onClick={hideOutput}>Ok</a>
-            <a href=" " onClick={CancelOutput} style={{marginLeft: "80px"}}>Cancel</a>
+            <Button type={"text"} onClick={hideOutput}>Ok</Button>
+            <Button type={"text"} onClick={CancelOutput} style={{marginLeft: "80px"}}><IntlMessages id="admin.user.form.cancel"/></Button>
         </>
     );
 
@@ -320,7 +320,7 @@ const StudentPage = () => {
             max_output_score: null,
             page: 1
         }
-        setTitleOutput("Filter");
+        setTitleOutput(<IntlMessages id="filter.select"/>);
         dispatch(getListMember(param));
         setVisibleOutput(false);
     };
