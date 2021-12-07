@@ -1,6 +1,17 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {REPORT_ACTION_RECENT, REPORT_COUNT} from "../../constants/ActionTypes";
-import {reportActionRecentSuccess, reportCountSuccess, showMessage} from "../actions";
+import {
+    REPORT_ACTION_RECENT,
+    REPORT_COUNT,
+    REPORT_STATISTICAL_BY_PAID,
+    REPORT_STATISTICAL_BY_REGISTER
+} from "../../constants/ActionTypes";
+import {
+    reportActionRecentSuccess,
+    reportCountSuccess,
+    reportStatisticalByPaidSuccess,
+    reportStatisticalByRegisterSuccess,
+    showMessage
+} from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
 
@@ -61,9 +72,69 @@ const reportActionRecentRequest = async () =>
     }).then(response => response)
         .catch(error => error)
 
+export function* reportStatisticalByPaid() {
+    yield takeEvery(REPORT_STATISTICAL_BY_PAID, reportStatisticalByPaidGenerate);
+}
+
+function* reportStatisticalByPaidGenerate() {
+    try {
+        const response = yield call(reportStatisticalByPaidRequest);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(reportStatisticalByPaidSuccess(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const reportStatisticalByPaidRequest = async () =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/statistical_by_paid`,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
+export function* reportStatisticalByRegister() {
+    yield takeEvery(REPORT_STATISTICAL_BY_REGISTER, reportStatisticalByRegisterGenerate);
+}
+
+function* reportStatisticalByRegisterGenerate() {
+    try {
+        const response = yield call(reportStatisticalByRegisterRequest);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(reportStatisticalByRegisterSuccess(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const reportStatisticalByRegisterRequest = async () =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/statistical_by_register`,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(reportCount),
         fork(reportActionRecent),
+        fork(reportStatisticalByPaid),
+        fork(reportStatisticalByRegister),
     ]);
 }

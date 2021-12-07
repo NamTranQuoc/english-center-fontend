@@ -251,12 +251,17 @@
     "admin.status.coming" : "Sẽ khai giảng",
     "admin.status.cancel" : "Đã hủy",
     "admin.status.finish" : "Đã hoàn thành",
-    "sidebar.register": "Quản lý đăng ký",
+    "sidebar.register": "Quản lý ghi danh",
     "admin.status.unpaid" : "Chưa thanh toán",
     "admin.status.paid" : "Đã thanh toán",
     "admin.categoryCourse.table.statusPayment" : "Trạng thái thanh toán",
     "admin.categoryCourse.table.EmailPhoneCode" : "Email/Phone/Code",
-    "admin.user.form.register.title" : "Thông tin đăng ký",
-    "admin.user.register.title" : "QUẢN LÝ ĐĂNG KÝ",
-    "notification.unsubscribe_timeout" : "Đã quá thời gian để hủy đăng ký"
+    "admin.user.form.register.title" : "Thông tin ghi danh",
+    "admin.user.register.title" : "QUẢN LÝ GHI DANH",
+    "notification.unsubscribe_timeout" : "Đã quá thời gian để hủy ghi danh",
+    "admin.status.statisticByCourse": "Tỷ trọng theo khóa học",
+    "admin.status.totalRegister" : "Số lượng ghi danh",
+    "admin.status.countRegister" : "Tổng số lượng ghi danh",
+    "admin.status.totalMoney" : "Học phí đã thu",
+    "admin.status.countMoney" : "Tổng học phí đã thu"
 }
