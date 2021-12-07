@@ -139,6 +139,10 @@ const errors = {
         message: <IntlMessages id="notification.room_capacity_is_not_enough"/>,
         type: "warning",
     },
+    unsubscribe_timeout: {
+        message: <IntlMessages id="notification.unsubscribe_timeout"/>,
+        type: "error",
+    },
 };
 
 export function createNotification(message) {

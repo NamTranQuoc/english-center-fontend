@@ -245,10 +245,18 @@
     "admin.user.examSchedule.table.max": "Số lượng tối đa",
     "admin.categoryCourse.table.SHUTDOWN": "Ngưng sử dụng",
     "admin.categoryCourse.table.MAINTENANCE": "Bảo trì",
-    "admin.status.shutdown": "Ngưng sử dụng",
+    "admin.status.shutdown": "Ngưng hoạt động",
     "notification.room_not_available": "Phòng học đã có lịch",
     "admin.status.register" : "Trong thời gian đăng ký",
     "admin.status.coming" : "Sẽ khai giảng",
     "admin.status.cancel" : "Đã hủy",
-    "admin.status.finish" : "Đã hoàn thành"
+    "admin.status.finish" : "Đã hoàn thành",
+    "sidebar.register": "Quản lý đăng ký",
+    "admin.status.unpaid" : "Chưa thanh toán",
+    "admin.status.paid" : "Đã thanh toán",
+    "admin.categoryCourse.table.statusPayment" : "Trạng thái thanh toán",
+    "admin.categoryCourse.table.EmailPhoneCode" : "Email/Phone/Code",
+    "admin.user.form.register.title" : "Thông tin đăng ký",
+    "admin.user.register.title" : "QUẢN LÝ ĐĂNG KÝ",
+    "notification.unsubscribe_timeout" : "Đã quá thời gian để hủy đăng ký"
 }
