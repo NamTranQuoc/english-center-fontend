@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addMember,
     exportMember,
-    getAllCourse, getListClass,
+    getAllCourse,
     getListMember,
     onHideModal,
     onSelectIndex,

@@ -251,8 +251,8 @@ const StudentPage = () => {
                 defaultValue={[100, 500]}
                 onAfterChange={onAfterChangeInputScore}
             />
-            <a onClick={hideInput}>Ok</a>
-            <a onClick={CancelInput} style={{marginLeft: "80px"}}>Cancel</a>
+            <a href=" " onClick={hideInput}>O</a>
+            <a href=" " onClick={CancelInput} style={{marginLeft: "80px"}}>Cancel</a>
         </>
     );
 
@@ -301,8 +301,8 @@ const StudentPage = () => {
                 defaultValue={[100, 500]}
                 onAfterChange={onAfterChangeOutputScore}
             />
-            <a onClick={hideOutput}>Ok</a>
-            <a onClick={CancelOutput} style={{marginLeft: "80px"}}>Cancel</a>
+            <a href=" " onClick={hideOutput}>Ok</a>
+            <a href=" " onClick={CancelOutput} style={{marginLeft: "80px"}}>Cancel</a>
         </>
     );
 

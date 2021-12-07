@@ -1,6 +1,6 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
-    ADD_REGISTER, DELETE_REGISTER, EXPORT_MEMBER, EXPORT_REGISTER,
+    ADD_REGISTER, DELETE_REGISTER, EXPORT_REGISTER,
     GET_REGISTER,
     UPDATE_REGISTER,
 } from "../../constants/ActionTypes";
