@@ -245,7 +245,7 @@
     "admin.status.shutdown": "Shut down",
     "notification.room_not_available": "Room not available",
     "admin.status.register" : "During registration",
-    "admin.status.coming" : "Will take place",
+    "admin.status.coming" : "In progress",
     "admin.status.cancel" : "Cancelled",
     "admin.status.finish" : "Completed",
     "sidebar.register": "Register management",
@@ -260,5 +260,9 @@
     "admin.status.totalRegister" : "Number of registrations",
     "admin.status.countRegister" : "Total registrations",
     "admin.status.totalMoney" : "Tuition Fees Paid",
-    "admin.status.countMoney" : "Total tuition fee collected"
+    "admin.status.countMoney" : "Total tuition fee collected",
+    "admin.class.form.end": "Please select end time",
+    "admin.class.form.start": "Please select start time",
+    "admin.class.form.teacher_id": "Please select teacher",
+    "admin.class.form.room": "Please select room"
 }

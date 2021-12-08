@@ -248,7 +248,7 @@
     "admin.status.shutdown": "Ngưng hoạt động",
     "notification.room_not_available": "Phòng học đã có lịch",
     "admin.status.register" : "Trong thời gian đăng ký",
-    "admin.status.coming" : "Sẽ khai giảng",
+    "admin.status.coming" : "Đang diễn ra",
     "admin.status.cancel" : "Đã hủy",
     "admin.status.finish" : "Đã hoàn thành",
     "sidebar.register": "Quản lý ghi danh",
