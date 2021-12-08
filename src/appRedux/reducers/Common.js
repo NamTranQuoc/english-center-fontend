@@ -14,7 +14,7 @@ import {
 const INIT_STATE = {
     loading: false,
     message: '',
-    navCollapsed: true,
+    navCollapsed: false,
     width: window.innerWidth,
     pathname: '/',
     hasShowModal: false,

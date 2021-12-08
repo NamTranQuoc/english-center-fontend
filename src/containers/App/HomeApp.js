@@ -1,15 +1,17 @@
 import React, {useEffect} from "react";
 import {Layout} from "antd";
-import {useDispatch} from "react-redux";
-import InsideHeader from "../Topbar/InsideHeader/index";
+import {useDispatch, useSelector} from "react-redux";
 import {footerText} from "../../util/config";
 import App from "../../routes/user";
 import {updateWindowWidth} from "../../appRedux/actions";
+import AppSidebar from "./AppSidebarHome";
+import Topbar from "../SidebarHome/TopHome";
 
 const {Content, Footer} = Layout;
 
 const MainApp = () => {
     const dispatch = useDispatch();
+    const {navStyleHome} = useSelector(({settings}) => settings);
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -19,8 +21,9 @@ const MainApp = () => {
 
     return (
         <Layout className="gx-app-layout">
-            <InsideHeader/>
+            <AppSidebar navStyle={navStyleHome}/>
             <Layout>
+                <Topbar/>
                 <Content className={`gx-layout-content gx-container-wrap`}>
                     <App/>
                     <Footer>
