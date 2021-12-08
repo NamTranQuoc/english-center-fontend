@@ -252,5 +252,13 @@
     "admin.status.unpaid" : "Unpaid",
     "admin.status.paid" : "Paid",
     "admin.categoryCourse.table.statusPayment" : "Payment status",
-    "admin.categoryCourse.table.EmailPhoneCode" : "Email/Phone/Code"
+    "admin.categoryCourse.table.EmailPhoneCode" : "Email/Phone/Code",
+    "admin.user.form.register.title" : "Register information",
+    "admin.user.register.title" : "REGISTER MANAGEMENT",
+    "notification.unsubscribe_timeout" : "Cancellation time has passed",
+    "admin.status.statisticByCourse": "Percentage by course",
+    "admin.status.totalRegister" : "Number of registrations",
+    "admin.status.countRegister" : "Total registrations",
+    "admin.status.totalMoney" : "Tuition Fees Paid",
+    "admin.status.countMoney" : "Total tuition fee collected"
 }

@@ -1,5 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tooltip} from "antd";
+import {
+    Button,
+    Card,
+    Col,
+    DatePicker,
+    Dropdown,
+    Form,
+    Input,
+    Menu,
+    Modal,
+    Popover,
+    Row,
+    Select,
+    Table,
+    Tooltip
+} from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -19,6 +34,7 @@ import moment from 'moment';
 import "../index.css";
 import DeleteModal from "./deleteModal";
 import Document from "../../../../components/uploadFile";
+import { Slider } from 'antd';
 
 moment.updateLocale('vi', {
     weekdaysMin: ["Cn", "T2", "T3", "T4", "T5", "T6", "T7"],
@@ -49,6 +65,18 @@ const StudentPage = () => {
     const [action, setAction] = useState("edit");
     const [hasShowModalImport, setHasShowModalImport] = useState(false);
     const [file, setFile] = useState(null);
+    const [visible, setVisible] = useState(false);
+    const [visibleOutput, setVisibleOutput] = useState(false);
+    const [scoreValue, setScoreValue] = useState({
+        min: 100,
+        max: 500,
+    });
+    const [scoreOutValue, setScoreOutValue] = useState({
+        min: 100,
+        max:500,
+    });
+    const [titleInput, setTitleInput] = useState(<IntlMessages id="filter.select"/>);
+    const [titleOutput, setTitleOutput] = useState(<IntlMessages id="filter.select"/>);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -101,8 +129,8 @@ const StudentPage = () => {
             setStyle("370px");
             param = {
                 ...param,
-                from_date: dates[0].unix() * 1000,
-                to_date: dates[1].unix() * 1000,
+                from_dob_date: dates[0].unix() * 1000,
+                to_dob_date: dates[1].unix() * 1000,
                 page: 1
             }
             dispatch(getListMember(param));
@@ -209,6 +237,109 @@ const StudentPage = () => {
     function onShowModalImportFile() {
         setHasShowModalImport(!hasShowModalImport);
     }
+
+    function onExportMember() {
+        dispatch(exportMember(param));
+    }
+    const content = (
+        <>
+            <Slider
+                range
+                step={50}
+                max={990}
+                min={0}
+                defaultValue={[100, 500]}
+                onAfterChange={onAfterChangeInputScore}
+            />
+            <Button type={"text"} onClick={hideInput}>Ok</Button>
+            <Button type={"text"} onClick={CancelInput} style={{marginLeft: "80px"}}><IntlMessages id="admin.user.form.cancel"/></Button>
+        </>
+    );
+
+    function onAfterChangeInputScore(value) {
+        setScoreValue({
+            min: value[0],
+            max: value[1],
+        })
+    }
+
+    function CancelInput() {
+        param = {
+            ...param,
+            min_input_score: null,
+            max_input_score: null,
+            page: 1
+        }
+        setTitleInput(<IntlMessages id="filter.select"/>);
+        dispatch(getListMember(param));
+        setVisible(false);
+    };
+
+    function hideInput() {
+        param = {
+            ...param,
+            min_input_score: scoreValue.min,
+            max_input_score: scoreValue.max,
+            page: 1
+        }
+        setTitleInput(scoreValue.min + " - " + scoreValue.max);
+        dispatch(getListMember(param));
+        setVisible(false);
+    };
+
+    function handleVisibleChange() {
+        setVisible(true);
+    };
+
+    const content_1 = (
+        <>
+            <Slider
+                range
+                step={50}
+                max={990}
+                min={0}
+                defaultValue={[100, 500]}
+                onAfterChange={onAfterChangeOutputScore}
+            />
+            <Button type={"text"} onClick={hideOutput}>Ok</Button>
+            <Button type={"text"} onClick={CancelOutput} style={{marginLeft: "80px"}}><IntlMessages id="admin.user.form.cancel"/></Button>
+        </>
+    );
+
+    function onAfterChangeOutputScore(value) {
+        setScoreOutValue({
+            min: value[0],
+            max: value[1],
+        })
+    }
+
+    function CancelOutput() {
+        param = {
+            ...param,
+            min_output_score: null,
+            max_output_score: null,
+            page: 1
+        }
+        setTitleOutput(<IntlMessages id="filter.select"/>);
+        dispatch(getListMember(param));
+        setVisibleOutput(false);
+    };
+
+    function hideOutput() {
+        param = {
+            ...param,
+            min_output_score: scoreOutValue.min,
+            max_output_score: scoreOutValue.max,
+            page: 1
+        }
+        setTitleOutput(scoreOutValue.min + " - " + scoreOutValue.max);
+        dispatch(getListMember(param));
+        setVisibleOutput(false);
+    };
+
+    function handleVisibleChange1() {
+        setVisibleOutput(true);
+    };
 
     async function onSubmitImportFile() {
         const pathFile = "import-" + moment().unix() + ".xlsx";
@@ -500,10 +631,6 @@ const StudentPage = () => {
         </Form>
     </Modal>);
 
-    function onExportMember() {
-        dispatch(exportMember(param));
-    }
-
     return (
         <Card title={<h2><IntlMessages id="admin.user.student.title"/></h2>}
               extra={<>
@@ -550,13 +677,37 @@ const StudentPage = () => {
                         }
                     </IntlMessages>
                 </Form.Item>
-                <Form.Item label={<IntlMessages id="admin.user.student.table.createdDate"/>}
-                           name="createdDate">
+                <Form.Item label={<IntlMessages id="admin.user.student.table.dob"/>}
+                           name="dobDate">
                     <RangePicker showTime style={{width: style}}
                                  onOk={onFilterDate}
                                  onChange={onChangeDatePicker}
                                  placeholder={locale.locale === "vi" ? ["Từ", "Đến"] : ["From", "To"]}
                     />
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.student.table.input_score"/>}
+                           name="dobDate">
+                    <Popover
+                        content={content}
+                        title={<IntlMessages id="admin.user.student.table.input_score"/>}
+                        trigger="click"
+                        visible={visible}
+                        onVisibleChange={handleVisibleChange}
+                    >
+                        <Button type="line">{titleInput}</Button>
+                    </Popover>
+                </Form.Item>
+                <Form.Item label={<IntlMessages id="admin.user.student.table.output_score"/>}
+                           name="dobDate">
+                    <Popover
+                        content={content_1}
+                        title={<IntlMessages id="admin.user.student.table.output_score"/>}
+                        trigger="click"
+                        visible={visibleOutput}
+                        onVisibleChange={handleVisibleChange1}
+                    >
+                        <Button type="line">{titleOutput}</Button>
+                    </Popover>
                 </Form.Item>
             </Form>
             <IntlMessages id="table.search">
@@ -618,6 +769,22 @@ const StudentPage = () => {
                                title: <IntlMessages id="admin.user.student.table.email"/>,
                                dataIndex: "email",
                                width: 250,
+                               sorter: true
+                           },
+                           {
+                               key: "input_score",
+                               title: <IntlMessages id="admin.user.student.table.input_score"/>,
+                               dataIndex: "input_score",
+                               render: (input_score) => input_score.total,
+                               width: 120,
+                               sorter: true
+                           },
+                           {
+                               key: "current_score",
+                               title: <IntlMessages id="admin.user.student.table.output_score"/>,
+                               dataIndex: "current_score",
+                               render: (current_score) => current_score.total,
+                               width: 120,
                                sorter: true
                            },
                            {

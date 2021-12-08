@@ -1,4 +1,10 @@
-import {ADD_REGISTER, DELETE_REGISTER, GET_REGISTER, UPDATE_REGISTER} from "../../constants/ActionTypes";
+import {
+    ADD_REGISTER,
+    DELETE_REGISTER,
+    EXPORT_REGISTER,
+    GET_REGISTER,
+    UPDATE_REGISTER
+} from "../../constants/ActionTypes";
 
 
 export const getListRegister = (param) => {
@@ -33,5 +39,12 @@ export const deleteRegister = (id, class_id, param) => {
             class_id: class_id,
             param: param
         }
+    };
+};
+
+export const exportRegister = (id) => {
+    return {
+        type: EXPORT_REGISTER,
+        payload: { id: id}
     };
 };

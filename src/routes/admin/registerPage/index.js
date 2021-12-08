@@ -3,7 +3,7 @@ import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Tabl
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addRegister,
+    addRegister, exportRegister,
     getAllClassByCourseId, getAllCourseByCategoryId,
     getAllCourseCategoryByStatus,
     getListRegister,
@@ -13,7 +13,7 @@ import {
     showMessage,
     updateRegister
 } from "../../../appRedux/actions";
-import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
+import {DownloadOutlined, PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "./index.css";
 import {getDate, getGender, getStatusV2} from "../../../util/ParseUtils";
 import {useForm} from "antd/es/form/Form";
@@ -143,6 +143,14 @@ const RegisterPage = () => {
         }
     }
 
+    function onExportMember() {
+        if (classId !== null) {
+            dispatch(exportRegister(classId));
+        } else {
+            dispatch(showMessage("param_not_null"));
+        }
+    }
+
     const menus = (index) => (<Menu onClick={(e) => {
         if (e.key === "generate") {
             dispatch(onSelectIndex(index));
@@ -164,7 +172,7 @@ const RegisterPage = () => {
     );
 
     const modal = () => (<Modal
-        title={<IntlMessages id="admin.user.form.class.title"/>}
+        title={<IntlMessages id="admin.user.form.register.title"/>}
         visible={hasShowModal && action !== "delete"}
         footer={
             <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
@@ -222,15 +230,26 @@ const RegisterPage = () => {
         }
     })
     return (
-        <Card title={<h2><IntlMessages id="admin.user.classroom.title"/></h2>}
-              extra={<Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
-                  <Button type="primary"
-                          shape="circle"
-                          icon={<PlusOutlined/>}
-                          size="large"
-                          style={{float: "right"}}
-                          onClick={showModal}/>
-              </Tooltip>}
+        <Card title={<h2><IntlMessages id="admin.user.register.title"/></h2>}
+              extra={<>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.add"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<PlusOutlined/>}
+                              size="large"
+                              style={{float: "right"}}
+                              onClick={showModal}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={<IntlMessages id="admin.button.export"/>}>
+                      <Button type="primary"
+                              shape="circle"
+                              icon={<DownloadOutlined/>}
+                              size="large"
+                              style={{float: "right", marginRight: "10px"}}
+                              onClick={onExportMember}/>
+                  </Tooltip>
+              </>
+              }
               className="gx-card">
             <Form form={form} layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <Form.Item label={<IntlMessages id="sidebar.managerStudy.courseCategory"/>}
@@ -255,7 +274,7 @@ const RegisterPage = () => {
                     <IntlMessages id="filter.select">
                         {placeholder =>
                             <Select
-                                    style={{minWidth: "100px"}}
+                                    style={{minWidth: "150px"}}
                                     onSelect={onFilterCourse}
                                     placeholder={placeholder}>
                                 {coursesByCategoryId.map(item => {
@@ -271,7 +290,7 @@ const RegisterPage = () => {
                     <IntlMessages id="filter.select">
                         {placeholder =>
                             <Select
-                                    style={{minWidth: "100px"}}
+                                    style={{minWidth: "150px"}}
                                     onChange={onClassChange}
                                     placeholder={placeholder}>
                                 {classByCourseId.map(item => {
@@ -363,7 +382,7 @@ const RegisterPage = () => {
                 }
             }/>
             {hasShowModal && modal()}
-            {hasShowModal && (<DeleteModal action={action} getInitValueModal={getInitValueModal} param={param}/>)}
+            {hasShowModal && (<DeleteModal showModal={showModal} action={action} getInitValueModal={getInitValueModal} param={param}/>)}
         </Card>
     );
 };
