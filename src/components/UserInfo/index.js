@@ -25,11 +25,12 @@ const UserInfo = () => {
     }, [authUser])
 
     useEffect(() => {
-        if (member != null) {
+        if (member != null && authUser !== null) {
             const url = getImageURL(member.avatar);
             setUrlAvatar(url === "" ? defaultImage : url);
             setName(member.name);
         }
+        // eslint-disable-next-line
     }, [member])
 
     const userMenuOptions = (

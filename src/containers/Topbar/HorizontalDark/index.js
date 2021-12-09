@@ -74,8 +74,7 @@ const HorizontalDark = () => {
                 </div>
             </div>
 
-            <Header
-                className="gx-header-horizontal-main">
+            <Header className="gx-header-horizontal-main">
                 <div className="gx-container">
                     <div className="gx-header-horizontal-main-flex">
                         <div className="gx-d-block gx-d-lg-none gx-linebar gx-mr-xs-3">

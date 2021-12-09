@@ -40,6 +40,20 @@ const RestrictedRoute = ({component: Component, location, authUser, ...rest}) =>
                 />}
     />;
 
+const RestrictedRouteHome = ({component: Component, location, authUser, pathname, ...rest}) =>
+    <Route
+        {...rest}
+        render={props =>
+            (pathname === "/home/schedule" || pathname === "/home/document") && authUser === null
+                ? <Redirect
+                    to={{
+                        pathname: '/home',
+                        state: {from: location}
+                    }}
+                />
+                : <Component {...props} />}
+    />;
+
 const setLayoutType = (layoutType) => {
     if (layoutType === LAYOUT_TYPE_FULL) {
         document.body.classList.remove('boxed-layout');
@@ -160,7 +174,7 @@ const App = () => {
                     <Route exact path="/request_forget_password" component={RequestForgetPassword}/>
                     <Route path="/forget_password" component={ForgetPassword}/>
                     <RestrictedRoute path="/admin" authUser={authUser} location={location} component={MainApp}/>
-                    <Route path="/home" location={location} component={HomeApp}/>
+                    <RestrictedRouteHome path="/home" authUser={authUser} location={location} pathname={pathname} component={HomeApp}/>
                 </Switch>
             </IntlProvider>
             <IntlProvider

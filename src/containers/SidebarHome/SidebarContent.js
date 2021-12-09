@@ -5,12 +5,14 @@ import {Link} from "react-router-dom";
 import IntlMessages from "../../util/IntlMessages";
 import SidebarLogo from "./SidebarLogo";
 import CustomScrollbars from "../../util/CustomScrollbars";
+import {getRoleCurrent} from "../../util/ParseUtils";
 
 const SubMenu = Menu.SubMenu;
 
 const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
     const {views} = useSelector(({courseCategory}) => courseCategory);
     const pathname = useSelector(({common}) => common.pathname);
+    const roleCurrent = getRoleCurrent();
 
     return (
         <>
@@ -43,18 +45,20 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 </SubMenu>
                             })}
                         </SubMenu>
+                        {roleCurrent === "teacher" || roleCurrent === "student" ?
                         <Menu.Item key="/home/schedule">
                             <Link to="/home/schedule">
                                 <i className="icon icon-hotel-booking"/>
                                 <span><IntlMessages id="sidebar.managerStudy.schedule"/></span>
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item> : null }
+                        {roleCurrent === "teacher" || roleCurrent === "student" ?
                         <Menu.Item key="/home/document">
                             <Link to="/home/document">
                                 <i className="icon icon-folder-o"/>
                                 <span><IntlMessages id="sidebar.home.document"/></span>
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item> : null }
                     </Menu>
                 </CustomScrollbars>
             </div>

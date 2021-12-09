@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import languageData from "../Topbar/languageData";
 import {switchLanguage, toggleCollapsedSideNav} from "../../appRedux/actions";
 import UserInfo from "../../components/UserInfo";
-import Auxiliary from "util/Auxiliary";
 
 
 import {NAV_STYLE_DRAWER, NAV_STYLE_FIXED, NAV_STYLE_MINI_SIDEBAR} from "../../constants/ThemeSetting";
@@ -32,34 +31,37 @@ const Topbar = () => {
 
     return (
         <Header>
-            {navStyle === NAV_STYLE_DRAWER || ((navStyle === NAV_STYLE_FIXED || navStyle === NAV_STYLE_MINI_SIDEBAR)) ?
-                <div className="gx-linebar gx-mr-3">
-                    <i className="gx-icon-btn icon icon-menu"
-                       onClick={() => {
-                           dispatch(toggleCollapsedSideNav(!navCollapsed));
-                       }}
-                    />
-                </div> : null}
-            <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
-                <img alt="" src="/assets/images/w-logo.png"/></Link>
-            <Link to="/" className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
-                <img alt="" src="/assets/images/logo.png"/></Link>
+            <div className="gx-container">
+                <div className="gx-header-horizontal-main-flex">
+                    {navStyle === NAV_STYLE_DRAWER || ((navStyle === NAV_STYLE_FIXED || navStyle === NAV_STYLE_MINI_SIDEBAR)) ?
+                        <div className="gx-linebar gx-mr-3">
+                            <i className="gx-icon-btn icon icon-menu"
+                               onClick={() => {
+                                   dispatch(toggleCollapsedSideNav(!navCollapsed));
+                               }}
+                            />
+                        </div> : null}
+                    <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
+                        <img alt="" src="/assets/images/w-logo.png"/></Link>
+                    <Link to="/" className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
+                        <img alt="" src="/assets/images/logo.png"/></Link>
 
-            <ul className="gx-header-notifications gx-ml-auto">
-                <li className="gx-language">
-                    <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight" content={languageMenu()}
-                             trigger="click">
-                <span className="gx-pointer gx-flex-row gx-align-items-center">
-                  <i className={`flag flag-24 flag-${locale.icon}`}/>
-                  <span className="gx-pl-2 gx-language-name">{locale.name}</span>
-                  <i className="icon icon-chevron-down gx-pl-2"/>
-                </span>
-                    </Popover>
-                </li>
-                <Auxiliary>
-                    <li className="gx-user-nav"><UserInfo/></li>
-                </Auxiliary>
-            </ul>
+                    <ul className="gx-header-notifications gx-ml-auto">
+                        <li className="gx-language">
+                            <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
+                                     content={languageMenu()}
+                                     trigger="click">
+                                <span className="gx-pointer gx-flex-row gx-align-items-center">
+                                      <i className={`flag flag-24 flag-${locale.icon}`}/>
+                                      <span className="gx-pl-2 gx-language-name">{locale.name}</span>
+                                      <i className="icon icon-chevron-down gx-pl-2"/>
+                                </span>
+                            </Popover>
+                        </li>
+                        <li className="gx-user-nav"><UserInfo/></li>
+                    </ul>
+                </div>
+            </div>
         </Header>
     );
 };
