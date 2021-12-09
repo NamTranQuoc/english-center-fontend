@@ -1,4 +1,5 @@
 {
+    "sidebar.home.document": "Document",
     "admin.class.form.min_student": "Please enter min student",
     "view.course.outputScore": "Unspecified",
     "view.course.inputScore": "Not required",

@@ -1,28 +1,28 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {Menu} from "antd";
-import {THEME_TYPE_LITE} from "../../constants/ThemeSetting";
 import {Link} from "react-router-dom";
 import IntlMessages from "../../util/IntlMessages";
 import SidebarLogo from "./SidebarLogo";
 import CustomScrollbars from "../../util/CustomScrollbars";
+import {getRoleCurrent} from "../../util/ParseUtils";
 
 const SubMenu = Menu.SubMenu;
 
 const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
-    const {themeType} = useSelector(({settings}) => settings);
     const {views} = useSelector(({courseCategory}) => courseCategory);
     const pathname = useSelector(({common}) => common.pathname);
+    const roleCurrent = getRoleCurrent();
 
     return (
         <>
             <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
-            <div className="gx-sidebar-content">
+            <div className="gx-sidebar-content" style={{marginTop: "30px"}}>
                 <CustomScrollbars className="gx-layout-sider-scrollbar">
                     <Menu
-                        defaultOpenKeys={["/admin/dashboard"]}
+                        defaultOpenKeys={["/home"]}
                         selectedKeys={[pathname]}
-                        theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
+                        theme={'lite'}
                         mode="inline">
 
                         <Menu.Item key="/home">
@@ -45,12 +45,20 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 </SubMenu>
                             })}
                         </SubMenu>
-                        <Menu.Item key="/schedule">
-                            <Link to="/schedule">
+                        {roleCurrent === "teacher" || roleCurrent === "student" ?
+                        <Menu.Item key="/home/schedule">
+                            <Link to="/home/schedule">
                                 <i className="icon icon-hotel-booking"/>
                                 <span><IntlMessages id="sidebar.managerStudy.schedule"/></span>
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item> : null }
+                        {roleCurrent === "teacher" || roleCurrent === "student" ?
+                        <Menu.Item key="/home/document">
+                            <Link to="/home/document">
+                                <i className="icon icon-folder-o"/>
+                                <span><IntlMessages id="sidebar.home.document"/></span>
+                            </Link>
+                        </Menu.Item> : null }
                     </Menu>
                 </CustomScrollbars>
             </div>
