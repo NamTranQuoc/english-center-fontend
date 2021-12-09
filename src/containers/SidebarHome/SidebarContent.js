@@ -1,7 +1,6 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {Menu} from "antd";
-import {THEME_TYPE_LITE} from "../../constants/ThemeSetting";
 import {Link} from "react-router-dom";
 import IntlMessages from "../../util/IntlMessages";
 import SidebarLogo from "./SidebarLogo";
@@ -10,19 +9,18 @@ import CustomScrollbars from "../../util/CustomScrollbars";
 const SubMenu = Menu.SubMenu;
 
 const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
-    const {themeType} = useSelector(({settings}) => settings);
     const {views} = useSelector(({courseCategory}) => courseCategory);
     const pathname = useSelector(({common}) => common.pathname);
 
     return (
         <>
             <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
-            <div className="gx-sidebar-content">
+            <div className="gx-sidebar-content" style={{marginTop: "30px"}}>
                 <CustomScrollbars className="gx-layout-sider-scrollbar">
                     <Menu
                         defaultOpenKeys={["/admin/dashboard"]}
                         selectedKeys={[pathname]}
-                        theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
+                        theme={'lite'}
                         mode="inline">
 
                         <Menu.Item key="/home">
