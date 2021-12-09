@@ -18,7 +18,7 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
             <div className="gx-sidebar-content" style={{marginTop: "30px"}}>
                 <CustomScrollbars className="gx-layout-sider-scrollbar">
                     <Menu
-                        defaultOpenKeys={["/admin/dashboard"]}
+                        defaultOpenKeys={["/home"]}
                         selectedKeys={[pathname]}
                         theme={'lite'}
                         mode="inline">
@@ -43,10 +43,16 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 </SubMenu>
                             })}
                         </SubMenu>
-                        <Menu.Item key="/schedule">
-                            <Link to="/schedule">
+                        <Menu.Item key="/home/schedule">
+                            <Link to="/home/schedule">
                                 <i className="icon icon-hotel-booking"/>
                                 <span><IntlMessages id="sidebar.managerStudy.schedule"/></span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/home/document">
+                            <Link to="/home/document">
+                                <i className="icon icon-folder-o"/>
+                                <span><IntlMessages id="sidebar.home.document"/></span>
                             </Link>
                         </Menu.Item>
                     </Menu>

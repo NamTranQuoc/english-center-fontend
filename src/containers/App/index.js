@@ -8,7 +8,7 @@ import MainApp from "./MainApp";
 import HomeApp from "./HomeApp";
 import SignIn from "../SignIn";
 import SignUp from "../SignUp";
-import {setInitUrl} from "../../appRedux/actions";
+import {setInitUrl, toggleCollapsedSideNav} from "../../appRedux/actions";
 import {NotificationContainer} from "react-notifications";
 import {
     LAYOUT_TYPE_BOXED,
@@ -119,8 +119,12 @@ const App = () => {
         } else {
             if (pathname === '/signin' || pathname === '/signup' || pathname === '/request_forget_password' || pathname.substring(0, 16) === '/forget_password') {
                 history.push(pathname);
+            } else if (pathname === "/home/schedule" || pathname === "/home/document") {
+                history.push(pathname);
+                dispatch(toggleCollapsedSideNav(false));
             } else if (pathname === '/' || pathname === '' || pathname === '/home') {
                 history.push('/home');
+                dispatch(toggleCollapsedSideNav(false));
             } else if (authUser === null) {
                 history.push('/home');
             } else if (pathname === '/signin') {
