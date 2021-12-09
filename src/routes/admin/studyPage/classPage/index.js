@@ -18,7 +18,7 @@ import {
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addClass,
+    addClass, exportRegister,
     generateSchedule,
     getAllCourse,
     getAllCourseByStatus,
@@ -225,7 +225,9 @@ const ClassPage = () => {
     }
 
     const menus = (index) => (<Menu onClick={(e) => {
-        if (e.key === "generate") {
+        if (e.key === "export") {
+            dispatch(exportRegister(items[index]._id));
+        } else if (e.key === "generate") {
             dispatch(onSelectIndex(index));
             showModalGenerate(index)
         } else {
@@ -240,6 +242,7 @@ const ClassPage = () => {
 
     }}>
         <Menu.Item key="edit"><IntlMessages id="admin.user.form.edit"/></Menu.Item>
+        <Menu.Item key="export"><IntlMessages id="admin.button.export"/></Menu.Item>
         {items[index].status === "create" ?
             <Menu.Item key="generate"><IntlMessages id="admin.user.form.generate"/></Menu.Item> : null}
     </Menu>);

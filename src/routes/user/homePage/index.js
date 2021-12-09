@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Carousel} from "antd";
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {getImageAdvertisement} from "../../../appRedux/actions";
+import {getImageAdvertisement, viewCourseCategory} from "../../../appRedux/actions";
 import ItemCard from "./item/item";
 
 const HomePage = () => {
@@ -12,6 +12,7 @@ const HomePage = () => {
 
     useEffect(() => {
         dispatch(getImageAdvertisement());
+        dispatch(viewCourseCategory());
         // eslint-disable-next-line
     }, [])
 

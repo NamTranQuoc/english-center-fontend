@@ -3,11 +3,10 @@ import {Card, Col, Row} from "antd";
 import ItemFirst from "./ItemFirst";
 import ItemSecond from "./ItemSecond";
 import ItemThird from "./ItemThird";
-import "./index.css";
 
 function ItemCard(props) {
     return (
-        <Card title={props.title}>
+        <Card title={props.title} headStyle={{textAlign: "center", fontSize: "30px", backgroundColor: "#e38110"}}>
             <div className="gx-price-tables gx-pt-circle">
                 <Row justify="center">
                     {props.item.map((item, index) => {
