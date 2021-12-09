@@ -30,6 +30,7 @@ const UserInfo = () => {
             setUrlAvatar(url === "" ? defaultImage : url);
             setName(member.name);
         }
+        // eslint-disable-next-line
     }, [member])
 
     const userMenuOptions = (

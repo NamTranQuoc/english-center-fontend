@@ -18,9 +18,9 @@ let param = {
 
 const SchedulePage = () => {
     const dispatch = useDispatch();
-    const [id, setId] = useState(null);
-    const [distance, setDistance] = useState(0);
-    const [tookPlace, settTookPlace] = useState(false);
+    // const [id, setId] = useState(null);
+    // const [distance, setDistance] = useState(0);
+    // const [tookPlace, settTookPlace] = useState(false);
     const {items,} = useSelector(({schedule}) => schedule);
     const [showGenerateModal, setShowGenerateModal] = useState(false);
     const {rooms} = useSelector(({room}) => room);
@@ -53,9 +53,9 @@ const SchedulePage = () => {
     // }
 
     function showModalGenerate(value) {
-        settTookPlace(value.took_place);
-        setId(value.id);
-        setDistance(value.end - value.start);
+        // settTookPlace(value.took_place);
+        // setId(value.id);
+        // setDistance(value.end - value.start);
         form.setFieldsValue({
             name: value.title,
             teacher_name: getItemNameById(teachers, value.teacher_id),
