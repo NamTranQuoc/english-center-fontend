@@ -1,13 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Table, Tag} from "antd";
+import React, {useEffect} from "react";
+import {Card, Dropdown, Form, Input, Menu, Select, Table, Tag} from "antd";
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    getAllCourse,
-    getListDocument,
-    onSelectIndex,
-    onShowModal,
-} from "../../../appRedux/actions";
+import {getAllCourse, getListDocument,} from "../../../appRedux/actions";
 import {getFileURL, getItemNameById, getType} from "../../../util/ParseUtils";
 import {SearchOutlined} from "@ant-design/icons";
 import "./index.css";
@@ -26,10 +21,7 @@ let param = {
 const DocumentPage = () => {
     const dispatch = useDispatch();
     const {loaderTable, items, totalItems} = useSelector(({getList}) => getList);
-    const [action, setAction] = useState("edit");
     const {courses} = useSelector(({course}) => course);
-    const [file, setFile] = useState(null);
-    const [initFile, setInitFile] = useState(null);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -71,18 +63,8 @@ const DocumentPage = () => {
     const menus = (index) => (<Menu onClick={(e) => {
         if (e.key === "download") {
             window.open(getFileURL(items[index].path), "_self");
-        } else if(e.key === "copy") {
+        } else if (e.key === "copy") {
             navigator.clipboard.writeText(getFileURL(items[index].path));
-        } else {
-            setInitFile(null);
-            setFile(null);
-            if (e.key === 'delete') {
-                setAction("delete");
-            } else {
-                setAction("edit");
-            }
-            dispatch(onSelectIndex(index));
-            dispatch(onShowModal());
         }
     }}>
         <Menu.Item key="download"><IntlMessages id="table.download.document"/></Menu.Item>
