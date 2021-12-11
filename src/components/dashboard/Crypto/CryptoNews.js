@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, {useState} from "react";
 import {Radio} from "antd";
 
 import Widget from "components/Widget/index";

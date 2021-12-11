@@ -1,6 +1,4 @@
-import {
-    GET_ALL_TEACHERS_SUCCESS, GET_MEMBER_BY_TYPE_AND_STATUS_SUCCESS,
-} from '../../constants/ActionTypes'
+import {GET_ALL_TEACHERS_SUCCESS, GET_MEMBER_BY_TYPE_AND_STATUS_SUCCESS,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     teachers: [],

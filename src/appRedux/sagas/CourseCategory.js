@@ -1,18 +1,23 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
     ADD_COURSE_CATEGORY,
-    GET_ALL_COURSE_CATEGORY, GET_ALL_COURSE_CATEGORY_ADD,
-    GET_COURSE_CATEGORY, UPDATE_COURSE_CATEGORY, VIEW_COURSE_CATEGORY,
+    GET_ALL_COURSE_CATEGORY,
+    GET_ALL_COURSE_CATEGORY_ADD,
+    GET_COURSE_CATEGORY,
+    UPDATE_COURSE_CATEGORY,
+    VIEW_COURSE_CATEGORY,
 } from "../../constants/ActionTypes";
 import {
-    getAllSuccessCourseCategory, getAllSuccessCourseCategoryByStatus,
+    getAllSuccessCourseCategory,
+    getAllSuccessCourseCategoryByStatus,
     getListCourseCategory as getListCourseCategoryAction,
     getListSuccess,
     hideLoader,
     hideLoaderTable,
     onHideModal,
     showLoader,
-    showMessage, viewCourseCategorySuccess,
+    showMessage,
+    viewCourseCategorySuccess,
 } from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";

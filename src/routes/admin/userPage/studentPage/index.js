@@ -12,13 +12,15 @@ import {
     Popover,
     Row,
     Select,
+    Slider,
     Table,
     Tooltip
 } from "antd";
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addMember, exportMember,
+    addMember,
+    exportMember,
     getListMember,
     importUpdateScoreFile,
     onHideModal,
@@ -34,7 +36,6 @@ import moment from 'moment';
 import "../index.css";
 import DeleteModal from "./deleteModal";
 import Document from "../../../../components/uploadFile";
-import { Slider } from 'antd';
 
 moment.updateLocale('vi', {
     weekdaysMin: ["Cn", "T2", "T3", "T4", "T5", "T6", "T7"],

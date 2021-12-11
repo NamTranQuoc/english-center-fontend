@@ -8,12 +8,7 @@ import {
     UPLOAD_IMAGE
 } from "../../constants/ActionTypes";
 import {createNotification} from "../../components/Notification";
-import {
-    clearItems,
-    showLoader,
-    updateScoreByExcel,
-    userSignOut
-} from "../actions";
+import {clearItems, showLoader, updateScoreByExcel, userSignOut} from "../actions";
 import {storage} from "../../firebase/firebase";
 
 function* showNotificationGenerate({payload}) {
