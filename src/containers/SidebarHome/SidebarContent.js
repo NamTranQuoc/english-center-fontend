@@ -1,11 +1,12 @@
 import React from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Menu} from "antd";
 import {Link} from "react-router-dom";
 import IntlMessages from "../../util/IntlMessages";
 import SidebarLogo from "./SidebarLogo";
 import CustomScrollbars from "../../util/CustomScrollbars";
 import {getRoleCurrent} from "../../util/ParseUtils";
+import {selectSchedule} from "../../appRedux/actions";
 
 const SubMenu = Menu.SubMenu;
 
@@ -13,6 +14,7 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
     const {views} = useSelector(({courseCategory}) => courseCategory);
     const pathname = useSelector(({common}) => common.pathname);
     const roleCurrent = getRoleCurrent();
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -64,6 +66,13 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 <Link to="/home/exam_schedule">
                                     <i className="icon icon-hotel-booking"/>
                                     <span><IntlMessages id="sidebar.home.exam"/></span>
+                                </Link>
+                            </Menu.Item> : null }
+                        {roleCurrent === "teacher" ?
+                            <Menu.Item key="/home/muster">
+                                <Link to="/home/muster" onClick={() => {dispatch(selectSchedule(null));}}>
+                                    <i className="icon icon-check-square-o"/>
+                                    <span><IntlMessages id="sidebar.home.muster"/></span>
                                 </Link>
                             </Menu.Item> : null }
                     </Menu>

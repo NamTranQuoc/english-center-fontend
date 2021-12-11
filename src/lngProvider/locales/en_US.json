@@ -1,4 +1,7 @@
 {
+    "notification.not_during_muster_time": "Not during muster time",
+    "admin.user.student.table.absent": "Absent",
+    "sidebar.home.muster": "Muster",
     "sidebar.home.document": "Document",
     "admin.class.form.min_student": "Please enter min student",
     "view.course.outputScore": "Unspecified",

@@ -3,6 +3,10 @@ import {NotificationManager} from "react-notifications";
 import IntlMessages from "../../util/IntlMessages";
 
 const errors = {
+    not_during_muster_time: {
+        message: <IntlMessages id="notification.not_during_muster_time"/>,
+        type: "warning",
+    },
     document_extension_not_match: {
         message: <IntlMessages id="notification.document_extension_not_match"/>,
         type: "error",

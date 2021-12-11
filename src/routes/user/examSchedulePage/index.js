@@ -3,7 +3,9 @@ import {Button, Card, Col, DatePicker, Form, Input, Modal, Row, Select, Table, T
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getAllMemberByTypeAndStatus, getAllRooms, getAllRoomsByStatus,
+    getAllMemberByTypeAndStatus,
+    getAllRooms,
+    getAllRoomsByStatus,
     getListExamSchedule,
     registerExam,
 } from "../../../appRedux/actions";

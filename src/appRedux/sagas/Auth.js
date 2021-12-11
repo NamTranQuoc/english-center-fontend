@@ -3,7 +3,8 @@ import {
     CHANGE_PASSWORD,
     FORGET_PASSWORD,
     REQUEST_FORGET_PASSWORD,
-    RESET_PASSWORD, SIGNIN_FACEBOOK_USER,
+    RESET_PASSWORD,
+    SIGNIN_FACEBOOK_USER,
     SIGNIN_GOOGLE_USER,
     SIGNIN_USER,
     SIGNOUT_USER,
@@ -21,7 +22,7 @@ import {
 import axios from "axios";
 import {host} from "../store/Host";
 import {getRoleCurrent} from "../../util/ParseUtils";
-import {auth, googleAuthProvider, facebookAuthProvider} from "../../firebase/firebase";
+import {auth, facebookAuthProvider, googleAuthProvider} from "../../firebase/firebase";
 
 const INSTRUCTOR_API_URL = `${host}/auth`;
 

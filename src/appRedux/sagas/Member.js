@@ -1,13 +1,16 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
     ADD_MEMBER,
-    DELETE_MEMBER, EXPORT_MEMBER,
+    DELETE_MEMBER,
+    EXPORT_MEMBER,
     GET_ALL_TEACHERS,
     GET_CURRENT_MEMBER,
-    GET_MEMBER, GET_MEMBER_BY_TYPE_AND_STATUS,
+    GET_MEMBER,
+    GET_MEMBER_BY_TYPE_AND_STATUS,
     SIGNUP_USER,
     UPDATE_CURRENT_MEMBER,
-    UPDATE_MEMBER, UPDATE_SCORE_BY_EXCEL
+    UPDATE_MEMBER,
+    UPDATE_SCORE_BY_EXCEL
 } from "../../constants/ActionTypes";
 import axios from "axios";
 import {host} from "../store/Host";

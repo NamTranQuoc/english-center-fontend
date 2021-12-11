@@ -18,7 +18,8 @@ import {
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addClass, exportRegister,
+    addClass,
+    exportRegister,
     generateSchedule,
     getAllCourse,
     getAllCourseByStatus,
