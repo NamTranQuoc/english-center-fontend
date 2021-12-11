@@ -15,7 +15,12 @@ import {
     updateExamSchedule,
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import {getDateTime, getItemNameById, getStatusTagV2} from "../../../../util/ParseUtils";
+import {
+    getDateTime,
+    getItemNameById,
+    getLength,
+    getStatusTagV2, getStatusV2
+} from "../../../../util/ParseUtils";
 import moment from "moment";
 
 let param = {
@@ -112,7 +117,7 @@ const ExamSchedulePage = () => {
     }
 
     function onRegister(values) {
-        dispatch(registerExam(values.member, items[index]._id));
+        dispatch(registerExam(values.member, items[index]._id, param));
         onShowModalRegister(-1);
     }
 
@@ -338,6 +343,16 @@ const ExamSchedulePage = () => {
         dispatch(getListExamSchedule(param));
     }
 
+    function onFilterStatus(e) {
+        const statuses = Array.isArray(e) ? e.map((x) => x) : []
+        param = {
+            ...param,
+            statuses: statuses,
+            page: 1
+        }
+        dispatch(getListExamSchedule(param));
+    }
+
     function onFilterDate(dates) {
         if (dates !== null && dates[0] != null && dates[1] != null) {
             setStyle("370px");
@@ -374,6 +389,23 @@ const ExamSchedulePage = () => {
                              onClick={showModal}/>}
               className="gx-card">
             <Form layout="inline" style={{marginBottom: "10px", marginTop: "10px"}}>
+                <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
+                           name="genders"
+                           style={{marginLeft: "10px", marginRight: "10px"}}>
+                    <IntlMessages id="filter.select">
+                        {placeholder =>
+                            <Select mode="multiple"
+                                    style={{minWidth: "150px"}}
+                                    onChange={onFilterStatus}
+                                    placeholder={placeholder}>
+                                <Select.Option key="register" value="register">{getStatusV2("register")}</Select.Option>
+                                <Select.Option key="coming" value="coming">{getStatusV2("coming")}</Select.Option>
+                                <Select.Option key="cancel" value="cancel">{getStatusV2("cancel")}</Select.Option>
+                                <Select.Option key="finish" value="finish">{getStatusV2("finish")}</Select.Option>
+                            </Select>
+                        }
+                    </IntlMessages>
+                </Form.Item>
                 <Form.Item label={<IntlMessages id="sidebar.managerUser.receptionist"/>}
                            name="memberIds"
                            style={{marginLeft: "10px", marginRight: "10px"}}>
@@ -495,6 +527,14 @@ const ExamSchedulePage = () => {
                                key: "min_quantity",
                                title: <IntlMessages id="admin.user.examRegistrations.table.min"/>,
                                dataIndex: "min_quantity",
+                               width: 100,
+                               sorter: true,
+                           },
+                           {
+                               key: "min_quantity",
+                               title: <IntlMessages id="admin.user.examRegistrations.table.current"/>,
+                               dataIndex: "student_ids",
+                               render: (student_ids) => getLength(student_ids),
                                width: 100,
                                sorter: true,
                            },
