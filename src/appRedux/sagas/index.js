@@ -12,6 +12,7 @@ import scheduleSagas from "./Schedule";
 import examScheduleSagas from "./ExamSchedule";
 import reportSagas from "./Report";
 import registerSagas from "./Register"
+import absentSagas from "./Absent"
 
 export default function* rootSaga(getState) {
     yield all([
@@ -28,5 +29,6 @@ export default function* rootSaga(getState) {
         examScheduleSagas(),
         reportSagas(),
         registerSagas(),
+        absentSagas(),
     ]);
 }

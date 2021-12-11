@@ -2,12 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Button, Card, Col, DatePicker, Form, Input, Modal, Row} from "antd";
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllRooms, getAllTeachers, getSchedule} from "../../../appRedux/actions";
+import {getAllRooms, getAllTeachers, getSchedule, selectSchedule} from "../../../appRedux/actions";
 import {Calendar, momentLocalizer} from 'react-big-calendar'
 import moment from 'moment';
 import "./index.css";
 import {useForm} from "antd/es/form/Form";
 import {getItemNameById, getRoleCurrent} from "../../../util/ParseUtils";
+import {Redirect, useHistory} from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -18,15 +19,16 @@ let param = {
 
 const SchedulePage = () => {
     const dispatch = useDispatch();
-    // const [id, setId] = useState(null);
+    const [id, setId] = useState(null);
     // const [distance, setDistance] = useState(0);
-    // const [tookPlace, settTookPlace] = useState(false);
+    const [tookPlace, settTookPlace] = useState(false);
     const {items,} = useSelector(({schedule}) => schedule);
     const [showGenerateModal, setShowGenerateModal] = useState(false);
     const {rooms} = useSelector(({room}) => room);
     const {teachers} = useSelector(({teacher}) => teacher);
     const [form] = useForm();
     const roleCurrent = getRoleCurrent();
+    const history = useHistory();
 
     useEffect(() => {
         let start = moment().startOf('month').startOf('week');
@@ -53,8 +55,12 @@ const SchedulePage = () => {
     // }
 
     function showModalGenerate(value) {
-        // settTookPlace(value.took_place);
-        // setId(value.id);
+        settTookPlace(value.took_place);
+        if (showGenerateModal) {
+            dispatch(selectSchedule(null));
+        } else {
+            dispatch(selectSchedule(value.id));
+        }
         // setDistance(value.end - value.start);
         form.setFieldsValue({
             name: value.title,
@@ -73,7 +79,11 @@ const SchedulePage = () => {
             visible={showGenerateModal}
             footer={roleCurrent !== "teacher" ?
                 <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
-                    id="admin.user.form.save"/>}</Button> : null
+                    id="admin.user.form.save"/>}</Button> : <Button type="primary" onClick={() => {
+                        history.push("/home/muster");
+                    }
+                }>{<IntlMessages
+                    id="sidebar.home.muster"/>}</Button>
             }
             onCancel={showModalGenerate}
             centered

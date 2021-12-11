@@ -1,3 +1,4 @@
+export * from "./Absent";
 export * from "./Class";
 export * from './Setting';
 export * from './Auth';

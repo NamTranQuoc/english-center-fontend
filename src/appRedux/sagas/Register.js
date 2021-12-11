@@ -1,11 +1,11 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
     ADD_REGISTER, DELETE_REGISTER, EXPORT_REGISTER,
-    GET_REGISTER,
+    GET_REGISTER, GET_STUDENT_BY_CLASSROOM,
     UPDATE_REGISTER,
 } from "../../constants/ActionTypes";
 import {
-    getListRegister,
+    getListRegister, getListStudentByClassroomSuccess,
     getListSuccess,
     hideLoader,
     hideLoaderTable,
@@ -213,6 +213,46 @@ const ExportExcelRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* getListStudentSaga() {
+    yield takeEvery(GET_STUDENT_BY_CLASSROOM, getListStudentGenerate);
+}
+
+function* getListStudentGenerate({payload}) {
+    try {
+        const response = yield call(getListStudentRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getListStudentByClassroomSuccess(response.data.payload.map(item => {
+                return {
+                    ...item,
+                    selected: false
+                }
+            })));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    } finally {
+        yield put(hideLoaderTable());
+    }
+}
+
+const getListStudentRequest = async (payload) =>
+    await axios({
+        method: "POST",
+        url: `${INSTRUCTOR_API_URL}/gets_by_class`,
+        data: {
+            session: payload.session,
+            keyword: payload.keyword,
+            classroom_id: payload.classroom_id,
+        },
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
 
 export default function* rootSaga() {
     yield all([
@@ -221,5 +261,6 @@ export default function* rootSaga() {
         fork(updateRegister),
         fork(deleteRegister),
         fork(ExportExcel),
+        fork(getListStudentSaga),
     ]);
 }

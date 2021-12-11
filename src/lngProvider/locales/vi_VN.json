@@ -1,4 +1,7 @@
 {
+    "notification.not_during_muster_time": "Không trong thời gian điểm danh",
+    "admin.user.student.table.absent": "Vắng",
+    "sidebar.home.muster": "Điểm danh",
     "sidebar.home.document": "Tài liệu",
     "admin.class.form.min_student": "Vui lòng nhập số học viên tối thiểu",
     "view.course.outputScore": "Không xác định",

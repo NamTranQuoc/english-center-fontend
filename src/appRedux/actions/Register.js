@@ -2,7 +2,7 @@ import {
     ADD_REGISTER,
     DELETE_REGISTER,
     EXPORT_REGISTER,
-    GET_REGISTER,
+    GET_REGISTER, GET_STUDENT_BY_CLASSROOM, GET_STUDENT_BY_CLASSROOM_SUCCESS,
     UPDATE_REGISTER
 } from "../../constants/ActionTypes";
 
@@ -10,6 +10,20 @@ import {
 export const getListRegister = (param) => {
     return {
         type: GET_REGISTER,
+        payload: param
+    };
+};
+
+export const getListStudentByClassroom = (param) => {
+    return {
+        type: GET_STUDENT_BY_CLASSROOM,
+        payload: param
+    };
+};
+
+export const getListStudentByClassroomSuccess = (param) => {
+    return {
+        type: GET_STUDENT_BY_CLASSROOM_SUCCESS,
         payload: param
     };
 };
