@@ -147,6 +147,22 @@ const errors = {
         message: <IntlMessages id="notification.unsubscribe_timeout"/>,
         type: "error",
     },
+    register_not_in_time_register: {
+        message: <IntlMessages id="notification.register_not_in_time_register"/>,
+        type: "error",
+    },
+    register_already: {
+        message: <IntlMessages id="notification.register_already"/>,
+        type: "error",
+    },
+    success_register: {
+        message: <IntlMessages id="notification.success_register"/>,
+        type: "success",
+    },
+    exam_schedule_conflict: {
+        message: <IntlMessages id="notification.exam_schedule_conflict"/>,
+        type: "error",
+    },
 };
 
 export function createNotification(message) {

@@ -40,12 +40,13 @@ export const deleteExamSchedule = (id, param) => {
     };
 };
 
-export const registerExam = (member, exam_id) => {
+export const registerExam = (member, exam_id, param) => {
     return {
         type: REGISTER_EXAM_SCHEDULE,
         payload: {
             member: member,
-            exam_id: exam_id
+            exam_id: exam_id,
+            param: param
         }
     };
 };
