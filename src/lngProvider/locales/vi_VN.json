@@ -264,5 +264,13 @@
     "admin.status.totalRegister" : "Số lượng ghi danh",
     "admin.status.countRegister" : "Tổng số lượng ghi danh",
     "admin.status.totalMoney" : "Học phí đã thu",
-    "admin.status.countMoney" : "Tổng học phí đã thu"
+    "admin.status.countMoney" : "Tổng học phí đã thu",
+    "admin.user.examRegistrations.table.current" : "Số lượng hiện tại",
+    "sidebar.home.exam" : "Lịch kiểm tra",
+    "notification.register_not_in_time_register" : "Đã quá thời gian đăng ký",
+    "notification.register_already" : "Bạn đã đăng ký lịch thi này",
+    "notification.success_register" : "Đăng ký thi thành công",
+    "notification.exam_schedule_conflict" : "Bạn đã có lịch thi trong thời gian này",
+    "admin.user.form.registerExam" : "Đăng ký",
+    "admin.user.exam.title" : "LỊCH KIỂM TRA"
 }

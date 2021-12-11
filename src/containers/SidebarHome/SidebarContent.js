@@ -59,6 +59,13 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 <span><IntlMessages id="sidebar.home.document"/></span>
                             </Link>
                         </Menu.Item> : null }
+                        {roleCurrent === "student" ?
+                            <Menu.Item key="/home/exam_schedule">
+                                <Link to="/home/exam_schedule">
+                                    <i className="icon icon-hotel-booking"/>
+                                    <span><IntlMessages id="sidebar.home.exam"/></span>
+                                </Link>
+                            </Menu.Item> : null }
                     </Menu>
                 </CustomScrollbars>
             </div>

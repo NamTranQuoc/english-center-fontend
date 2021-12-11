@@ -9,6 +9,7 @@ const App = () => (
             <Route exact path="/home" component={asyncComponent(() => import('./homePage'))}/>
             <Route path="/home/schedule" component={asyncComponent(() => import('./schedulePage'))}/>
             <Route path="/home/document" component={asyncComponent(() => import('./documentPage'))}/>
+            <Route path="/home/exam_schedule" component={asyncComponent(() => import('./examSchedulePage'))}/>
         </Switch>
     </div>
 );
