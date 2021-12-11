@@ -1,10 +1,5 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {
-    ADD_CLASS,
-    GET_ALL_CLASS_BY_COURSE,
-    GET_CLASS,
-    UPDATE_CLASS,
-} from "../../constants/ActionTypes";
+import {ADD_CLASS, GET_ALL_CLASS_BY_COURSE, GET_CLASS, UPDATE_CLASS,} from "../../constants/ActionTypes";
 import {
     getAllSuccessClassByCourseId,
     getListClass as getListClassAction,

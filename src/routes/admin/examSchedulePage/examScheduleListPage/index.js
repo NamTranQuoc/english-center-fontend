@@ -3,7 +3,8 @@ import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, 
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addExamSchedule, exportExam,
+    addExamSchedule,
+    exportExam,
     getAllMemberByTypeAndStatus,
     getAllRooms,
     getAllRoomsByStatus,
@@ -15,12 +16,7 @@ import {
     updateExamSchedule,
 } from "../../../../appRedux/actions";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
-import {
-    getDateTime,
-    getItemNameById,
-    getLength,
-    getStatusTagV2, getStatusV2
-} from "../../../../util/ParseUtils";
+import {getDateTime, getItemNameById, getLength, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import moment from "moment";
 
 let param = {

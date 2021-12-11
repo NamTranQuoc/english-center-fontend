@@ -7,7 +7,8 @@ import {
     getListCourseCategory,
     onHideModal,
     onSelectIndex,
-    onShowModal, updateCourseCategory,
+    onShowModal,
+    updateCourseCategory,
 } from "../../../../appRedux/actions";
 import {getDate, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";

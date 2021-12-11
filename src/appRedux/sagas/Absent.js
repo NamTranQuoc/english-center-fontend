@@ -1,12 +1,6 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {GET_STUDENT_ABSENT, SAVE_ABSENT,} from "../../constants/ActionTypes";
-import {
-    getListStudentAbsentSuccess,
-    getListStudentByClassroomSuccess, hideLoader,
-    hideLoaderTable,
-    showLoader,
-    showMessage
-} from "../actions";
+import {getListStudentAbsentSuccess, hideLoader, hideLoaderTable, showLoader, showMessage} from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
 

@@ -3,8 +3,10 @@ import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Tabl
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addRegister, exportRegister,
-    getAllClassByCourseId, getAllCourseByCategoryId,
+    addRegister,
+    exportRegister,
+    getAllClassByCourseId,
+    getAllCourseByCategoryId,
     getAllCourseCategoryByStatus,
     getListRegister,
     onHideModal,

@@ -8,7 +8,7 @@ import moment from 'moment';
 import "./index.css";
 import {useForm} from "antd/es/form/Form";
 import {getItemNameById, getRoleCurrent} from "../../../util/ParseUtils";
-import {Redirect, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,9 +19,6 @@ let param = {
 
 const SchedulePage = () => {
     const dispatch = useDispatch();
-    const [id, setId] = useState(null);
-    // const [distance, setDistance] = useState(0);
-    const [tookPlace, settTookPlace] = useState(false);
     const {items,} = useSelector(({schedule}) => schedule);
     const [showGenerateModal, setShowGenerateModal] = useState(false);
     const {rooms} = useSelector(({room}) => room);
@@ -55,7 +52,6 @@ const SchedulePage = () => {
     // }
 
     function showModalGenerate(value) {
-        settTookPlace(value.took_place);
         if (showGenerateModal) {
             dispatch(selectSchedule(null));
         } else {

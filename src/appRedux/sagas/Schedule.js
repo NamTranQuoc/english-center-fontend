@@ -1,6 +1,6 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {GENERATE_SCHEDULE, GET_SCHEDULE, UPDATE_SCHEDULE} from "../../constants/ActionTypes";
-import {getScheduleSuccess, hideLoader, showLoader, showMessage, getSchedule as getScheduleAction} from "../actions";
+import {getSchedule as getScheduleAction, getScheduleSuccess, hideLoader, showLoader, showMessage} from "../actions";
 import axios from "axios";
 import {host} from "../store/Host";
 

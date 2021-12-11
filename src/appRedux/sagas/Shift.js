@@ -1,13 +1,10 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
-import {
-    ADD_SHIFT, GET_ALL_SHIFT,
-    GET_SHIFT,
-    UPDATE_SHIFT,
-} from "../../constants/ActionTypes";
+import {ADD_SHIFT, GET_ALL_SHIFT, GET_SHIFT, UPDATE_SHIFT,} from "../../constants/ActionTypes";
 import {
     getAllSuccessShift,
     getListShift as getListShiftAction,
-    getListSuccess, hideLoader,
+    getListSuccess,
+    hideLoader,
     hideLoaderTable,
     onHideModal,
     showLoader,
