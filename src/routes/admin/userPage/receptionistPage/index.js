@@ -3,7 +3,8 @@ import {Button, Card, Col, DatePicker, Dropdown, Form, Input, Menu, Modal, Row, 
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addMember, exportMember,
+    addMember,
+    exportMember,
     getListMember,
     onHideModal,
     onSelectIndex,

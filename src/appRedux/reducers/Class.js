@@ -1,6 +1,4 @@
-import {
-    GET_ALL_CLASS_BY_COURSE, GET_ALL_CLASS_BY_COURSE_SUCCESS,
-} from '../../constants/ActionTypes'
+import {GET_ALL_CLASS_BY_COURSE, GET_ALL_CLASS_BY_COURSE_SUCCESS,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     classByCourseId: []

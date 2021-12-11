@@ -4,7 +4,8 @@ import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addCourse,
-    getAllCourseCategory, getAllCourseCategoryByStatus,
+    getAllCourseCategory,
+    getAllCourseCategoryByStatus,
     getListCourse,
     onHideModal,
     onSelectIndex,

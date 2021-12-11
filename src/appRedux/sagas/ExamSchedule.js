@@ -1,6 +1,7 @@
 import {all, call, fork, put, takeEvery} from "redux-saga/effects";
 import {
-    ADD_EXAM_SCHEDULE, EXPORT_EXAM_SCHEDULE,
+    ADD_EXAM_SCHEDULE,
+    EXPORT_EXAM_SCHEDULE,
     GET_EXAM_SCHEDULE,
     REGISTER_EXAM_SCHEDULE,
     UPDATE_EXAM_SCHEDULE,
@@ -50,7 +51,8 @@ const getListExamScheduleRequest = async (payload) =>
             start_time: payload.start_time,
             end_time: payload.end_time,
             member_ids: payload.member_ids,
-            room_ids: payload.room_ids
+            room_ids: payload.room_ids,
+            statuses: payload.statuses,
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -164,7 +166,8 @@ function* registerExamScheduleGenerate({payload}) {
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
-            yield put(showMessage("success_add"));
+            yield put(showMessage("success_register"));
+            yield put(getListExamScheduleAction(payload.param));
         }
     } catch (error) {
         yield put(showMessage(error));

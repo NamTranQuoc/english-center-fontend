@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Form, Input, Select} from "antd";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import moment from 'moment';
 
 import {useDispatch} from "react-redux";
@@ -8,7 +8,6 @@ import {userSignUp} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
 import {getGender, getImageURL} from "../util/ParseUtils";
-import {useHistory} from "react-router-dom";
 
 const SignUp = () => {
     const dispatch = useDispatch();

@@ -1,7 +1,9 @@
 import {
     ADD_EXAM_SCHEDULE,
-    DELETE_EXAM_SCHEDULE, EXPORT_EXAM_SCHEDULE,
-    GET_EXAM_SCHEDULE, REGISTER_EXAM_SCHEDULE,
+    DELETE_EXAM_SCHEDULE,
+    EXPORT_EXAM_SCHEDULE,
+    GET_EXAM_SCHEDULE,
+    REGISTER_EXAM_SCHEDULE,
     UPDATE_EXAM_SCHEDULE
 } from "../../constants/ActionTypes";
 
@@ -40,12 +42,13 @@ export const deleteExamSchedule = (id, param) => {
     };
 };
 
-export const registerExam = (member, exam_id) => {
+export const registerExam = (member, exam_id, param) => {
     return {
         type: REGISTER_EXAM_SCHEDULE,
         payload: {
             member: member,
-            exam_id: exam_id
+            exam_id: exam_id,
+            param: param
         }
     };
 };

@@ -1,4 +1,4 @@
-import {GET_ALL_SHIFT_SUCCESS, GET_ALL_SHIFT,} from '../../constants/ActionTypes'
+import {GET_ALL_SHIFT, GET_ALL_SHIFT_SUCCESS,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
     shifts: []

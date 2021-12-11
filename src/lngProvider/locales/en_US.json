@@ -1,4 +1,7 @@
 {
+    "notification.not_during_muster_time": "Not during muster time",
+    "admin.user.student.table.absent": "Absent",
+    "sidebar.home.muster": "Muster",
     "sidebar.home.document": "Document",
     "admin.class.form.min_student": "Please enter min student",
     "view.course.outputScore": "Unspecified",
@@ -265,5 +268,12 @@
     "admin.class.form.end": "Please select end time",
     "admin.class.form.start": "Please select start time",
     "admin.class.form.teacher_id": "Please select teacher",
-    "admin.class.form.room": "Please select room"
+    "admin.class.form.room": "Please select room",
+    "admin.user.examRegistrations.table.current" : "Current quantity",
+    "sidebar.home.exam" : "Exam Schedule",
+    "notification.register_not_in_time_register" : "The registration time has passed",
+    "notification.register_already" : "You are registered",
+    "notification.exam_schedule_conflict" : "You have an exam schedule during this time",
+    "admin.user.form.registerExam" : "Register",
+    "admin.user.exam.title" : "EXAM SCHEDULE"
 }
