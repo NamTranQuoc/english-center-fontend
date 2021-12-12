@@ -282,5 +282,13 @@
     "notification.register_already" : "You are registered",
     "notification.exam_schedule_conflict" : "You have an exam schedule during this time",
     "admin.user.form.registerExam" : "Register",
-    "admin.user.exam.title" : "EXAM SCHEDULE"
+    "admin.user.exam.title" : "EXAM SCHEDULE",
+    "admin.course.table.opening" : "Opening",
+    "admin.course.table.schedule" : "Schedule",
+    "admin.course.table.time" : "Time",
+    "admin.course.table.quantity" : "Quantity",
+    "notification.please_login" : "Please login to register",
+    "notification.class_registered" : "You are registered this class",
+    "notification.success_register" : "Successful registration for the exam",
+    "notification.success_register_class" : "successful registration"
 }

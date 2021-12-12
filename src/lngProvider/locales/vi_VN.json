@@ -282,5 +282,12 @@
     "notification.success_register" : "Đăng ký thi thành công",
     "notification.exam_schedule_conflict" : "Bạn đã có lịch thi trong thời gian này",
     "admin.user.form.registerExam" : "Đăng ký",
-    "admin.user.exam.title" : "LỊCH KIỂM TRA"
+    "admin.user.exam.title" : "LỊCH KIỂM TRA",
+    "admin.course.table.opening" : "Khai giảng",
+    "admin.course.table.schedule" : "Lịch học",
+    "admin.course.table.time" : "Thời gian",
+    "admin.course.table.quantity" : "Sỉ số",
+    "notification.please_login" : "Vui lòng đăng nhập để đăng ký",
+    "notification.class_registered" : "Bạn đã đăng ký lớp học này",
+    "notification.success_register_class" : "Ghi danh thành công"
 }

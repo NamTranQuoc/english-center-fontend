@@ -1,7 +1,8 @@
-import {GET_ALL_CLASS_BY_COURSE, GET_ALL_CLASS_BY_COURSE_SUCCESS,} from '../../constants/ActionTypes'
+import {GET_ALL_CLASS_BY_COURSE, GET_ALL_CLASS_BY_COURSE_SUCCESS, SAVE_COURSE_NAME,} from '../../constants/ActionTypes'
 
 const INIT_STATE = {
-    classByCourseId: []
+    classByCourseId: [],
+    CourseNameSelect: null,
 };
 
 const ClassReducer = (state = INIT_STATE, action) => {
@@ -16,6 +17,12 @@ const ClassReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 classByCourseId: action.payload,
+            }
+        }
+        case SAVE_COURSE_NAME: {
+            return {
+                ...state,
+                CourseNameSelect: action.payload.name,
             }
         }
         default:

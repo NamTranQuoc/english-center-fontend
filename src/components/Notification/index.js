@@ -175,6 +175,18 @@ const errors = {
         message: <IntlMessages id="notification.exam_schedule_conflict"/>,
         type: "error",
     },
+    please_login: {
+        message: <IntlMessages id="notification.please_login"/>,
+        type: "error",
+    },
+    class_registered: {
+        message: <IntlMessages id="notification.class_registered"/>,
+        type: "error",
+    },
+    success_register_class: {
+        message: <IntlMessages id="notification.success_register_class"/>,
+        type: "success",
+    },
 };
 
 export function createNotification(message) {
