@@ -44,7 +44,7 @@ const RestrictedRouteHome = ({component: Component, location, authUser, pathname
     <Route
         {...rest}
         render={props =>
-            (pathname === "/home/schedule" || pathname === "/home/document") && authUser === null
+            (pathname === "/home/schedule" || pathname === "/home/document" || pathname === "/home/exam_schedule" || pathname === "/home/muster") && authUser === null
                 ? <Redirect
                     to={{
                         pathname: '/home',
@@ -133,7 +133,9 @@ const App = () => {
         } else {
             if (pathname === '/signin' || pathname === '/signup' || pathname === '/request_forget_password' || pathname.substring(0, 16) === '/forget_password') {
                 history.push(pathname);
-            } else if (pathname === "/home/schedule" || pathname === "/home/document" || pathname === "/home/exam_schedule" || pathname === "/home/muster") {
+            } else if (pathname === "/home/schedule" || pathname === "/home/document" || pathname === "/home/exam_schedule"
+                || pathname === "/home/muster"
+                || pathname === "/home/register") {
                 history.push(pathname);
                 dispatch(toggleCollapsedSideNav(false));
             } else if (pathname === '/' || pathname === '' || pathname === '/home') {

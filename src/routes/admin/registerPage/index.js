@@ -105,7 +105,6 @@ const RegisterPage = () => {
                 status: values.status,
                 class_id: classId,
             }
-            console.log(values);
             dispatch(updateRegister(values, param));
         } else {
             if (classId !== null) {

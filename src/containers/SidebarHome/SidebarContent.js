@@ -6,7 +6,7 @@ import IntlMessages from "../../util/IntlMessages";
 import SidebarLogo from "./SidebarLogo";
 import CustomScrollbars from "../../util/CustomScrollbars";
 import {getRoleCurrent} from "../../util/ParseUtils";
-import {selectSchedule} from "../../appRedux/actions";
+import {getAllClassByCourseId, saveCourseName, selectSchedule} from "../../appRedux/actions";
 
 const SubMenu = Menu.SubMenu;
 
@@ -39,7 +39,10 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
                                 return <SubMenu title={item.name}>
                                     {item.courses.map(subItem => {
                                         return <Menu.Item key={subItem.id}>
-                                            <Link to="/register">
+                                            <Link to="/home/register" onClick={() => {
+                                                dispatch(getAllClassByCourseId(subItem.id));
+                                                dispatch(saveCourseName(subItem.name));
+                                            }}>
                                                 {subItem.name}
                                             </Link>
                                         </Menu.Item>
