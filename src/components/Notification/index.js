@@ -3,6 +3,18 @@ import {NotificationManager} from "react-notifications";
 import IntlMessages from "../../util/IntlMessages";
 
 const errors = {
+    success_register_absent: {
+        message: <IntlMessages id="notification.success_register_absent"/>,
+        type: "success",
+    },
+    absent_exist: {
+        message: <IntlMessages id="notification.absent_exist"/>,
+        type: "warning",
+    },
+    cannot_register_absent: {
+        message: <IntlMessages id="notification.cannot_register_absent"/>,
+        type: "warning",
+    },
     not_during_muster_time: {
         message: <IntlMessages id="notification.not_during_muster_time"/>,
         type: "warning",

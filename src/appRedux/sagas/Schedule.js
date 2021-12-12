@@ -21,16 +21,9 @@ function* getsScheduleGenerate({payload}) {
         } else {
             yield put(getScheduleSuccess(response.data.payload.map(item => {
                 return {
-                    id: item.id,
-                    teacher_id: item.teacher_id,
-                    room_id: item.room_id,
-                    title: item.title,
+                    ...item,
                     start: new Date(item.start),
                     end: new Date(item.end),
-                    session: item.session,
-                    max_student: item.max_student,
-                    course_id: item.course_id,
-                    took_place: item.took_place
                 }
             })));
         }

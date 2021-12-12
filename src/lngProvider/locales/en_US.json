@@ -1,4 +1,11 @@
 {
+    "notification.success_register_absent": "Success register for absent",
+    "notification.absent_exist": "Registered to make up for this session",
+    "notification.cannot_register_absent": "Cannot register for absent",
+    "admin.user.form.absent": "Register absent",
+    "admin.classroom.form.name": "Please select classroom",
+    "admin.user.form.absent.detail": "Select absent class",
+    "admin.user.muster.title": "Muster",
     "notification.not_during_muster_time": "Not during muster time",
     "admin.user.student.table.absent": "Absent",
     "sidebar.home.muster": "Muster",

@@ -44,7 +44,7 @@ const RestrictedRouteHome = ({component: Component, location, authUser, pathname
     <Route
         {...rest}
         render={props =>
-            (pathname === "/home/schedule" || pathname === "/home/document") && authUser === null
+            (pathname === "/home/schedule" || pathname === "/home/document" || pathname === "/home/exam_schedule" || pathname === "/home/muster") && authUser === null
                 ? <Redirect
                     to={{
                         pathname: '/home',

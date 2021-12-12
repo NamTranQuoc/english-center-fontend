@@ -1,8 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, DatePicker, Form, Input, Modal, Row} from "antd";
+import {Button, Card, Col, DatePicker, Form, Input, Modal, Row, Select} from "antd";
 import IntlMessages from "../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllRooms, getAllTeachers, getSchedule, selectSchedule} from "../../../appRedux/actions";
+import {
+    getAllRooms,
+    getAllTeachers,
+    getListClassAbsent,
+    getSchedule,
+    registerAbsent,
+    selectSchedule
+} from "../../../appRedux/actions";
 import {Calendar, momentLocalizer} from 'react-big-calendar'
 import moment from 'moment';
 import "./index.css";
@@ -21,11 +28,15 @@ const SchedulePage = () => {
     const dispatch = useDispatch();
     const {items,} = useSelector(({schedule}) => schedule);
     const [showGenerateModal, setShowGenerateModal] = useState(false);
+    const [showAbsent, setShowAbsent] = useState(false);
     const {rooms} = useSelector(({room}) => room);
     const {teachers} = useSelector(({teacher}) => teacher);
     const [form] = useForm();
     const roleCurrent = getRoleCurrent();
     const history = useHistory();
+    const [id, setId] = useState(-1);
+    const {classAbsent} = useSelector(({absent}) => absent);
+    const [isAbsent, setIsAbsent] = useState(false);
 
     useEffect(() => {
         let start = moment().startOf('month').startOf('week');
@@ -54,10 +65,13 @@ const SchedulePage = () => {
     function showModalGenerate(value) {
         if (showGenerateModal) {
             dispatch(selectSchedule(null));
+            setId(-1);
         } else {
             dispatch(selectSchedule(value.id));
+            setId(value.id);
         }
         // setDistance(value.end - value.start);
+        setIsAbsent(value.is_absent);
         form.setFieldsValue({
             name: value.title,
             teacher_name: getItemNameById(teachers, value.teacher_id),
@@ -67,15 +81,80 @@ const SchedulePage = () => {
             session: value.session
         })
         setShowGenerateModal(!showGenerateModal);
+        setShowAbsent(false);
     }
+
+    function onShowModalAbsent() {
+        if (!showAbsent) {
+            dispatch(getListClassAbsent(id));
+        }
+        setShowAbsent(!showAbsent);
+    }
+
+    function onSubmitAbsent(values) {
+        dispatch(registerAbsent({
+            schedule_id: id,
+            classroom_id: values.id,
+            param: param
+        }));
+        onShowModalAbsent();
+        setShowGenerateModal(!showGenerateModal);
+        dispatch(selectSchedule(null));
+        setId(-1);
+    }
+
+    const modalAbsent = () => (
+        <Modal
+            title={<IntlMessages id="admin.user.form.absent.detail"/>}
+            visible={showAbsent && !isAbsent}
+            footer={<Button type="primary" form="absent_modal" htmlType="submit">{<IntlMessages
+                id="admin.user.form.save"/>}</Button>
+            }
+            onCancel={onShowModalAbsent}
+            centered
+            width={400}>
+            <Form
+                onFinish={onSubmitAbsent}
+                id="absent_modal">
+                <Row>
+                    <Col span={24}>
+                        <Form.Item
+                            label={<IntlMessages id="admin.user.class.table.name"/>}
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: <IntlMessages id="admin.classroom.form.name"/>,
+                                },
+                            ]}
+                            name="id">
+                            <Select
+                                showSearch
+                                filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {classAbsent.map(item => {
+                                    return <Select.Option value={item._id}>{item.name}</Select.Option>
+                                })}
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+        </Modal>
+    )
 
     const modalGenerate = () => (
         <Modal
             title={<IntlMessages id="admin.user.form.schedule.detail"/>}
             visible={showGenerateModal}
             footer={roleCurrent !== "teacher" ?
-                <Button type="primary" form="add-edit-form" htmlType="submit">{<IntlMessages
-                    id="admin.user.form.save"/>}</Button> : <Button type="primary" onClick={() => {
+                <Button type="primary" onClick={() => {
+                    onShowModalAbsent();
+                }}>{<IntlMessages
+                    id="admin.user.form.absent"/>}</Button> : <Button type="primary" onClick={() => {
                         history.push("/home/muster");
                     }
                 }>{<IntlMessages
@@ -192,6 +271,7 @@ const SchedulePage = () => {
                 defaultDate={new Date()}
             />
             {showGenerateModal && modalGenerate()}
+            {showAbsent && !isAbsent && modalAbsent()}
         </Card>
     );
 };
