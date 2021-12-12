@@ -36,7 +36,7 @@ const MusterPage = () => {
     }
 
     return (
-        <Card title={<h2><IntlMessages id="admin.user.register.title"/></h2>}
+        <Card title={<h2><IntlMessages id="admin.user.muster.title"/></h2>}
               extra={<Button type={"primary"} onClick={onSubmit}><IntlMessages id="admin.user.form.save"/></Button>}
               className="gx-card">
             <IntlMessages id="table.search">

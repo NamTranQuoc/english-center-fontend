@@ -1,4 +1,11 @@
 {
+    "notification.success_register_absent": "Đăng ký học bù thành công",
+    "notification.absent_exist": "Đã đăng ký học bù cho buổi học này",
+    "notification.cannot_register_absent": "Không thể đăng ký học bù",
+    "admin.user.form.absent": "Đăng ký học bù",
+    "admin.classroom.form.name": "Vui lòng chọn lơp học",
+    "admin.user.form.absent.detail": "Chọn lớp học bù",
+    "admin.user.muster.title": "Điểm danh",
     "notification.not_during_muster_time": "Không trong thời gian điểm danh",
     "admin.user.student.table.absent": "Vắng",
     "sidebar.home.muster": "Điểm danh",
