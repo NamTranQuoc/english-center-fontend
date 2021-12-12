@@ -162,9 +162,6 @@ const getAllShiftRequest = async () =>
     await axios({
         method: "GET",
         url: `${INSTRUCTOR_API_URL}/get_all`,
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem('token'),
-        }
     }).then(response => response)
         .catch(error => error)
 

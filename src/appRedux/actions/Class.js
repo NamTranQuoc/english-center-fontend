@@ -2,7 +2,7 @@ import {
     ADD_CLASS,
     GET_ALL_CLASS_BY_COURSE,
     GET_ALL_CLASS_BY_COURSE_SUCCESS,
-    GET_CLASS,
+    GET_CLASS, SAVE_COURSE_NAME,
     UPDATE_CLASS
 } from "../../constants/ActionTypes";
 
@@ -43,5 +43,14 @@ export const getAllSuccessClassByCourseId = (param) => {
     return {
         type: GET_ALL_CLASS_BY_COURSE_SUCCESS,
         payload: param
+    };
+};
+
+export const saveCourseName = (name) => {
+    return {
+        type: SAVE_COURSE_NAME,
+        payload: {
+            name: name,
+        }
     };
 };
