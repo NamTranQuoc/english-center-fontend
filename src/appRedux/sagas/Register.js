@@ -81,7 +81,7 @@ function* addRegisterGenerate({payload}) {
                     field: "_id"
                 },
             }));
-            yield put(showMessage("success_add"));
+            yield put(showMessage("success_register_class"));
         }
     } catch (error) {
         yield put(showMessage(error));

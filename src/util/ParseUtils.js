@@ -127,3 +127,12 @@ export function getDateTime(timestamp) {
 export function getLength(listItem) {
     return listItem.length;
 }
+
+export function getTimeOfShift(listItem, id) {
+    for (let i = 0; i < listItem.length; i++) {
+        if (listItem[i]._id === id) {
+            return listItem[i].from + " → " + listItem[i].to;
+        }
+    }
+    return "-";
+}
