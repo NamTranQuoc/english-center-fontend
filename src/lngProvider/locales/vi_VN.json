@@ -1,4 +1,9 @@
 {
+    "notification.classroom_exist": "Tên lớp học đã tồn tại",
+    "notification.room_exist": "Tên phòng học đã tồn tại",
+    "notification.shift_exist": "Tên ca học đã tồn tại",
+    "notification.course_exist": "Tên khóa học đã tồn tài",
+    "notification.category_course_exist": "Tên chương trình học đã tồn tại",
     "notification.success_register_absent": "Đăng ký học bù thành công",
     "notification.absent_exist": "Đã đăng ký học bù cho buổi học này",
     "notification.cannot_register_absent": "Không thể đăng ký học bù",

@@ -213,13 +213,6 @@ const ShiftPage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
-                               title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
-                               width: 250,
-                               sorter: true
-                           },
-                           {
                                key: "name",
                                title: <IntlMessages id="admin.user.shift.table.name"/>,
                                dataIndex: "name",
