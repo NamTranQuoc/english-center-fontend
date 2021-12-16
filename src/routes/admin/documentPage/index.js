@@ -318,15 +318,15 @@ const CourseCategoryPage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
+                               key: "code",
                                title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
+                               dataIndex: "code",
                                width: 250,
                                sorter: true
                            },
                            {
                                key: "name",
-                               title: <IntlMessages id="admin.categoryCourse.table.name"/>,
+                               title: <IntlMessages id="admin.document.table.name"/>,
                                dataIndex: "name",
                                width: 250,
                                sorter: true

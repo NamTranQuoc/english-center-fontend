@@ -222,13 +222,6 @@ const CourseCategoryPage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
-                               title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
-                               width: 250,
-                               sorter: true
-                           },
-                           {
                                key: "name",
                                title: <IntlMessages id="admin.categoryCourse.table.name"/>,
                                dataIndex: "name",
@@ -240,7 +233,7 @@ const CourseCategoryPage = () => {
                                title: <IntlMessages id="admin.categoryCourse.table.status"/>,
                                dataIndex: "status",
                                render: (status) => getStatusTagV2(status),
-                               width: 100,
+                               width: 150,
                                sorter: true,
                            },
                            {

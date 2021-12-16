@@ -12,7 +12,7 @@ import {
     onShowModal,
     updateCourse,
 } from "../../../../appRedux/actions";
-import {getItemNameById, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
+import {getItemNameById, getMoney, getStatusTagV2, getStatusV2} from "../../../../util/ParseUtils";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import "../index.css";
 import DeleteModal from "./deleteModal";
@@ -363,13 +363,6 @@ const CoursePage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
-                               title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
-                               width: 250,
-                               sorter: true
-                           },
-                           {
                                key: "name",
                                title: <IntlMessages id="admin.course.table.name"/>,
                                dataIndex: "name",
@@ -396,17 +389,18 @@ const CoursePage = () => {
                                title: <IntlMessages id="admin.course.table.tuition"/>,
                                dataIndex: "tuition",
                                width: 120,
+                               render: (tuition) => getMoney(tuition),
                                sorter: true
                            },
                            {
-                               key: "tuition",
+                               key: "input_score",
                                title: <IntlMessages id="admin.course.table.input_score"/>,
                                dataIndex: "input_score",
                                width: 120,
                                sorter: true
                            },
                            {
-                               key: "tuition",
+                               key: "output_score",
                                title: <IntlMessages id="admin.course.table.output_score"/>,
                                dataIndex: "output_score",
                                width: 120,
@@ -417,7 +411,7 @@ const CoursePage = () => {
                                title: <IntlMessages id="admin.categoryCourse.table.status"/>,
                                dataIndex: "status",
                                render: (status) => getStatusTagV2(status),
-                               width: 120,
+                               width: 150,
                                sorter: true
                            },
                            {
