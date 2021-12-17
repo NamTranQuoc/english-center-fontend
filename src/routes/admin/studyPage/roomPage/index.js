@@ -225,14 +225,14 @@ const RoomPage = () => {
                                key: "name",
                                title: <IntlMessages id="admin.user.room.table.name"/>,
                                dataIndex: "name",
-                               width: 200,
+                               width: 350,
                                sorter: true
                            },
                            {
                                key: "from",
                                title: <IntlMessages id="admin.user.room.table.capacity"/>,
                                dataIndex: "capacity",
-                               width: 125,
+                               width: 220,
                                sorter: true,
                            },
                            {
@@ -240,7 +240,7 @@ const RoomPage = () => {
                                title: <IntlMessages id="admin.categoryCourse.table.status"/>,
                                dataIndex: "status",
                                render: (status) => <Tag color={status === "ACTIVE" ? "blue" : "red"}>{getStatus(status)}</Tag>,
-                               width: 100,
+                               width: 220,
                                sorter: true,
                            },
                            {
