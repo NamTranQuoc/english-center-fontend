@@ -3,9 +3,14 @@ import {Button} from "antd";
 
 import IntlMessages from "util/IntlMessages";
 import {getMoney} from "../../../../util/ParseUtils";
+import {getAllClassByCourseId, saveCourseName} from "../../../../appRedux/actions";
+import {useDispatch} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 const PriceItem = (props) => {
     const item = props.props;
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     function getInputScore() {
         if (item.input_score === null || item.input_score === 0) {
@@ -53,7 +58,11 @@ const PriceItem = (props) => {
                     </li>
                 </ul>
                 <div className="gx-package-footer">
-                    <Button type="primary" className="gx-btn-block gx-btn-yellow">
+                    <Button type="primary" className="gx-btn-block gx-btn-yellow" onClick={() => {
+                        dispatch(getAllClassByCourseId(item.id));
+                        dispatch(saveCourseName(item.name));
+                        history.push("/home/register");
+                    }}>
                         <IntlMessages id="admin.user.form.register"/>
                     </Button>
                 </div>

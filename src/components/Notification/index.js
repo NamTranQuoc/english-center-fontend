@@ -3,6 +3,38 @@ import {NotificationManager} from "react-notifications";
 import IntlMessages from "../../util/IntlMessages";
 
 const errors = {
+    classroom_exist: {
+        message: <IntlMessages id="notification.classroom_exist"/>,
+        type: "warning",
+    },
+    room_exist: {
+        message: <IntlMessages id="notification.room_exist"/>,
+        type: "warning",
+    },
+    shift_exist: {
+        message: <IntlMessages id="notification.shift_exist"/>,
+        type: "warning",
+    },
+    course_exist: {
+        message: <IntlMessages id="notification.course_exist"/>,
+        type: "warning",
+    },
+    category_course_exist: {
+        message: <IntlMessages id="notification.category_course_exist"/>,
+        type: "warning",
+    },
+    success_register_absent: {
+        message: <IntlMessages id="notification.success_register_absent"/>,
+        type: "success",
+    },
+    absent_exist: {
+        message: <IntlMessages id="notification.absent_exist"/>,
+        type: "warning",
+    },
+    cannot_register_absent: {
+        message: <IntlMessages id="notification.cannot_register_absent"/>,
+        type: "warning",
+    },
     not_during_muster_time: {
         message: <IntlMessages id="notification.not_during_muster_time"/>,
         type: "warning",
