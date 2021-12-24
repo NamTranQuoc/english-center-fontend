@@ -1,4 +1,5 @@
 {
+    "notification.input_score_not_enough": "Điểm đầu vào không đủ",
     "notification.classroom_exist": "Tên lớp học đã tồn tại",
     "notification.room_exist": "Tên phòng học đã tồn tại",
     "notification.shift_exist": "Tên ca học đã tồn tại",
