@@ -216,21 +216,21 @@ const ShiftPage = () => {
                                key: "name",
                                title: <IntlMessages id="admin.user.shift.table.name"/>,
                                dataIndex: "name",
-                               width: 200,
+                               width: 350,
                                sorter: true
                            },
                            {
                                key: "from",
                                title: <IntlMessages id="admin.user.shift.table.from"/>,
                                dataIndex: "from",
-                               width: 125,
+                               width: 220,
                                sorter: true,
                            },
                            {
                                key: "to",
                                title: <IntlMessages id="admin.user.shift.table.to"/>,
                                dataIndex: "to",
-                               width: 125,
+                               width: 220,
                                sorter: true
                            },
                            {
