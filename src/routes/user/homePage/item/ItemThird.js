@@ -16,7 +16,7 @@ const PriceItem = (props) => {
         if (item.input_score === null || item.input_score === 0) {
             return <b><IntlMessages id="view.course.inputScore"/></b>
         } else {
-            return <b>{item.output_score}</b>
+            return <b>{item.input_score}</b>
         }
     }
 
@@ -24,7 +24,7 @@ const PriceItem = (props) => {
         if (item.input_score === null || item.input_score === 0) {
             return <b><IntlMessages id="view.course.outputScore"/></b>
         } else {
-            return <b>{item.input_score}</b>
+            return <b>{item.output_score}</b>
         }
     }
 
