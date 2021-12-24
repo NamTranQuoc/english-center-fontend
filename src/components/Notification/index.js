@@ -3,6 +3,10 @@ import {NotificationManager} from "react-notifications";
 import IntlMessages from "../../util/IntlMessages";
 
 const errors = {
+    input_score_not_enough: {
+        message: <IntlMessages id="notification.input_score_not_enough"/>,
+        type: "warning",
+    },
     classroom_exist: {
         message: <IntlMessages id="notification.classroom_exist"/>,
         type: "warning",
