@@ -207,7 +207,6 @@ const SchedulePage = () => {
                 events={items}
                 onSelectEvent={event => showModalGenerate(event)}
                 onRangeChange={range => {
-                    console.log(range)
                     if (range.hasOwnProperty("end")) {
                         param = {
                             from_date: range.start.getTime(),

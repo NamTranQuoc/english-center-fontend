@@ -52,7 +52,6 @@ const InsideHeader = () => {
     const updateSearchChatUser = (evt) => {
         setSearchText(evt.target.value)
     };
-    console.log(width);
 
     return (
         <div className="gx-header-horizontal gx-header-horizontal-dark gx-inside-header-horizontal">

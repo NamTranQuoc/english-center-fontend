@@ -63,7 +63,8 @@ const ModalUpdateMember = () => {
                     guardian_relationship: member.guardian.relationship,
                     guardian_phone_number: member.guardian.phone_number,
                     guardian_name: member.guardian.name,
-                    status: member.status
+                    status: member.status,
+                    nick_name: member.nick_name
                 };
             }
         } else {
