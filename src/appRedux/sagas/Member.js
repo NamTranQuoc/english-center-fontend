@@ -332,15 +332,6 @@ function* updateScoreByExcelGenerate({payload}) {
         } else if (response.data.code !== 9999) {
             yield put(showMessage(response.data.message));
         } else {
-            yield put(getListMemberAction({
-                page: 1,
-                size: 10,
-                sort: {
-                    is_asc: false,
-                    field: "_id"
-                },
-                types: ["student"],
-            }));
             yield put(showMessage("success_update"));
         }
     } catch (error) {

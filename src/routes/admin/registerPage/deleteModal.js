@@ -17,10 +17,8 @@ const DeleteModal = (props) => {
         }
     })
     const onSubmit = () => {
-        console.log(data[selectIndex]._id, items[selectIndex].class_id);
         dispatch(deleteRegister(data[selectIndex]._id, items[selectIndex].class_id, props.param));
     }
-    console.log(props.action);
     return (
         <Modal
             title={<IntlMessages id="admin.user.form.student.title"/>}

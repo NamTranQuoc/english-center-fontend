@@ -290,7 +290,7 @@ function* signInUserWithFacebook() {
         if (signUpUser.message) {
             yield put(showMessage(signUpUser.message));
         } else {
-            console.log(signUpUser.user);
+
         }
     } catch (error) {
         yield put(showMessage(error));

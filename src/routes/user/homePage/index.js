@@ -26,7 +26,6 @@ const HomePage = () => {
                 })}
             </Carousel>
             {views.map(item => {
-                console.log(item.name);
                 return <ItemCard item={item.courses} title={item.name}/>
             })}
         </>
