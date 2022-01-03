@@ -31,7 +31,6 @@ const PriceItem = (props) => {
         if (authUser === null) {
             dispatch(showMessage("please_login"));
         } else {
-            console.log(getMemberIdCurrent());
             const values = {
                 student_id: getMemberIdCurrent(),
                 status: "unpaid",
@@ -43,7 +42,6 @@ const PriceItem = (props) => {
     }
 
     const getInitValueModal = () => {
-        console.log(getDow(item.dow));
         return {
             name: item.name,
             opening: getDate(item.start_date),

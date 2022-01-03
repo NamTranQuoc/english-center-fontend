@@ -97,7 +97,7 @@ const errors = {
     },
     confirm_password_incorrect: {
         message: <IntlMessages id="notification.confirm_password_incorrect"/>,
-        type: "success",
+        type: "warning",
     },
     check_mail: {
         message: <IntlMessages id="notification.check_mail"/>,

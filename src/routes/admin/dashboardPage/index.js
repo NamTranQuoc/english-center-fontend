@@ -29,10 +29,6 @@ const DashBoardPage = () => {
         // eslint-disable-next-line
     }, [])
 
-    useEffect(() => {
-        console.log(actionRecent);
-    }, [actionRecent])
-
     return (
         <Auxiliary>
             <Row>

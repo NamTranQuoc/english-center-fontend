@@ -5,7 +5,6 @@ import ItemSecond from "./ItemSecond";
 import ItemThird from "./ItemThird";
 
 function ItemCard(props) {
-    console.log(props);
     return (
         <Card title={props.title} headStyle={{textAlign: "center", fontSize: "30px", backgroundColor: "#ffe18b"}}>
             <div className="gx-price-tables gx-pt-circle">
