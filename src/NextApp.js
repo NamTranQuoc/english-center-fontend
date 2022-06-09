@@ -7,6 +7,7 @@ import "styles/wieldy.less";
 import configureStore, {history} from './appRedux/store';
 import "./firebase/firebase";
 import App from "./containers/App/index";
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 const store = configureStore(/* provide initial state if any */);
 

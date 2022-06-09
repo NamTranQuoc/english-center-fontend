@@ -25,6 +25,7 @@ import CircularProgress from "../../components/CircularProgress";
 import {getRoleCurrent} from "../../util/ParseUtils";
 import RequestForgetPassword from "../ResquestForgetPassword";
 import ForgetPassword from "../ForgetPassword";
+import {Helmet} from "react-helmet";
 
 const RestrictedRoute = ({component: Component, location, authUser, ...rest}) =>
     <Route
@@ -176,7 +177,8 @@ const App = () => {
                     <Route exact path="/request_forget_password" component={RequestForgetPassword}/>
                     <Route path="/forget_password" component={ForgetPassword}/>
                     <RestrictedRoute path="/admin" authUser={authUser} location={location} component={MainApp}/>
-                    <RestrictedRouteHome path="/home" authUser={authUser} location={location} pathname={pathname} component={HomeApp}/>
+                    <RestrictedRouteHome path="/home" authUser={authUser} location={location} pathname={pathname}
+                                         component={HomeApp}/>
                 </Switch>
             </IntlProvider>
             <IntlProvider
@@ -184,6 +186,38 @@ const App = () => {
                 messages={currentAppLocale.messages}>
                 <NotificationContainer/>
             </IntlProvider>
+            <!-- Messenger Plugin chat Code -->
+            <div id="fb-root"></div>
+
+            <!-- Your Plugin chat code -->
+            <div id="fb-customer-chat" class="fb-customerchat">
+            </div>
+
+            <Helmet>
+                <script>
+                    var chatbox = document.getElementById('fb-customer-chat');
+                    chatbox.setAttribute("page_id", "111398824929944");
+                    chatbox.setAttribute("attribution", "biz_inbox");
+                </script>
+
+                <!-- Your SDK code -->
+                <script>
+                    window.fbAsyncInit = function() {
+                    FB.init({
+                        xfbml: true,
+                        version: 'v14.0'
+                    });
+                };
+
+                    (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+                </script>
+            </Helmet>
         </ConfigProvider>
     )
 };
