@@ -25,7 +25,7 @@ import CircularProgress from "../../components/CircularProgress";
 import {getRoleCurrent} from "../../util/ParseUtils";
 import RequestForgetPassword from "../ResquestForgetPassword";
 import ForgetPassword from "../ForgetPassword";
-import {Helmet} from "react-helmet";
+import Script from 'next/script';
 
 const RestrictedRoute = ({component: Component, location, authUser, ...rest}) =>
     <Route
@@ -188,34 +188,31 @@ const App = () => {
             </IntlProvider>
             <div id="fb-root"></div>
 
-            <div id="fb-customer-chat" class="fb-customerchat">
+            <div id="fb-customer-chat" className="fb-customerchat">
             </div>
 
-            <Helmet>
-                <script>
-                    var chatbox = document.getElementById('fb-customer-chat');
-                    chatbox.setAttribute("page_id", "111398824929944");
-                    chatbox.setAttribute("attribution", "biz_inbox");
-                </script>
+            <Script strategy="lazyOnload">
+                {`
+            var chatbox = document.getElementById('fb-customer-chat');
+  chatbox.setAttribute("page_id", "111398824929944");
+  chatbox.setAttribute("attribution", "biz_inbox");
 
-                <!-- Your SDK code -->
-                <script>
-                    window.fbAsyncInit = function() {
-                    FB.init({
-                        xfbml: true,
-                        version: 'v14.0'
-                    });
-                };
+             window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v14.0'
+    });
+  };
 
-                    (function(d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-                </script>
-            </Helmet>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+        `}
+            </Script>
         </ConfigProvider>
     )
 };
