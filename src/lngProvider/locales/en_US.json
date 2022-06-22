@@ -296,5 +296,6 @@
     "notification.please_login" : "Please login to register",
     "notification.class_registered" : "You are registered this class",
     "notification.success_register" : "Successful registration for the exam",
-    "notification.success_register_class" : "successful registration"
+    "notification.success_register_class" : "successful registration",
+    "admin.course.table.suggest": "Next course"
 }
