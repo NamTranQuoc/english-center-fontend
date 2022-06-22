@@ -295,5 +295,6 @@
     "admin.course.table.quantity" : "Sỉ số",
     "notification.please_login" : "Vui lòng đăng nhập để đăng ký",
     "notification.class_registered" : "Bạn đã đăng ký lớp học này",
-    "notification.success_register_class" : "Ghi danh thành công"
+    "notification.success_register_class" : "Ghi danh thành công",
+    "admin.course.table.suggest": "Khóa học tiếp theo"
 }
