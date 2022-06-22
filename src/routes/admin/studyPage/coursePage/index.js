@@ -145,7 +145,8 @@ const CoursePage = () => {
                 category_course_id: items[selectIndex].category_course_id,
                 input_score: items[selectIndex].input_score,
                 output_score: items[selectIndex].output_score,
-                status: items[selectIndex].status
+                status: items[selectIndex].status,
+                suggest: items[selectIndex].suggest !== null ? items[selectIndex].suggest : []
             };
         } else {
             return {
