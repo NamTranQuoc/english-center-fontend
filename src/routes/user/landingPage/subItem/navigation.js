@@ -1,68 +1,206 @@
+import React from "react";
+import IntlMessages from "../../../../util/IntlMessages";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getRoleCurrent} from "../../../../util/ParseUtils";
+import {Menu, Popover} from "antd";
+import {
+    getAllClassByCourseId,
+    saveCourseName,
+    selectSchedule,
+    switchLanguage,
+    toggleCollapsedSideNav
+} from "../../../../appRedux/actions";
+import UserInfo from "../../../../components/UserInfo";
+import languageData from "../../../../containers/Topbar/languageData";
+import {NAV_STYLE_DRAWER, NAV_STYLE_FIXED, NAV_STYLE_MINI_SIDEBAR} from "../../../../constants/ThemeSetting";
+
+const SubMenu = Menu.SubMenu;
+
 export const Navigation = (props) => {
+    const {views} = useSelector(({courseCategory}) => courseCategory);
+    const pathname = useSelector(({common}) => common.pathname);
+    const roleCurrent = getRoleCurrent();
+    const dispatch = useDispatch();
+    const {locale, navStyle} = useSelector(({settings}) => settings);
+
+    const languageMenu = () => (
+        <ul className="gx-sub-popover">
+            {languageData.map(language =>
+                <li className="gx-media gx-pointer" key={JSON.stringify(language)} onClick={() =>
+                    dispatch(switchLanguage(language))
+                }>
+                    <i className={`flag flag-24 gx-mr-2 flag-${language.icon}`}/>
+                    <span className="gx-language-text">{language.name}</span>
+                </li>
+            )}
+        </ul>);
+
     return (
         <nav id='menu' className='navbar navbar-default navbar-fixed-top'>
-            <div className='container'>
-                <div className='navbar-header'>
-                    <button
-                        type='button'
-                        className='navbar-toggle collapsed'
-                        data-toggle='collapse'
-                        data-target='#bs-example-navbar-collapse-1'
-                    >
-                        {' '}
-                        <span className='sr-only'>Toggle navigation</span>{' '}
-                        <span className='icon-bar'></span>{' '}
-                        <span className='icon-bar'></span>{' '}
-                        <span className='icon-bar'></span>{' '}
-                    </button>
-                    <a className='navbar-brand page-scroll' href='#page-top'>
-                        React Landing Page
-                    </a>{' '}
-                </div>
+        <div className="gx-container">
+            <div className="gx-header-horizontal-main-flex">
+                <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
+                    <img alt="" src="/assets/images/w-logo.png"/></Link>
+                <Link to="/" className="gx-d-none gx-d-lg-block gx-pointer gx-mr-xs-5 gx-logo">
+                    <img alt="" src="/assets/images/logo.png"/></Link>
 
-                <div
-                    className='collapse navbar-collapse'
-                    id='bs-example-navbar-collapse-1'
+                <Menu
+                    defaultOpenKeys={["/home"]}
+                    selectedKeys={[pathname]}
+                    mode="horizontal"
                 >
-                    <ul className='nav navbar-nav navbar-right'>
-                        <li>
-                            <a href='#features' className='page-scroll'>
-                                Features
-                            </a>
-                        </li>
-                        <li>
-                            <a href='#about' className='page-scroll'>
-                                About
-                            </a>
-                        </li>
-                        <li>
-                            <a href='#services' className='page-scroll'>
-                                Services
-                            </a>
-                        </li>
-                        <li>
-                            <a href='#portfolio' className='page-scroll'>
-                                Gallery
-                            </a>
-                        </li>
-                        <li>
-                            <a href='#testimonials' className='page-scroll'>
-                                Testimonials
-                            </a>
-                        </li>
-                        <li>
-                            <a href='#team' className='page-scroll'>
-                                Team
-                            </a>
-                        </li>
-                        <li>
-                            <a href='#contact' className='page-scroll'>
-                                Contact
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+
+                    <Menu.Item key="/home">
+                        <Link to="/home">
+                            <span><IntlMessages id="sidebar.home"/></span>
+                        </Link>
+                    </Menu.Item>
+                    <SubMenu key="SubMenu" title={
+                        <span><IntlMessages id="admin.course.table.type"/></span>}>
+                        {views.map((item) => {
+                            return <SubMenu title={item.name}>
+                                {item.courses.map(subItem => {
+                                    return <Menu.Item key={subItem.id}>
+                                        <Link to="/home/register" onClick={() => {
+                                            dispatch(getAllClassByCourseId(subItem.id));
+                                            dispatch(saveCourseName(subItem.name));
+                                        }}>
+                                            {subItem.name}
+                                        </Link>
+                                    </Menu.Item>
+                                })}
+                            </SubMenu>
+                        })}
+                    </SubMenu>
+                    {roleCurrent === "teacher" || roleCurrent === "student" ?
+                        <Menu.Item key="/home/schedule">
+                            <Link to="/home/schedule">
+                                <span><IntlMessages id="sidebar.managerStudy.schedule"/></span>
+                            </Link>
+                        </Menu.Item> : null }
+                    {roleCurrent === "teacher" || roleCurrent === "student" ?
+                        <Menu.Item key="/home/document">
+                            <Link to="/home/document">
+                                <span><IntlMessages id="sidebar.home.document"/></span>
+                            </Link>
+                        </Menu.Item> : null }
+                    {roleCurrent === "student" ?
+                        <Menu.Item key="/home/exam_schedule">
+                            <Link to="/home/exam_schedule">
+                                <span><IntlMessages id="sidebar.home.exam"/></span>
+                            </Link>
+                        </Menu.Item> : null }
+                    {roleCurrent === "teacher" ?
+                        <Menu.Item key="/home/muster">
+                            <Link to="/home/muster" onClick={() => {dispatch(selectSchedule(null));}}>
+                                <span><IntlMessages id="sidebar.home.muster"/></span>
+                            </Link>
+                        </Menu.Item> : null }
+                </Menu>
+
+                <ul className="gx-header-notifications gx-ml-auto">
+                    <li className="gx-language">
+                        <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
+                                 content={languageMenu()}
+                                 trigger="click">
+                                <span className="gx-pointer gx-flex-row gx-align-items-center">
+                                      <i className={`flag flag-24 flag-${locale.icon}`}/>
+                                      <span className="gx-pl-2 gx-language-name">{locale.name}</span>
+                                      <i className="icon icon-chevron-down gx-pl-2"/>
+                                </span>
+                        </Popover>
+                    </li>
+                    <li className="gx-user-nav"><UserInfo/></li>
+                </ul>
             </div>
+        </div>
         </nav>
+        // <nav id='menu' className='navbar navbar-default navbar-fixed-top'>
+        //     <div className='container'>
+        //         <div className='navbar-header'>
+        //             <button
+        //                 type='button'
+        //                 className='navbar-toggle collapsed'
+        //                 data-toggle='collapse'
+        //                 data-target='#bs-example-navbar-collapse-1'
+        //             >
+        //                 {' '}
+        //                 <span className='sr-only'>Toggle navigation</span>{' '}
+        //                 <span className='icon-bar'></span>{' '}
+        //                 <span className='icon-bar'></span>{' '}
+        //                 <span className='icon-bar'></span>{' '}
+        //             </button>
+        //             <img alt="lo" src={("/assets/images/w-logo.png")}/>
+        //         </div>
+        //
+        //             <Menu
+        //                 defaultOpenKeys={["/home"]}
+        //                 selectedKeys={[pathname]}
+        //                 mode="horizontal">
+        //
+        //                 <Menu.Item key="/home">
+        //                     <Link to="/home">
+        //                         <span><IntlMessages id="sidebar.home"/></span>
+        //                     </Link>
+        //                 </Menu.Item>
+        //                 <SubMenu key="SubMenu" title={
+        //                         <span><IntlMessages id="admin.course.table.type"/></span>}>
+        //                     {views.map((item) => {
+        //                         return <SubMenu title={item.name}>
+        //                             {item.courses.map(subItem => {
+        //                                 return <Menu.Item key={subItem.id}>
+        //                                     <Link to="/home/register" onClick={() => {
+        //                                         dispatch(getAllClassByCourseId(subItem.id));
+        //                                         dispatch(saveCourseName(subItem.name));
+        //                                     }}>
+        //                                         {subItem.name}
+        //                                     </Link>
+        //                                 </Menu.Item>
+        //                             })}
+        //                         </SubMenu>
+        //                     })}
+        //                 </SubMenu>
+        //                 {roleCurrent === "teacher" || roleCurrent === "student" ?
+        //                     <Menu.Item key="/home/schedule">
+        //                         <Link to="/home/schedule">
+        //                             <span><IntlMessages id="sidebar.managerStudy.schedule"/></span>
+        //                         </Link>
+        //                     </Menu.Item> : null }
+        //                 {roleCurrent === "teacher" || roleCurrent === "student" ?
+        //                     <Menu.Item key="/home/document">
+        //                         <Link to="/home/document">
+        //                             <span><IntlMessages id="sidebar.home.document"/></span>
+        //                         </Link>
+        //                     </Menu.Item> : null }
+        //                 {roleCurrent === "student" ?
+        //                     <Menu.Item key="/home/exam_schedule">
+        //                         <Link to="/home/exam_schedule">
+        //                             <span><IntlMessages id="sidebar.home.exam"/></span>
+        //                         </Link>
+        //                     </Menu.Item> : null }
+        //                 {roleCurrent === "teacher" ?
+        //                     <Menu.Item key="/home/muster">
+        //                         <Link to="/home/muster" onClick={() => {dispatch(selectSchedule(null));}}>
+        //                             <span><IntlMessages id="sidebar.home.muster"/></span>
+        //                         </Link>
+        //                     </Menu.Item> : null }
+        //             </Menu>
+        //
+        //             <ul className="gx-header-notifications gx-ml-auto">
+        //                 <li className="gx-language">
+        //                     <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
+        //                              content={languageMenu()}
+        //                              trigger="click">
+        //                         <span className="gx-pointer gx-flex-row gx-align-items-center">
+        //                               <i className={`flag flag-24 flag-${locale.icon}`}/>
+        //                               <span className="gx-pl-2 gx-language-name">{locale.name}</span>
+        //                               <i className="icon icon-chevron-down gx-pl-2"/>
+        //                         </span>
+        //                     </Popover>
+        //                 </li>
+        //                 <li className="gx-user-nav"><UserInfo/></li>
+        //             </ul>
+        //         </div>
     )
 }
