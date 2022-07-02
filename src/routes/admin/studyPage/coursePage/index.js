@@ -3,7 +3,7 @@ import {Button, Card, Col, Dropdown, Form, Input, Menu, Modal, Row, Select, Tabl
 import IntlMessages from "../../../../util/IntlMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addCourse,
+    addCourse, getAllCourse,
     getAllCourseCategory,
     getAllCourseCategoryByStatus,
     getListCourse,
@@ -37,6 +37,7 @@ const CoursePage = () => {
     const {courseCategories} = useSelector(({courseCategory}) => courseCategory);
     const [desc, setDesc] = useState(null);
     const {courseCategoriesAdd} = useSelector(({courseCategory}) => courseCategory);
+    const {courses} = useSelector(({course}) => course);
 
     function onChange(pagination, filters, sorter) {
         if (sorter != null && sorter.columnKey != null && sorter.order != null) {
@@ -77,6 +78,7 @@ const CoursePage = () => {
 
     useEffect(() => {
         dispatch(getListCourse(param));
+        dispatch(getAllCourse());
         dispatch(getAllCourseCategory())
         dispatch(getAllCourseCategoryByStatus("active"));
         // eslint-disable-next-line
@@ -87,6 +89,7 @@ const CoursePage = () => {
     }
 
     function onSubmit(course) {
+        console.log(course);
         if (selectIndex !== -1) {
             course = {
                 ...course,
@@ -142,7 +145,8 @@ const CoursePage = () => {
                 category_course_id: items[selectIndex].category_course_id,
                 input_score: items[selectIndex].input_score,
                 output_score: items[selectIndex].output_score,
-                status: items[selectIndex].status
+                status: items[selectIndex].status,
+                suggest: items[selectIndex].suggest !== null ? items[selectIndex].suggest : []
             };
         } else {
             return {
@@ -247,7 +251,7 @@ const CoursePage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col span={6}>
+                <Col span={12}>
                     <Form.Item
                         label={<IntlMessages id="admin.course.table.input_score"/>}
                         labelCol={{span: 24}}
@@ -262,7 +266,7 @@ const CoursePage = () => {
                         <Input placeholder="300"/>
                     </Form.Item>
                 </Col>
-                <Col span={6}>
+                <Col span={12}>
                     <Form.Item
                         label={<IntlMessages id="admin.course.table.output_score"/>}
                         labelCol={{span: 24}}
@@ -271,6 +275,8 @@ const CoursePage = () => {
                         <Input placeholder="550"/>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row>
                 <Col span={12}>
                     <Form.Item label={<IntlMessages id="admin.categoryCourse.table.status"/>}
                                name="status"
@@ -285,6 +291,23 @@ const CoursePage = () => {
                         <Select>
                             <Select.Option value="active">{getStatusV2("active")}</Select.Option>
                             <Select.Option value="shutdown">{getStatusV2("shutdown")}</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item label={<IntlMessages id="admin.course.table.suggest"/>}
+                               name="suggest"
+                               labelCol={{span: 24}}
+                               wrapperCol={{span: 24}}>
+                        <Select
+                            mode={"multiple"}
+                            showSearch
+                            filterOption={(input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }>
+                            {courses.map(item => {
+                                return <Select.Option value={item._id}>{item.name}</Select.Option>
+                            })}
                         </Select>
                     </Form.Item>
                 </Col>

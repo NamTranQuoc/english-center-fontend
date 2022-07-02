@@ -152,7 +152,6 @@ const StudentPage = () => {
     }
 
     function onSubmit(member) {
-        console.log(member);
         if (selectIndex !== -1) {
             member = {
                 ...member,
@@ -221,7 +220,8 @@ const StudentPage = () => {
                 guardian_relationship: items[selectIndex].guardian.relationship,
                 guardian_phone_number: items[selectIndex].guardian.phone_number,
                 guardian_name: items[selectIndex].guardian.name,
-                status: items[selectIndex].status
+                status: items[selectIndex].status,
+                nick_name: items[selectIndex].nick_name
             };
         } else {
             return {

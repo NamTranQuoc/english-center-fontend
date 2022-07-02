@@ -107,7 +107,8 @@ const addCourseRequest = async (payload) =>
             description: payload.description,
             input_score: payload.input_score,
             output_score: payload.output_score,
-            status: payload.status
+            status: payload.status,
+            suggest: payload.suggest
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
@@ -152,7 +153,8 @@ const updateCourseRequest = async (payload) =>
             description: payload.description,
             input_score: payload.input_score,
             output_score: payload.output_score,
-            status: payload.status
+            status: payload.status,
+            suggest: payload.suggest
         },
         headers: {
             Authorization: "Bearer " + localStorage.getItem('token'),
