@@ -4,7 +4,7 @@ import {
     GET_ALL_COURSE_ADD_SUCCESS,
     GET_ALL_COURSE_BY_CATEGORY,
     GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
-    GET_ALL_COURSE_SUCCESS,
+    GET_ALL_COURSE_SUCCESS, GET_COURSE_SUGGEST,
 } from '../../constants/ActionTypes'
 
 const INIT_STATE = {
@@ -49,6 +49,12 @@ const CourseReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 coursesByCategoryId: action.payload,
+            }
+        }
+        case GET_COURSE_SUGGEST: {
+            return {
+                ...state,
+                courses: []
             }
         }
         default:
