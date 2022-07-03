@@ -14,6 +14,7 @@ import {
 import UserInfo from "../../../../components/UserInfo";
 import languageData from "../../../../containers/Topbar/languageData";
 import {NAV_STYLE_DRAWER, NAV_STYLE_FIXED, NAV_STYLE_MINI_SIDEBAR} from "../../../../constants/ThemeSetting";
+import Sidebar from "../../../../containers/SidebarHome";
 
 const SubMenu = Menu.SubMenu;
 
@@ -116,91 +117,7 @@ export const Navigation = (props) => {
             </div>
         </div>
         </nav>
-        // <nav id='menu' className='navbar navbar-default navbar-fixed-top'>
-        //     <div className='container'>
-        //         <div className='navbar-header'>
-        //             <button
-        //                 type='button'
-        //                 className='navbar-toggle collapsed'
-        //                 data-toggle='collapse'
-        //                 data-target='#bs-example-navbar-collapse-1'
-        //             >
-        //                 {' '}
-        //                 <span className='sr-only'>Toggle navigation</span>{' '}
-        //                 <span className='icon-bar'></span>{' '}
-        //                 <span className='icon-bar'></span>{' '}
-        //                 <span className='icon-bar'></span>{' '}
-        //             </button>
-        //             <img alt="lo" src={("/assets/images/w-logo.png")}/>
-        //         </div>
-        //
-        //             <Menu
-        //                 defaultOpenKeys={["/home"]}
-        //                 selectedKeys={[pathname]}
-        //                 mode="horizontal">
-        //
-        //                 <Menu.Item key="/home">
-        //                     <Link to="/home">
-        //                         <span><IntlMessages id="sidebar.home"/></span>
-        //                     </Link>
-        //                 </Menu.Item>
-        //                 <SubMenu key="SubMenu" title={
-        //                         <span><IntlMessages id="admin.course.table.type"/></span>}>
-        //                     {views.map((item) => {
-        //                         return <SubMenu title={item.name}>
-        //                             {item.courses.map(subItem => {
-        //                                 return <Menu.Item key={subItem.id}>
-        //                                     <Link to="/home/register" onClick={() => {
-        //                                         dispatch(getAllClassByCourseId(subItem.id));
-        //                                         dispatch(saveCourseName(subItem.name));
-        //                                     }}>
-        //                                         {subItem.name}
-        //                                     </Link>
-        //                                 </Menu.Item>
-        //                             })}
-        //                         </SubMenu>
-        //                     })}
-        //                 </SubMenu>
-        //                 {roleCurrent === "teacher" || roleCurrent === "student" ?
-        //                     <Menu.Item key="/home/schedule">
-        //                         <Link to="/home/schedule">
-        //                             <span><IntlMessages id="sidebar.managerStudy.schedule"/></span>
-        //                         </Link>
-        //                     </Menu.Item> : null }
-        //                 {roleCurrent === "teacher" || roleCurrent === "student" ?
-        //                     <Menu.Item key="/home/document">
-        //                         <Link to="/home/document">
-        //                             <span><IntlMessages id="sidebar.home.document"/></span>
-        //                         </Link>
-        //                     </Menu.Item> : null }
-        //                 {roleCurrent === "student" ?
-        //                     <Menu.Item key="/home/exam_schedule">
-        //                         <Link to="/home/exam_schedule">
-        //                             <span><IntlMessages id="sidebar.home.exam"/></span>
-        //                         </Link>
-        //                     </Menu.Item> : null }
-        //                 {roleCurrent === "teacher" ?
-        //                     <Menu.Item key="/home/muster">
-        //                         <Link to="/home/muster" onClick={() => {dispatch(selectSchedule(null));}}>
-        //                             <span><IntlMessages id="sidebar.home.muster"/></span>
-        //                         </Link>
-        //                     </Menu.Item> : null }
-        //             </Menu>
-        //
-        //             <ul className="gx-header-notifications gx-ml-auto">
-        //                 <li className="gx-language">
-        //                     <Popover overlayClassName="gx-popover-horizantal" placement="bottomRight"
-        //                              content={languageMenu()}
-        //                              trigger="click">
-        //                         <span className="gx-pointer gx-flex-row gx-align-items-center">
-        //                               <i className={`flag flag-24 flag-${locale.icon}`}/>
-        //                               <span className="gx-pl-2 gx-language-name">{locale.name}</span>
-        //                               <i className="icon icon-chevron-down gx-pl-2"/>
-        //                         </span>
-        //                     </Popover>
-        //                 </li>
-        //                 <li className="gx-user-nav"><UserInfo/></li>
-        //             </ul>
-        //         </div>
     )
 }
+
+export default Navigation;
