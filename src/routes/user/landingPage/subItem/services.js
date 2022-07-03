@@ -1,11 +1,13 @@
+import IntlMessages from "../../../../util/IntlMessages";
+
 export const Services = (props) => {
     return (
         <div id='services' className='text-center' style={{borderRadius: "8px"}}>
             <div className='container'>
                 <div className='section-title'>
-                    <h2>PHẢN HỒI</h2>
+                    <h2><IntlMessages id="label.response"/></h2>
                     <p>
-                        Cảm ơn những yêu thương DÀNH CHO PMP ENGLISH
+                        <IntlMessages id="label.thanks"/>
                     </p>
                 </div>
                 <div className='row'>

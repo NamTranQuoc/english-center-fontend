@@ -8,13 +8,10 @@ import {
     getAllClassByCourseId,
     saveCourseName,
     selectSchedule,
-    switchLanguage,
-    toggleCollapsedSideNav
+    switchLanguage
 } from "../../../../appRedux/actions";
 import UserInfo from "../../../../components/UserInfo";
 import languageData from "../../../../containers/Topbar/languageData";
-import {NAV_STYLE_DRAWER, NAV_STYLE_FIXED, NAV_STYLE_MINI_SIDEBAR} from "../../../../constants/ThemeSetting";
-import Sidebar from "../../../../containers/SidebarHome";
 
 const SubMenu = Menu.SubMenu;
 
@@ -23,7 +20,7 @@ export const Navigation = (props) => {
     const pathname = useSelector(({common}) => common.pathname);
     const roleCurrent = getRoleCurrent();
     const dispatch = useDispatch();
-    const {locale, navStyle} = useSelector(({settings}) => settings);
+    const {locale} = useSelector(({settings}) => settings);
 
     const languageMenu = () => (
         <ul className="gx-sub-popover">

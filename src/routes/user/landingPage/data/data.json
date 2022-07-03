@@ -1,100 +1,34 @@
 {
-    "Header": {
-        "title": "We are a Landing Page",
-        "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sed commodo nibh ante facilisis bibendum."
-    },
     "About": {
-        "paragraph": "Được thành lập từ năm 2016, PMP English là đơn vị uy tín và chất lượng tại Việt Nam. PMP English đã, đang và sẽ đồng hành cùng Quý phụ huynh và học viên với các chương trình đào tạo Anh văn Giao tiếp Quốc tế, Anh văn Thiếu nhi, Luyện thi TOEIC 4 Kỹ năng và Luyện thi IELTS giúp đáp ứng đầy đủ cho nhu cầu học tập, làm việc, du học của học viên. PMP English không ngừng nỗ lực hoàn thiện để mang đến cho học viên các chương trình vừa đảm bảo chất lượng về kiến thức, điểm số, vừa ứng dụng thực tế tốt vào học tập, công việc và cuộc sống.\n\nĐến với PMP English, học viên được tư vấn lộ trình học phù hợp dựa vào kết quả bài kiểm tra trình độ đầu vào, mục tiêu và nhu cầu học của từng học viên.\n\nVới mục tiêu mang đến một môi trường học tập ưu việt, PMP English luôn nỗ lực tạo dựng cho học viên nền tảng tiếng Anh tốt nhất để sẵn sàng vươn đến thành công trong tương lai.",
-        "Why": [
-            "Lorem ipsum dolor",
-            "Tempor incididunt",
-            "Lorem ipsum dolor",
-            "Incididunt ut labore"
-        ],
-        "Why2": [
-            "Aliquip ex ea commodo",
-            "Lorem ipsum dolor",
-            "Exercitation ullamco",
-            "Lorem ipsum dolor"
-        ]
+        "paragraph": "Được thành lập từ năm 2016, PMP English là đơn vị uy tín và chất lượng tại Việt Nam. PMP English đã, đang và sẽ đồng hành cùng Quý phụ huynh và học viên với các chương trình đào tạo Anh văn Giao tiếp Quốc tế, Anh văn Thiếu nhi, Luyện thi TOEIC 4 Kỹ năng và Luyện thi IELTS giúp đáp ứng đầy đủ cho nhu cầu học tập, làm việc, du học của học viên. PMP English không ngừng nỗ lực hoàn thiện để mang đến cho học viên các chương trình vừa đảm bảo chất lượng về kiến thức, điểm số, vừa ứng dụng thực tế tốt vào học tập, công việc và cuộc sống.\n\nĐến với PMP English, học viên được tư vấn lộ trình học phù hợp dựa vào kết quả bài kiểm tra trình độ đầu vào, mục tiêu và nhu cầu học của từng học viên.\n\nVới mục tiêu mang đến một môi trường học tập ưu việt, PMP English luôn nỗ lực tạo dựng cho học viên nền tảng tiếng Anh tốt nhất để sẵn sàng vươn đến thành công trong tương lai."
     },
     "Gallery": [
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/01-large.jpg",
-            "smallImage": "img/portfolio/01-small.jpg"
+            "largeImage": "img/portfolio/01-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/02-large.jpg",
-            "smallImage": "img/portfolio/02-small.jpg"
+            "largeImage": "img/portfolio/02-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/03-large.jpg",
-            "smallImage": "img/portfolio/03-small.jpg"
+            "largeImage": "img/portfolio/03-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/04-large.jpg",
-            "smallImage": "img/portfolio/04-small.jpg"
+            "largeImage": "img/portfolio/04-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/05-large.jpg",
-            "smallImage": "img/portfolio/05-small.jpg"
+            "largeImage": "img/portfolio/05-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/06-large.jpg",
-            "smallImage": "img/portfolio/06-small.jpg"
+            "largeImage": "img/portfolio/06-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/07-large.jpg",
-            "smallImage": "img/portfolio/07-small.jpg"
+            "largeImage": "img/portfolio/07-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/08-large.jpg",
-            "smallImage": "img/portfolio/08-small.jpg"
+            "largeImage": "img/portfolio/08-large.jpg"
         },
         {
-            "title": "Project Title",
-            "largeImage": "img/portfolio/09-large.jpg",
-            "smallImage": "img/portfolio/09-small.jpg"
-        }
-    ],
-    "Services": [
-        {
-            "icon": "fa fa-wordpress",
-            "name": "Lorem ipsum dolor",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
-        },
-        {
-            "icon": "fa fa-cart-arrow-down",
-            "name": "Consectetur adipiscing",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
-        },
-        {
-            "icon": "fa fa-cloud-download",
-            "name": "Lorem ipsum dolor",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
-        },
-        {
-            "icon": "fa fa-language",
-            "name": "Consectetur adipiscing",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
-        },
-        {
-            "icon": "fa fa-plane",
-            "name": "Lorem ipsum dolor",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
-        },
-        {
-            "icon": "fa fa-pie-chart",
-            "name": "Consectetur adipiscing",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at."
+            "largeImage": "img/portfolio/09-large.jpg"
         }
     ],
     "Testimonials": [
@@ -114,36 +48,6 @@
             "name": "HOA LINH"
         }
     ],
-    "Team": [
-        {
-            "img": "img/team/01.jpg",
-            "name": "John Doe",
-            "job": "Director"
-        },
-        {
-            "img": "img/team/02.jpg",
-            "name": "Mike Doe",
-            "job": "Senior Designer"
-        },
-        {
-            "img": "img/team/03.jpg",
-            "name": "Jane Doe",
-            "job": "Senior Designer"
-        },
-        {
-            "img": "img/team/04.jpg",
-            "name": "Karen Doe",
-            "job": "Project Manager"
-        }
-    ],
-    "Contact": {
-        "address": "4321 California St, San Francisco, CA 12345 ",
-        "phone": "+1 123 456 1234",
-        "email": "info@company.com",
-        "facebook": "fb.com",
-        "twitter": "twitter.com",
-        "youtube": "youtube.com"
-    },
     "Features": [
         {
             "icon": "fa fa-diamond",

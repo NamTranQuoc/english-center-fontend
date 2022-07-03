@@ -29,6 +29,7 @@ const LandingPage = () => {
         } else {
             setLandingPageData(JsonData);
         }
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -36,7 +37,7 @@ const LandingPage = () => {
             <Carousel autoplay>
                 {advertisement.map(item => {
                     return <div>
-                        <img alt="" className="contentStyle" src={item}/>
+                        <img alt="" className="contentStyle" src={item} style={{borderRadius: "8px"}}/>
                     </div>
                 })}
             </Carousel>

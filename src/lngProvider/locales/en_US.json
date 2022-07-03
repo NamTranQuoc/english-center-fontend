@@ -297,5 +297,9 @@
     "notification.class_registered" : "You are registered this class",
     "notification.success_register" : "Successful registration for the exam",
     "notification.success_register_class" : "successful registration",
-    "admin.course.table.suggest": "Next course"
+    "admin.course.table.suggest": "Next course",
+    "label.core_value": "CORE VALUE",
+    "label.response": "COMMENT",
+    "label.thanks": "Thank you for the love FOR PMP ENGLISH",
+    "label.activity": "ACTIVITY"
 }
