@@ -8,6 +8,7 @@ import {userSignUp} from "../appRedux/actions";
 
 import IntlMessages from "util/IntlMessages";
 import {getGender, getImageURL} from "../util/ParseUtils";
+import {showChatFB} from "../util/ChatFacebook";
 
 const SignUp = () => {
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const SignUp = () => {
 
     return (
         <div className="gx-app-login-wrap">
+            {showChatFB()}
             <div className="gx-app-login-container">
                 <div className="gx-app-login-main-content">
                     <div className="gx-app-logo-content">
