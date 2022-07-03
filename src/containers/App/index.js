@@ -131,13 +131,18 @@ const App = () => {
         if (pathname !== location.pathname) {
             dispatch(setInitUrl(location.pathname));
         } else {
-            if (pathname === '/signin' || pathname === '/signup' || pathname === '/request_forget_password' || pathname.substring(0, 16) === '/forget_password') {
+            if (pathname === '/signin'
+                || pathname === '/signup'
+                || pathname === '/request_forget_password'
+                || pathname.substring(0, 16) === '/forget_password') {
                 history.push(pathname);
-            } else if (pathname === "/home/schedule" || pathname === "/home/document" || pathname === "/home/exam_schedule"
+            } else if (pathname === "/home/schedule"
+                || pathname === "/home/document"
+                || pathname === "/home/exam_schedule"
                 || pathname === "/home/muster"
-                || pathname === "/home/register") {
+                || pathname === "/home/register"
+                || pathname.substring(0, 19) === "/home/study-program") {
                 history.push(pathname);
-                dispatch(toggleCollapsedSideNav(false));
             } else if (pathname === '/' || pathname === '' || pathname === '/home') {
                 history.push('/home');
                 dispatch(toggleCollapsedSideNav(false));
@@ -176,7 +181,8 @@ const App = () => {
                     <Route exact path="/request_forget_password" component={RequestForgetPassword}/>
                     <Route path="/forget_password" component={ForgetPassword}/>
                     <RestrictedRoute path="/admin" authUser={authUser} location={location} component={MainApp}/>
-                    <RestrictedRouteHome path="/home" authUser={authUser} location={location} pathname={pathname} component={HomeApp}/>
+                    <RestrictedRouteHome path="/home" authUser={authUser} location={location} pathname={pathname}
+                                         component={HomeApp}/>
                 </Switch>
             </IntlProvider>
             <IntlProvider
@@ -184,6 +190,10 @@ const App = () => {
                 messages={currentAppLocale.messages}>
                 <NotificationContainer/>
             </IntlProvider>
+            <div id="fb-root"></div>
+
+            <div id="fb-customer-chat" className="fb-customerchat">
+            </div>
         </ConfigProvider>
     )
 };

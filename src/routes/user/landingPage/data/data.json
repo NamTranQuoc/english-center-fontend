@@ -1,0 +1,73 @@
+{
+    "About": {
+        "paragraph": "Được thành lập từ năm 2016, PMP English là đơn vị uy tín và chất lượng tại Việt Nam. PMP English đã, đang và sẽ đồng hành cùng Quý phụ huynh và học viên với các chương trình đào tạo Anh văn Giao tiếp Quốc tế, Anh văn Thiếu nhi, Luyện thi TOEIC 4 Kỹ năng và Luyện thi IELTS giúp đáp ứng đầy đủ cho nhu cầu học tập, làm việc, du học của học viên. PMP English không ngừng nỗ lực hoàn thiện để mang đến cho học viên các chương trình vừa đảm bảo chất lượng về kiến thức, điểm số, vừa ứng dụng thực tế tốt vào học tập, công việc và cuộc sống.\n\nĐến với PMP English, học viên được tư vấn lộ trình học phù hợp dựa vào kết quả bài kiểm tra trình độ đầu vào, mục tiêu và nhu cầu học của từng học viên.\n\nVới mục tiêu mang đến một môi trường học tập ưu việt, PMP English luôn nỗ lực tạo dựng cho học viên nền tảng tiếng Anh tốt nhất để sẵn sàng vươn đến thành công trong tương lai."
+    },
+    "Gallery": [
+        {
+            "largeImage": "img/portfolio/01-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/02-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/03-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/04-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/05-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/06-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/07-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/08-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/09-large.jpg"
+        }
+    ],
+    "Testimonials": [
+        {
+            "img": "img/testimonials/07.png",
+            "text": "Em biết PMP English qua một người bạn giới thiệu, sau một khoá học em thấy thấy tiếng anh mình được cải thiện rất nhiều. Các chị tự vấn viên rất nhiệt tình và giúp đỡ em rất nhiều. Và đặc biệt là thầy Nguyễn Quốc Thịnh đã bổ sung cho em rất nhiều kiến thức bổ ích, thầy là người thầy tận tâm, luôn luôn quan tâm đến từng học viên của mình, khi học thầy em cảm thấy rất vui. Cảm ơn PMP English và đặc biệt là thầy Thịnh ạ ❤",
+            "name": "HIẾU HUỲNH"
+        },
+        {
+            "img": "img/testimonials/08.png",
+            "text": "Học ở PMP cũng được hơn 2 năm rồi. Ta nói nó vui gì đâu luôn á, học ở đây chỉ có được thêm chứ không có thiệt thòi đâu. Bản thân từng được học qua rất nhiều giáo viên. Trong đó thầy Đạt là dạy mình nhiều kiến thức hay nhất, cô Lan là người hộ trợ mình nhiều nhất và cô Tú là người cho mình động lực học nhiều nhất. Và còn rất nhiều nguồn cảm hứng học tập ngoại ngữ mình tìm được ở đây. Cảm ơn PMP đã cho mình cảm giác việc học tiếng anh thật thú vị.",
+            "name": "ANH THƯ"
+        },
+        {
+            "img": "img/testimonials/09.png",
+            "text": "Mình rất vui khi đươc học tại trung tâm PMP English. \uD83D\uDE01 Do một vài lí do về cá nhân nên mình phải xin chuyển lớp khá nhiều nhưng vẫn luôn được hỗ trợ từ chị Ngân. Nhân đây mình cảm ơn các thầy, các lớp mình đã học. Đặc biệt mình muốn cảm ơn thầy Thanh, tuy thầy hay nghĩ mình mới 18 tuổi và đẹp gái. Nhưng mà thầy luôn theo sát, hỗ trợ mình trong suốt quá trình theo học. Nói chung là thầy cô ai cũng nhiệt tình, quan tâm học viên cả",
+            "name": "HOA LINH"
+        }
+    ],
+    "Features": [
+        {
+            "icon": "fa fa-diamond",
+            "title": "TỰ TIN VỮNG VÀNG",
+            "text": "Mỗi PMPer tin tưởng vào giá trị và nền tảng của doanh nghiệp, vào năng lực và tay nghề của bản thân, từ đó nỗ lực thành công trong công việc và cuộc sống."
+        },
+        {
+            "icon": "fa fa-heart",
+            "title": "QUAN TÂM SẺ CHIA",
+            "text": "Mỗi PMPer duy trì mối quan hệ tôn trọng, thấu hiểu, hành động và tận tâm phục vụ để mang lại giá trị tốt nhất cho học viên, cộng đồng và cho bản thân mình."
+        },
+        {
+            "icon": "fa fa-group",
+            "title": "ĐỒNG LÒNG HỢP TÁC",
+            "text": "Mỗi PMPer nuôi dưỡng, phát huy thế mạnh của sự đa dạng và tinh thần đồng đội để đạt được mục tiêu chung và lợi ích bền vững cho tất cả các bên."
+        },
+        {
+            "icon": "fa fa-graduation-cap",
+            "title": "KHÁT KHAO CHINH PHỤC",
+            "text": "Mỗi PMPer không ngừng học hỏi, trau dồi kiến thức, phát triển bản thân, vượt qua mọi thử thách, từ đó vững bước chinh phục những tầm cao mới."
+        }
+    ]
+}

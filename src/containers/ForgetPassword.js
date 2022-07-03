@@ -6,6 +6,7 @@ import IntlMessages from "util/IntlMessages";
 import {getImageURL} from "../util/ParseUtils";
 import {forgetPassword} from "../appRedux/actions";
 import {useHistory} from "react-router-dom";
+import {showChatFB} from "../util/ChatFacebook";
 
 const ForgetPassword = () => {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ForgetPassword = () => {
 
     return (
         <div className="gx-app-login-wrap">
+            {showChatFB()}
             <div className="gx-app-login-container">
                 <div className="gx-app-login-main-content">
                     <div className="gx-app-logo-content">

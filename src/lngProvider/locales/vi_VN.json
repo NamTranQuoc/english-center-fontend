@@ -296,5 +296,9 @@
     "notification.please_login" : "Vui lòng đăng nhập để đăng ký",
     "notification.class_registered" : "Bạn đã đăng ký lớp học này",
     "notification.success_register_class" : "Ghi danh thành công",
-    "admin.course.table.suggest": "Khóa học tiếp theo"
+    "admin.course.table.suggest": "Khóa học tiếp theo",
+    "label.core_value": "GIÁ TRỊ CỐT LÕI",
+    "label.response": "PHẢN HỒI",
+    "label.thanks": "Cảm ơn những yêu thương DÀNH CHO PMP ENGLISH",
+    "label.activity": "HOẠT ĐỘNG"
 }

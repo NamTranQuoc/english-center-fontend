@@ -8,6 +8,7 @@ import {userGoogleSignIn, userSignIn,} from "../appRedux/actions";
 import IntlMessages from "util/IntlMessages";
 import {getImageURL, getRoleCurrent} from "../util/ParseUtils";
 import {GoogleOutlined} from "@ant-design/icons";
+import {showChatFB} from "../util/ChatFacebook";
 
 const SignIn = () => {
     const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const SignIn = () => {
 
     return (
         <div className="gx-app-login-wrap">
+            {showChatFB()}
             <div className="gx-app-login-container">
                 <div className="gx-app-login-main-content">
                     <div className="gx-app-logo-content">
