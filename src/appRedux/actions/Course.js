@@ -7,7 +7,7 @@ import {
     GET_ALL_COURSE_BY_CATEGORY,
     GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
     GET_ALL_COURSE_SUCCESS,
-    GET_COURSE,
+    GET_COURSE, GET_COURSE_SUGGEST,
     UPDATE_COURSE
 } from "../../constants/ActionTypes";
 
@@ -87,5 +87,11 @@ export const getAllSuccessCourseByCategoryId = (param) => {
     return {
         type: GET_ALL_COURSE_BY_CATEGORY_SUCCESS,
         payload: param
+    };
+};
+
+export const getCourseSuggest = () => {
+    return {
+        type: GET_COURSE_SUGGEST
     };
 };

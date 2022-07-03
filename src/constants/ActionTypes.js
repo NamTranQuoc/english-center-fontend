@@ -44,6 +44,7 @@ export const GET_DOCUMENT = 'GET_DOCUMENT';
 export const ADD_DOCUMENT  = 'ADD_DOCUMENT';
 export const UPDATE_DOCUMENT  = 'UPDATE_DOCUMENT';
 export const DELETE_DOCUMENT  = 'DELETE_DOCUMENT';
+export const GET_COURSE_SUGGEST  = 'GET_COURSE_SUGGEST';
 
 // Customizer const
 export const TOGGLE_COLLAPSED_NAV = 'TOGGLE_COLLAPSE_MENU';
