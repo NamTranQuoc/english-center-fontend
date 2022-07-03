@@ -1,0 +1,73 @@
+{
+    "About": {
+        "paragraph": "Được thành lập từ năm 2016, PMP English là đơn vị uy tín và chất lượng tại Việt Nam. PMP English đã, đang và sẽ đồng hành cùng Quý phụ huynh và học viên với các chương trình đào tạo Anh văn Giao tiếp Quốc tế, Anh văn Thiếu nhi, Luyện thi TOEIC 4 Kỹ năng và Luyện thi IELTS giúp đáp ứng đầy đủ cho nhu cầu học tập, làm việc, du học của học viên. PMP English không ngừng nỗ lực hoàn thiện để mang đến cho học viên các chương trình vừa đảm bảo chất lượng về kiến thức, điểm số, vừa ứng dụng thực tế tốt vào học tập, công việc và cuộc sống.\n\nĐến với PMP English, học viên được tư vấn lộ trình học phù hợp dựa vào kết quả bài kiểm tra trình độ đầu vào, mục tiêu và nhu cầu học của từng học viên.\n\nVới mục tiêu mang đến một môi trường học tập ưu việt, PMP English luôn nỗ lực tạo dựng cho học viên nền tảng tiếng Anh tốt nhất để sẵn sàng vươn đến thành công trong tương lai."
+    },
+    "Gallery": [
+        {
+            "largeImage": "img/portfolio/01-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/02-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/03-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/04-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/05-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/06-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/07-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/08-large.jpg"
+        },
+        {
+            "largeImage": "img/portfolio/09-large.jpg"
+        }
+    ],
+    "Testimonials": [
+        {
+            "img": "img/testimonials/07.png",
+            "text": "I know PMP English through a friend's recommendation, after a course I see that my English has improved a lot. The counselors are very enthusiastic and help me a lot. And especially, Mr. Nguyen Quoc Thinh has added to me a lot of useful knowledge, he is a dedicated teacher who always cares about each of his students, I feel very happy when I study. Thank you PMP English and especially Mr. Thịnh ❤",
+            "name": "HIEU HUYNH"
+        },
+        {
+            "img": "img/testimonials/08.png",
+            "text": "I have been studying at PMP for more than 2 years now. I say it's not fun at all, studying here will only gain more, not disadvantage. I have studied with many teachers myself. In which, Mr. Dat is the one who teaches me the best knowledge, Ms. Lan is the person who supports me the most and Ms. Tu is the person who gives me the most motivation to study. And there are many more foreign language learning inspirations I find here. Thank you PMP for making me feel that learning English is interesting.",
+            "name": "ANH THU"
+        },
+        {
+            "img": "img/testimonials/09.png",
+            "text": "I am very happy to study at PMP English center. \uD83D\uDE01 Due to some personal reasons, I had to ask to change classes a lot, but I always received support from Ms. Ngan. I would like to take this opportunity to thank the teachers and classes that I have studied. In particular, I want to thank Mr. Thanh, although he often thinks that I am only 18 years old and beautiful. But the teacher always followed and supported me throughout the study process. In general, the teachers are enthusiastic and care about the students.",
+            "name": "HOA LINH"
+        }
+    ],
+    "Features": [
+        {
+            "icon": "fa fa-diamond",
+            "title": "CONFIDENTIAL GOLDEN CONFIDENCE",
+            "text": "Each PMPer believes in the value and foundation of the business, in their own abilities and skills, thereby striving to succeed in work and life."
+        },
+        {
+            "icon": "fa fa-heart",
+            "title": "INTERESTED SHARE",
+            "text": "Each PMPer maintains a relationship of respect, understanding, action and dedicated service to bring the best value to the students, the community, and themselves."
+        },
+        {
+            "icon": "fa fa-group",
+            "title": "COOPERATION",
+            "text": "Each PMPer nurtures and leverages the strengths of diversity and teamwork to achieve common goals and sustainable benefits for all."
+        },
+        {
+            "icon": "fa fa-graduation-cap",
+            "title": "DESIRE TO CONQUER",
+            "text": "Each PMPer is constantly learning, cultivating knowledge, developing themselves, overcoming all challenges, thereby steadily conquering new heights."
+        }
+    ]
+}

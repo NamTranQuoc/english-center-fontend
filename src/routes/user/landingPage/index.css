@@ -1,0 +1,45 @@
+@media screen and (max-width: 400px) {
+    #features {
+        padding: 20px;
+        width: 111%;
+    }
+    #about,
+    #services,
+    #testimonials,
+    #team,
+    #contact,
+    #footer {
+        width: 111%;
+    }
+
+    #portfolio {
+        width: 110%;
+    }
+}
+.ant-menu-horizontal > .ant-menu-item:hover {
+    border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-submenu:hover {
+    border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected {
+    border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item-active {
+    border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-submenu-active {
+    border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item:after {
+    border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item:before {
+    border-bottom: none;
+}
