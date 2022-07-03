@@ -4,7 +4,7 @@ import {
     GET_ALL_COURSE,
     GET_ALL_COURSE_ADD,
     GET_ALL_COURSE_BY_CATEGORY,
-    GET_COURSE,
+    GET_COURSE, GET_COURSE_SUGGEST,
     UPDATE_COURSE,
 } from "../../constants/ActionTypes";
 import {
@@ -241,6 +241,35 @@ const getAllCourseByCategoryIdRequest = async (payload) =>
     }).then(response => response)
         .catch(error => error)
 
+export function* getCourseSuggest() {
+    yield takeEvery(GET_COURSE_SUGGEST, getCourseSuggestGenerate);
+}
+
+function* getCourseSuggestGenerate({payload}) {
+    try {
+        const response = yield call(getCourseSuggestRequest, payload);
+        if (response.status !== 200) {
+            yield put(showMessage("bad_request"));
+        } else if (response.data.code !== 9999) {
+            yield put(showMessage(response.data.message));
+        } else {
+            yield put(getAllSuccessCategory(response.data.payload));
+        }
+    } catch (error) {
+        yield put(showMessage(error));
+    }
+}
+
+const getCourseSuggestRequest = async (payload) =>
+    await axios({
+        method: "GET",
+        url: `${INSTRUCTOR_API_URL}/get_course_suggest`,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+    }).then(response => response)
+        .catch(error => error)
+
 export default function* rootSaga() {
     yield all([
         fork(getListCourse),
@@ -249,5 +278,6 @@ export default function* rootSaga() {
         fork(getAllCourse),
         fork(getAllCourseByStatus),
         fork(getAllCourseByCategoryId),
+        fork(getCourseSuggest),
     ]);
 }

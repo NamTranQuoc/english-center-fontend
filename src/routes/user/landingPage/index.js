@@ -8,7 +8,7 @@ import JsonDataEnglish from "./data/dataEnglish.json";
 import SmoothScroll from "smooth-scroll";
 import "./index.css";
 import {useDispatch, useSelector} from "react-redux";
-import {getImageAdvertisement, viewCourseCategory} from "../../../appRedux/actions";
+import {getImageAdvertisement} from "../../../appRedux/actions";
 import {Carousel} from "antd";
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
@@ -23,7 +23,6 @@ const LandingPage = () => {
     const {locale} = useSelector(({settings}) => settings);
     useEffect(() => {
         dispatch(getImageAdvertisement());
-        dispatch(viewCourseCategory());
         if(locale.name === "English") {
             setLandingPageData(JsonDataEnglish);
         } else {
