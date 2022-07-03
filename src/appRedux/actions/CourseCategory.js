@@ -5,7 +5,7 @@ import {
     GET_ALL_COURSE_CATEGORY_ADD,
     GET_ALL_COURSE_CATEGORY_ADD_SUCCESS,
     GET_ALL_COURSE_CATEGORY_SUCCESS,
-    GET_COURSE_CATEGORY,
+    GET_COURSE_CATEGORY, SELECT_COURSE,
     UPDATE_COURSE_CATEGORY,
     VIEW_COURSE_CATEGORY,
     VIEW_COURSE_CATEGORY_SUCCESS
@@ -87,3 +87,10 @@ export const viewCourseCategorySuccess = (param) => {
         payload: param
     };
 };
+export const selectCourse = (id) => {
+    return {
+        type: SELECT_COURSE,
+        payload: id
+    };
+};
+

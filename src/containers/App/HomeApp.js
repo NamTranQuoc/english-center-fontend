@@ -5,7 +5,6 @@ import {footerText} from "../../util/config";
 import App from "../../routes/user";
 import {updateWindowWidth} from "../../appRedux/actions";
 import AppSidebar from "./AppSidebarHome";
-import Topbar from "../SidebarHome/TopHome";
 
 const {Content, Footer} = Layout;
 
@@ -23,8 +22,7 @@ const MainApp = () => {
         <Layout className="gx-app-layout">
             <AppSidebar navStyle={navStyleHome}/>
             <Layout>
-                <Topbar/>
-                <Content className={`gx-layout-content gx-container-wrap`}>
+                <Content className={`gx-layout-content gx-container-wrap`} style={{marginTop: 80}}>
                     <App/>
                     <Footer>
                         <div className="gx-layout-footer-content">

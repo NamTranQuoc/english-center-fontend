@@ -25,7 +25,6 @@ import CircularProgress from "../../components/CircularProgress";
 import {getRoleCurrent} from "../../util/ParseUtils";
 import RequestForgetPassword from "../ResquestForgetPassword";
 import ForgetPassword from "../ForgetPassword";
-import Script from 'next/script';
 
 const RestrictedRoute = ({component: Component, location, authUser, ...rest}) =>
     <Route
@@ -132,13 +131,18 @@ const App = () => {
         if (pathname !== location.pathname) {
             dispatch(setInitUrl(location.pathname));
         } else {
-            if (pathname === '/signin' || pathname === '/signup' || pathname === '/request_forget_password' || pathname.substring(0, 16) === '/forget_password') {
+            if (pathname === '/signin'
+                || pathname === '/signup'
+                || pathname === '/request_forget_password'
+                || pathname.substring(0, 16) === '/forget_password') {
                 history.push(pathname);
-            } else if (pathname === "/home/schedule" || pathname === "/home/document" || pathname === "/home/exam_schedule"
+            } else if (pathname === "/home/schedule"
+                || pathname === "/home/document"
+                || pathname === "/home/exam_schedule"
                 || pathname === "/home/muster"
-                || pathname === "/home/register") {
+                || pathname === "/home/register"
+                || pathname.substring(0, 19) === "/home/study-program") {
                 history.push(pathname);
-                dispatch(toggleCollapsedSideNav(false));
             } else if (pathname === '/' || pathname === '' || pathname === '/home') {
                 history.push('/home');
                 dispatch(toggleCollapsedSideNav(false));
@@ -190,29 +194,6 @@ const App = () => {
 
             <div id="fb-customer-chat" className="fb-customerchat">
             </div>
-
-            <Script strategy="lazyOnload">
-                {`
-            var chatbox = document.getElementById('fb-customer-chat');
-  chatbox.setAttribute("page_id", "111398824929944");
-  chatbox.setAttribute("attribution", "biz_inbox");
-
-             window.fbAsyncInit = function() {
-    FB.init({
-      xfbml            : true,
-      version          : 'v14.0'
-    });
-  };
-
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-        `}
-            </Script>
         </ConfigProvider>
     )
 };

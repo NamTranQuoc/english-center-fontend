@@ -12,6 +12,7 @@ import {
 } from "../../../../appRedux/actions";
 import UserInfo from "../../../../components/UserInfo";
 import languageData from "../../../../containers/Topbar/languageData";
+import {showChatFB} from "../../../../util/ChatFacebook";
 
 const SubMenu = Menu.SubMenu;
 
@@ -36,7 +37,8 @@ export const Navigation = (props) => {
 
     return (
         <nav id='menu' className='navbar navbar-default navbar-fixed-top'>
-        <div className="gx-container">
+            {showChatFB()}
+            <div className="gx-container">
             <div className="gx-header-horizontal-main-flex">
                 <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer gx-mr-xs-3 gx-pt-xs-1 gx-w-logo">
                     <img alt="" src="/assets/images/w-logo.png"/></Link>
@@ -54,23 +56,28 @@ export const Navigation = (props) => {
                             <span><IntlMessages id="sidebar.home"/></span>
                         </Link>
                     </Menu.Item>
-                    <SubMenu key="SubMenu" title={
-                        <span><IntlMessages id="admin.course.table.type"/></span>}>
-                        {views.map((item) => {
-                            return <SubMenu title={item.name}>
-                                {item.courses.map(subItem => {
-                                    return <Menu.Item key={subItem.id}>
-                                        <Link to="/home/register" onClick={() => {
-                                            dispatch(getAllClassByCourseId(subItem.id));
-                                            dispatch(saveCourseName(subItem.name));
-                                        }}>
-                                            {subItem.name}
-                                        </Link>
-                                    </Menu.Item>
+                    <Menu.Item key="/home/study-program">
+                        <Link to="/home/study-program">
+                            <SubMenu key="SubMenu" title={
+                                <span><IntlMessages id="admin.course.table.type"/></span>}>
+                                {views.map((item) => {
+                                    return <SubMenu title={item.name} onTitleClick={console.log(item.id)}>
+                                        {item.courses.map(subItem => {
+                                            return <Menu.Item key={subItem.id}>
+                                                <Link to="/home/register" onClick={() => {
+                                                    dispatch(getAllClassByCourseId(subItem.id));
+                                                    dispatch(saveCourseName(subItem.name));
+                                                }}>
+                                                    {subItem.name}
+                                                </Link>
+                                            </Menu.Item>
+                                        })}
+                                    </SubMenu>
                                 })}
                             </SubMenu>
-                        })}
-                    </SubMenu>
+                        </Link>
+                    </Menu.Item>
+
                     {roleCurrent === "teacher" || roleCurrent === "student" ?
                         <Menu.Item key="/home/schedule">
                             <Link to="/home/schedule">
