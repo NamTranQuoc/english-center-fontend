@@ -20,7 +20,7 @@ const PriceItem = (props) => {
     }
 
     function getOutputScore() {
-        if (item.input_score === null || item.input_score === 0) {
+        if (item.output_score === null || item.output_score === 0) {
             return <b><IntlMessages id="view.course.outputScore"/></b>
         } else {
             return <b>{item.output_score}</b>
