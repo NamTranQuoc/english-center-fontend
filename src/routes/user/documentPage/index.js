@@ -119,9 +119,9 @@ const DocumentPage = () => {
                                width: 50,
                            },
                            {
-                               key: "_id",
+                               key: "code",
                                title: <IntlMessages id="admin.user.student.table.id"/>,
-                               dataIndex: "_id",
+                               dataIndex: "code",
                                width: 250,
                                sorter: true
                            },
